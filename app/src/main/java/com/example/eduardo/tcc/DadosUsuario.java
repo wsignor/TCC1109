@@ -128,7 +128,7 @@ public class DadosUsuario extends AppCompatActivity {
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(com.parse.ParseException e) {
                         if (e == null) {
-                            System.out.println("User inserido com sucesso!");
+                            System.out.println("Usuário inserido com sucesso!");
                         } else {
                             System.out.println("Erro na inserção do User, message: " + e.getMessage());
                         }
