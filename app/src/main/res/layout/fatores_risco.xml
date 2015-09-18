@@ -14,46 +14,87 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Pai ou Mãe hipertensos?"
-                android:id="@+id/lblPaiMaeHipertensos"
+                android:text="@string/HistoricoFamiliar"
+                android:id="@+id/lblHistoricoFamiliar"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp"/>
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Hipertensão?"
+                android:id="@+id/swtHipertensaoFamilia"
+                android:layout_below="@+id/lblHistoricoFamiliar"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"/>
+                android:layout_marginTop="30dp" />
 
-            <Spinner
-                android:layout_width="fill_parent"
+            <Switch
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spnPaiMaeHipertensos"
-                android:layout_below="@+id/lblPaiMaeHipertensos"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Diabetes?"
+                android:id="@+id/swtDiabetesFamilia"
+                android:layout_below="@+id/swtHipertensaoFamilia"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="30dp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Doenças Cardiovasculares?"
+                android:id="@+id/swtCardiovascularFamilia"
+                android:layout_below="@+id/swtDiabetesFamilia"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="30dp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Obesidade?"
+                android:id="@+id/swtObesidadeFamilia"
+                android:layout_below="@+id/swtCardiovascularFamilia"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="30dp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Síndrome Metabólica?"
+                android:id="@+id/swtSindromeMetabolicaFamilia"
+                android:layout_below="@+id/swtObesidadeFamilia"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="30dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Diabetes na família?"
-                android:id="@+id/lblDiabetesFamilia"
-                android:layout_below="@+id/spnPaiMaeHipertensos"
+                android:text="@string/FatoresUsuario"
+                android:id="@+id/lblFatoresUsuario"
+                android:layout_below="@+id/swtSindromeMetabolicaFamilia"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
                 android:layout_marginTop="30dp"/>
-
-            <Spinner
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spnDiabetesFamilia"
-                android:layout_below="@+id/lblDiabetesFamilia"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
 
             <Switch
                 android:layout_width="wrap_content"
@@ -61,7 +102,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Diabético?"
                 android:id="@+id/swtDiabetico"
-                android:layout_below="@+id/spnDiabetesFamilia"
+                android:layout_below="@+id/lblFatoresUsuario"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"

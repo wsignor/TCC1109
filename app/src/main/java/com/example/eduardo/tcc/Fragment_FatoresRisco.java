@@ -10,6 +10,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 /**
  * Created by Eduardo on 14/08/2015.
  */
@@ -22,25 +27,33 @@ public class Fragment_FatoresRisco extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         contentView2 = inflater.inflate(R.layout.fatores_risco, null);
 
-        Spinner spinner;
 
-        spinner = (Spinner) contentView2.findViewById( R.id.spnPaiMaeHipertensos );
 
-        ArrayAdapter<CharSequence> adapterHipertensos = ArrayAdapter.createFromResource( getActivity(), R.array.sim_nao_array , android.R.layout.simple_spinner_item);
-        adapterHipertensos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapterHipertensos);
-
-        spinner = (Spinner) contentView2.findViewById( R.id.spnDiabetesFamilia );
-
-        ArrayAdapter<CharSequence> adapterDiabetes = ArrayAdapter.createFromResource( getActivity(), R.array.sim_nao_array , android.R.layout.simple_spinner_item);
-        adapterDiabetes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapterDiabetes);
-
-        if(CurrentUser.getUsuario() != null){
+        if(ParseUser.getCurrentUser() != null){
+            Switch hipertensaoFamiliar = (Switch) contentView2.findViewById(R.id.swtHipertensaoFamilia);
+            Switch diabetesFamiliar = (Switch) contentView2.findViewById(R.id.swtDiabetesFamilia);
+            Switch cardiovascularFamiliar = (Switch) contentView2.findViewById(R.id.swtCardiovascularFamilia);
+            Switch obesidadeFamiliar = (Switch) contentView2.findViewById(R.id.swtObesidadeFamilia);
+            Switch sindromeFamiliar = (Switch) contentView2.findViewById(R.id.swtSindromeMetabolicaFamilia);
             Switch diabetico = (Switch) contentView2.findViewById(R.id.swtDiabetico);
             Switch hipertenso = (Switch) contentView2.findViewById(R.id.swtHipertenso);
-            diabetico.setChecked(Boolean.parseBoolean(CurrentUser.getUsuario().getString("diabetico")));
-            hipertenso.setChecked(Boolean.parseBoolean(CurrentUser.getUsuario().getString("hipertenso")));
+
+            ParseQuery innerQuery = new ParseQuery("_User");
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("InformacoesImutaveis");
+            query.whereMatchesQuery("idUsuario", innerQuery);
+            ParseObject info;
+            try {
+                info = query.getFirst();
+                hipertensaoFamiliar.setChecked(info.getBoolean("hipertensaoFamiliar"));
+                diabetesFamiliar.setChecked(info.getBoolean("diabetesFamiliar"));
+                cardiovascularFamiliar.setChecked(info.getBoolean("cardiovascularFamiliar"));
+                obesidadeFamiliar.setChecked(info.getBoolean("obesidadeFamiliar"));
+                sindromeFamiliar.setChecked(info.getBoolean("sindromeFamiliar"));
+                hipertenso.setChecked(info.getBoolean("hipertenso"));
+                diabetico.setChecked(info.getBoolean("diabetico"));
+            } catch (ParseException e){
+
+            }
         }
 
         return contentView2;

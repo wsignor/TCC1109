@@ -88,7 +88,7 @@ public class FormularioAvaliacao extends Activity {
 
     private void salvarUsuarioInformacao(String idInformacaoImutavel){
         ParseObject UsuarioInformacao = new ParseObject("UsuarioInformacao");
-        UsuarioInformacao.put("idUsuario", ParseObject.createWithoutData("_User", CurrentUser.getUsuario().getObjectId()));
+        UsuarioInformacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
         UsuarioInformacao.put("idInformacao", ParseObject.createWithoutData("InformacoesMutaveis", idInformacaoImutavel));
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UsuarioInformacao");
@@ -105,7 +105,7 @@ public class FormularioAvaliacao extends Activity {
 
     private void realizarAvaliacao(){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("InformacoesImutaveis");
-        query.whereEqualTo("objectId", CurrentUser.getUsuario().getObjectId());
+        query.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
 
         Boolean paisHipertensos, diabetesFamilia;
 

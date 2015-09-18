@@ -31,7 +31,7 @@ public class Inicial extends Activity {
         setContentView(R.layout.inicial);
 
         textViewToChange = (TextView) findViewById(R.id.txtNomeUsuario);
-        textViewToChange.setText(CurrentUser.getInstance().getUsuario().getString("nome"));
+        textViewToChange.setText(ParseUser.getCurrentUser().getString("nome"));
 
 
 
@@ -52,7 +52,6 @@ public class Inicial extends Activity {
 
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 currentUser.logOut();
-
                 Intent takeUserHomepage = new Intent(Inicial.this, Login.class);
                 startActivity(takeUserHomepage);
             }

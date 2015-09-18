@@ -23,6 +23,8 @@
     <string name="login_toast">Succes! Welcome!</string>
 
     <string name="oops_title">Oops!</string>
+    <string name="HistoricoFamiliar"><u>Histórico de doenças familiares</u></string>
+    <string name="FatoresUsuario"><u>Suas Informacoes</u></string>
 
     <string-array name="sexo_array">
         <item>Masculino</item>

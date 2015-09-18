@@ -40,7 +40,7 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
         adapterRaca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterRaca);
 
-        if(CurrentUser.getUsuario() != null){
+        if(ParseUser.getCurrentUser() != null){
             EditText login = (EditText) contentView.findViewById(R.id.txtLogin);
             EditText altura = (EditText) contentView.findViewById(R.id.textAltura);
             EditText nome = (EditText) contentView.findViewById(R.id.textNome);
@@ -52,28 +52,28 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
             Spinner raca = (Spinner) contentView.findViewById(R.id.spnRaca);
             Switch eNutricionista = (Switch) contentView.findViewById(R.id.swtNutricionista);
 
-            login.setText(CurrentUser.getUsuario().getString("username"));
-            nome.setText(CurrentUser.getUsuario().getString("nome"));
-            altura.setText(CurrentUser.getUsuario().getNumber("altura").toString());
-            dataNasc.setText(CurrentUser.getUsuario().getString("dtNascimento"));
-            email.setText(CurrentUser.getUsuario().getString("email"));
-            emailNutricionista.setText(CurrentUser.getUsuario().getString("email"));
+            login.setText(ParseUser.getCurrentUser().getString("username"));
+            nome.setText(ParseUser.getCurrentUser().getString("nome"));
+            altura.setText(ParseUser.getCurrentUser().getNumber("altura").toString());
+            dataNasc.setText(ParseUser.getCurrentUser().getString("dtNascimento"));
+            email.setText(ParseUser.getCurrentUser().getString("email"));
+            emailNutricionista.setText(ParseUser.getCurrentUser().getString("email"));
 
             for (int i=0;i<sexo.getCount();i++){
-                if (sexo.getItemAtPosition(i).toString().equalsIgnoreCase(CurrentUser.getUsuario().getString("sexo"))){
+                if (sexo.getItemAtPosition(i).toString().equalsIgnoreCase(ParseUser.getCurrentUser().getString("sexo"))){
                     sexo.setSelection(i);
                     break;
                 }
             }
 
             for (int i=0;i<sexo.getCount();i++){
-                if (raca.getItemAtPosition(i).toString().equalsIgnoreCase(CurrentUser.getUsuario().getString("raca"))){
+                if (raca.getItemAtPosition(i).toString().equalsIgnoreCase(ParseUser.getCurrentUser().getString("raca"))){
                     raca.setSelection(i);
                     break;
                 }
             }
 
-            eNutricionista.setChecked(Boolean.parseBoolean(CurrentUser.getUsuario().getString("nutricionista")));
+            eNutricionista.setChecked(Boolean.parseBoolean(ParseUser.getCurrentUser().getString("nutricionista")));
 
         }
 

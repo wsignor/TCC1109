@@ -26,7 +26,6 @@ public class MainActivity extends Activity {
         Parse.initialize(this, "ih17LzHvWd7nsSZ9iQSqo0ymIfXWwYzmMG3sOilj", "PJW3q1jRs1Pll0LxfovghEzEjDiKufTPMUBc8yjH");
 
         if (ParseUser.getCurrentUser() != null){
-            CurrentUser.initCurrentUser();
             Intent createNewAccount = new Intent(MainActivity.this, Inicial.class);
             startActivity(createNewAccount);
         }else{

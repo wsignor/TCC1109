@@ -44,9 +44,7 @@ public class Login extends Activity {
                         if (parseUser != null){
                             Toast.makeText(Login.this,
                                     R.string.login_toast, Toast.LENGTH_LONG).show();
-                            CurrentUser.initCurrentUser();
                             Intent takeUserHomepage = new Intent(Login.this, Inicial.class);
-                            System.out.println("takeUserHomepage: " + takeUserHomepage);
                             startActivity(takeUserHomepage);
 
                         } else {
