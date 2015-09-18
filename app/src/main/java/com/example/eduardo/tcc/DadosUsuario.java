@@ -122,18 +122,21 @@ public class DadosUsuario extends AppCompatActivity {
                             System.out.println("object: " + object.getObjectId().toString());
                             user.put("idNutricionista", ParseObject.createWithoutData("_User", object.getObjectId().toString()));
                         }
+
+                        user.signUpInBackground(new SignUpCallback() {
+                            public void done(com.parse.ParseException e) {
+                                if (e == null) {
+                                    System.out.println("Usuário inserido com sucesso!");
+                                } else {
+                                    System.out.println("Erro na inserção do User, message: " + e.getMessage());
+                                }
+                            }
+                        });
+
                     }
                 });
 
-                user.signUpInBackground(new SignUpCallback() {
-                    public void done(com.parse.ParseException e) {
-                        if (e == null) {
-                            System.out.println("Usuário inserido com sucesso!");
-                        } else {
-                            System.out.println("Erro na inserção do User, message: " + e.getMessage());
-                        }
-                    }
-                });
+
 
                 Intent takeUserHomepage = new Intent(DadosUsuario.this, Inicial.class);
                 startActivity(takeUserHomepage);
