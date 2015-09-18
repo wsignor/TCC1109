@@ -38,12 +38,14 @@ public class Fragment_FatoresRisco extends android.support.v4.app.Fragment {
             Switch diabetico = (Switch) contentView2.findViewById(R.id.swtDiabetico);
             Switch hipertenso = (Switch) contentView2.findViewById(R.id.swtHipertenso);
 
+            System.out.println("ParseUser.getCurrentUser().getUsername() " + ParseUser.getCurrentUser().getUsername() );
             ParseQuery innerQuery = new ParseQuery("_User");
+            innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
             ParseQuery<ParseObject> query = ParseQuery.getQuery("InformacoesImutaveis");
             query.whereMatchesQuery("idUsuario", innerQuery);
-            ParseObject info;
+
             try {
-                info = query.getFirst();
+                ParseObject info = query.getFirst();
                 hipertensaoFamiliar.setChecked(info.getBoolean("hipertensaoFamiliar"));
                 diabetesFamiliar.setChecked(info.getBoolean("diabetesFamiliar"));
                 cardiovascularFamiliar.setChecked(info.getBoolean("cardiovascularFamiliar"));
@@ -52,7 +54,7 @@ public class Fragment_FatoresRisco extends android.support.v4.app.Fragment {
                 hipertenso.setChecked(info.getBoolean("hipertenso"));
                 diabetico.setChecked(info.getBoolean("diabetico"));
             } catch (ParseException e){
-
+                System.out.println("e.getMessage()" + e.getMessage());
             }
         }
 

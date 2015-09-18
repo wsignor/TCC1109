@@ -202,9 +202,42 @@ public class DadosUsuario extends AppCompatActivity {
                 }
 
                 user.saveInBackground();
+                salvarInformacoesImutaveis();
 
             }
         });
+    }
+
+    private void salvarInformacoesImutaveis(){
+        Switch hipertensaoFamiliar = (Switch) findViewById(R.id.swtHipertensaoFamilia);
+        Switch diabetesFamiliar = (Switch) findViewById(R.id.swtDiabetesFamilia);
+        Switch cardiovascularFamiliar = (Switch) findViewById(R.id.swtCardiovascularFamilia);
+        Switch obesidadeFamiliar = (Switch) findViewById(R.id.swtObesidadeFamilia);
+        Switch sindromeFamiliar = (Switch) findViewById(R.id.swtSindromeMetabolicaFamilia);
+        Switch hipertenso = (Switch) findViewById(R.id.swtHipertenso);
+        Switch diabetico = (Switch) findViewById(R.id.swtDiabetico);
+
+        ParseQuery innerQuery = new ParseQuery("_User");
+        innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("InformacoesImutaveis");
+        query.whereMatchesQuery("idUsuario", innerQuery);
+
+        try {
+            ParseObject InformacoesImutaveisData = query.getFirst();
+            InformacoesImutaveisData.put("hipertensaoFamiliar", hipertensaoFamiliar.isChecked());
+            InformacoesImutaveisData.put("diabetesFamiliar", diabetesFamiliar.isChecked());
+            InformacoesImutaveisData.put("cardiovascularFamiliar", cardiovascularFamiliar.isChecked());
+            InformacoesImutaveisData.put("obesidadeFamiliar", obesidadeFamiliar.isChecked());
+            InformacoesImutaveisData.put("sindromeFamiliar", sindromeFamiliar.isChecked());
+            InformacoesImutaveisData.put("hipertenso", hipertenso.isChecked());
+            InformacoesImutaveisData.put("diabetico", diabetico.isChecked());
+            InformacoesImutaveisData.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+            InformacoesImutaveisData.saveInBackground();
+        } catch (ParseException e){
+            System.out.println("e.getMessage()" + e.getMessage());
+
+        }
+
     }
 }
 
