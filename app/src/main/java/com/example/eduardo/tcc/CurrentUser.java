@@ -12,6 +12,7 @@ import java.util.List;
  * Created by Eduardo on 16/09/2015.
  */
 public class CurrentUser {
+    
     private static CurrentUser ourInstance;
     private static ParseObject usuario;
 
