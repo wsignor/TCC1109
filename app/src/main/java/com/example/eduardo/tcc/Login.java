@@ -69,6 +69,7 @@ public class Login extends Activity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent createNewAccount = new Intent(Login.this, DadosUsuario.class);
                 startActivity(createNewAccount);
 
