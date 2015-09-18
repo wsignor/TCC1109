@@ -28,7 +28,6 @@ public class DadosUsuario extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     ParseUser user;
-    EditText nome;
 
 
     @Override
@@ -48,7 +47,6 @@ public class DadosUsuario extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(viewPager);
-
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

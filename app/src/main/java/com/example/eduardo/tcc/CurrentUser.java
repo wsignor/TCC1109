@@ -19,7 +19,6 @@ public class CurrentUser {
         List<ParseObject> usuarios;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        System.out.println(ParseUser.getCurrentUser().getObjectId());
         query.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
         try {
             usuarios = query.find();
@@ -29,14 +28,6 @@ public class CurrentUser {
         }catch (ParseException e){
 
         }
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    //List contain object with specific user id.
-                    usuario = objects.get(0);
-                }
-            }
-        });
     }
 
     public static CurrentUser getInstance() {

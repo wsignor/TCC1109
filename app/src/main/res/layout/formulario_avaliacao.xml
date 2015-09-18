@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fumante?"
-        android:id="@+id/switch1"
+        android:id="@+id/swtFumante"
         android:checked="false"
         android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
@@ -30,9 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ingere Bebida Alcoólica?"
-        android:id="@+id/switch2"
+        android:id="@+id/swtBebidaAlcoolica"
         android:checked="false"
-        android:layout_below="@+id/switch1"
+        android:layout_below="@+id/swtFumante"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -42,9 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Prativa Atividade Física?"
-        android:id="@+id/switch3"
+        android:id="@+id/swtAtividadeFisica"
         android:checked="false"
-        android:layout_below="@+id/switch2"
+        android:layout_below="@+id/swtBebidaAlcoolica"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -54,9 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Toma Anticoncepcional?"
-        android:id="@+id/switch4"
+        android:id="@+id/swtAnticoncepcional"
         android:checked="false"
-        android:layout_below="@+id/switch3"
+        android:layout_below="@+id/swtAtividadeFisica"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/txtPeso"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -75,27 +75,51 @@
         android:layout_alignParentEnd="true"
         android:hint="Peso" />
 
-    <Spinner
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_below="@+id/editText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Nível de colesterol?"
+        android:id="@+id/lblNivelColesterol"
+        android:layout_below="@+id/txtPeso"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"/>
 
     <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnNivelColesterol"
+        android:layout_toRightOf="@+id/lblNivelColesterol"
+        android:layout_below="@+id/txtPeso"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner2"
-        android:layout_below="@+id/spinner"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Nível de triglicerideos?"
+        android:id="@+id/lblNivelTriglicerideos"
+        android:layout_below="@+id/lblNivelColesterol"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"/>
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnNivelTriglicerideos"
+        android:layout_toRightOf="@+id/lblNivelTriglicerideos"
+        android:layout_below="@+id/lblNivelColesterol"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Salvar"
-        android:id="@+id/button4"
+        android:id="@+id/btnSalvar"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

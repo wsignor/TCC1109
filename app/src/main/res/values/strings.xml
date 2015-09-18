@@ -40,5 +40,10 @@
         <item>Sim</item>
     </string-array>
 
+    <string-array name="nivel_array">
+        <item>Baixo</item>
+        <item>Normal</item>
+        <item>Alto</item>
+    </string-array>
 
 </resources>
