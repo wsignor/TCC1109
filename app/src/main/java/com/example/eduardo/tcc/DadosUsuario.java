@@ -87,7 +87,7 @@ public class DadosUsuario extends AppCompatActivity {
                 Switch eNutricionista = (Switch) findViewById(R.id.swtNutricionista);
 
 
-                // fragment 2
+                // fragment  2
 //                Switch eNutricionista = (Switch) findViewById(R.id.swtNutricionista);
 //                Switch eNutricionista = (Switch) findViewById(R.id.swtNutricionista);
                 Switch diabetico = (Switch) findViewById(R.id.swtDiabetico);
