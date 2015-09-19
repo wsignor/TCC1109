@@ -7,16 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 /**
  * Created by Eduardo on 14/08/2015.
@@ -25,6 +24,7 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
 
     View contentView;
     EditText emailNutricionista;
+    Switch eNutricionista;
 
     @Nullable
     @Override
@@ -46,17 +46,33 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
         adapterRaca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterRaca);
 
+        EditText dataNasc = (EditText) contentView.findViewById(R.id.textDtNascimento);
+        dataNasc.addTextChangedListener(Mask.insert("##/##/####", dataNasc));
+
+        eNutricionista = (Switch) contentView.findViewById(R.id.swtNutricionista);
+        emailNutricionista = (EditText) contentView.findViewById(R.id.textEmailNutri);
+        eNutricionista.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (eNutricionista.isChecked()) {
+                    emailNutricionista.setVisibility(View.INVISIBLE);
+                }else{
+                    emailNutricionista.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         if(ParseUser.getCurrentUser() != null){
             EditText login = (EditText) contentView.findViewById(R.id.txtLogin);
             EditText altura = (EditText) contentView.findViewById(R.id.textAltura);
             EditText nome = (EditText) contentView.findViewById(R.id.textNome);
-            EditText dataNasc = (EditText) contentView.findViewById(R.id.textDtNascimento);
+            dataNasc = (EditText) contentView.findViewById(R.id.textDtNascimento);
             EditText email = (EditText) contentView.findViewById(R.id.textEmail);
             emailNutricionista = (EditText) contentView.findViewById(R.id.textEmailNutri);
 
             Spinner sexo = (Spinner) contentView.findViewById(R.id.spnSexo);
             Spinner raca = (Spinner) contentView.findViewById(R.id.spnRaca);
-            Switch eNutricionista = (Switch) contentView.findViewById(R.id.swtNutricionista);
+            eNutricionista = (Switch) contentView.findViewById(R.id.swtNutricionista);
 
             login.setText(ParseUser.getCurrentUser().getString("username"));
             nome.setText(ParseUser.getCurrentUser().getString("nome"));

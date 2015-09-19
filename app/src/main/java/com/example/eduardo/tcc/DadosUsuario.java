@@ -1,7 +1,5 @@
 package com.example.eduardo.tcc;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,19 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
-import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 /**
@@ -35,6 +31,8 @@ public class DadosUsuario extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     ParseUser user;
+    EditText emailNutricionista;
+    Switch eNutricionista;
 
 
     @Override
@@ -71,7 +69,6 @@ public class DadosUsuario extends AppCompatActivity {
             }
         });
 
-
         Button btnSalvar = (Button)findViewById(R.id.btnSalvar);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
 
@@ -87,32 +84,48 @@ public class DadosUsuario extends AppCompatActivity {
                 EditText dataNascimento = (EditText) findViewById(R.id.textDtNascimento);
                 Spinner raca = (Spinner) findViewById(R.id.spnRaca);
                 EditText email = (EditText) findViewById(R.id.textEmail);
-                EditText emailNutricionista = (EditText) findViewById(R.id.textEmailNutri);
-                Switch eNutricionista = (Switch) findViewById(R.id.swtNutricionista);
+                emailNutricionista = (EditText) findViewById(R.id.textEmailNutri);
+                eNutricionista = (Switch) findViewById(R.id.swtNutricionista);
 
-                if(ParseUser.getCurrentUser() == null) {
-                    user = new ParseUser();
-                } else {
-                    user = ParseUser.getCurrentUser();
-                }
-                user.setUsername(login.getText().toString());
-                user.setPassword(senha.getText().toString());
-                user.setEmail(email.getText().toString());
-                user.put("nome", nome.getText().toString());
-                user.put("sexo", sexo.getSelectedItem());
-                user.put("altura", Double.parseDouble(altura.getText().toString()));
-                user.put("dtNascimento", dataNascimento.getText().toString());
-                user.put("raca", raca.getSelectedItem().toString());
-                user.put("email", email.getText().toString());
-                user.put("nutricionista", eNutricionista.isChecked());
+                if(validarDados(nome, login, senha, sexo, altura, dataNascimento, raca, email)) {
 
-                if(ParseUser.getCurrentUser() == null) {
-                    registrarUsuario(emailNutricionista.getText().toString());
-                }else {
-                    salvarUsuario(emailNutricionista.getText().toString());
+                    if (ParseUser.getCurrentUser() == null) {
+                        user = new ParseUser();
+                    } else {
+                        user = ParseUser.getCurrentUser();
+                    }
+                    user.setUsername(login.getText().toString());
+                    user.setPassword(senha.getText().toString());
+                    user.setEmail(email.getText().toString());
+                    user.put("nome", nome.getText().toString());
+                    user.put("sexo", sexo.getSelectedItem());
+                    user.put("altura", Double.parseDouble(altura.getText().toString()));
+                    user.put("dtNascimento", dataNascimento.getText().toString());
+                    user.put("raca", raca.getSelectedItem().toString());
+                    user.put("email", email.getText().toString());
+                    user.put("nutricionista", eNutricionista.isChecked());
+
+                    if (ParseUser.getCurrentUser() == null) {
+                        registrarUsuario(emailNutricionista.getText().toString());
+                    } else {
+                        salvarUsuario(emailNutricionista.getText().toString());
+                    }
+                }else{
+                    Toast.makeText(DadosUsuario.this, R.string.dados_invalidos, Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+    }
+
+        private boolean validarDados(EditText nome, EditText login, EditText senha, Spinner sexo, EditText altura, EditText dataNascimento, Spinner raca, EditText email) {
+            if(!nome.getText().toString().matches("") && !login.getText().toString().matches("") && !senha.getText().toString().matches("")
+                    && !sexo.getSelectedItem().toString().matches("") && !altura.getText().toString().matches("") && !dataNascimento.toString().matches("")
+                    && !raca.getSelectedItem().toString().matches("") && !email.getText().toString().matches("")){
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
@@ -185,7 +198,7 @@ public class DadosUsuario extends AppCompatActivity {
             Intent takeUserHomepage = new Intent(DadosUsuario.this, Inicial.class);
             startActivity(takeUserHomepage);
         } catch(ParseException e){
-
+            System.out.println("e.getMessage()" + e.getMessage());
         }
     }
 
@@ -244,7 +257,15 @@ public class DadosUsuario extends AppCompatActivity {
             System.out.println("e.getMessage()" + e.getMessage());
 
         }
+    }
 
+
+    public boolean validarDados(){
+        boolean dadosOk = false;
+
+
+
+        return dadosOk;
     }
 }
 

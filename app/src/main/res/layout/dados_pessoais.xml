@@ -51,6 +51,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:id="@+id/textNome"
                 android:layout_below="@+id/txtConfirmPassword"
                 android:layout_alignParentLeft="true"
@@ -84,6 +85,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:id="@+id/textAltura"
                 android:layout_below="@+id/lblSexo"
                 android:layout_alignParentLeft="true"
@@ -131,6 +133,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:id="@+id/textEmail"
                 android:layout_below="@+id/lblRaca"
                 android:layout_alignParentLeft="true"
@@ -157,6 +160,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:id="@+id/textEmailNutri"
                 android:layout_below="@+id/swtNutricionista"
                 android:layout_alignParentLeft="true"

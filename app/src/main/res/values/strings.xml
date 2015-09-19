@@ -25,6 +25,7 @@
     <string name="oops_title">Oops!</string>
     <string name="HistoricoFamiliar"><u>Histórico de doenças familiares</u></string>
     <string name="FatoresUsuario"><u>Suas Informacoes</u></string>
+    <string name="dados_invalidos">Existem campos que não foram preenchidos</string>
 
     <string-array name="sexo_array">
         <item>Masculino</item>
