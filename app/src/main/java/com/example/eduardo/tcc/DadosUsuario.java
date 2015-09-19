@@ -117,6 +117,7 @@ public class DadosUsuario extends AppCompatActivity {
     }
 
     private void registrarUsuario(String emailNutricinista){
+        System.out.println("registrarUsuario");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
         query.whereEqualTo("nutricionista", true);
@@ -150,6 +151,7 @@ public class DadosUsuario extends AppCompatActivity {
     }
 
     private void cadastraInformacoesImutaveis(String idUsuario){
+        System.out.println("cadastraInformacoesImutaveis");
 
         Switch hipertensaoFamiliar = (Switch) findViewById(R.id.swtHipertensaoFamilia);
         Switch diabetesFamiliar = (Switch) findViewById(R.id.swtDiabetesFamilia);
@@ -188,6 +190,7 @@ public class DadosUsuario extends AppCompatActivity {
     }
 
     private void salvarUsuario(String emailNutricinista){
+        System.out.println("salvarUsuario");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
         query.whereEqualTo("nutricionista", true);
         query.whereEqualTo("email", emailNutricinista);
@@ -204,11 +207,14 @@ public class DadosUsuario extends AppCompatActivity {
                 user.saveInBackground();
                 salvarInformacoesImutaveis();
 
+                login();
+
             }
         });
     }
 
     private void salvarInformacoesImutaveis(){
+        System.out.println("salvarInformacoesImutaveis");
         Switch hipertensaoFamiliar = (Switch) findViewById(R.id.swtHipertensaoFamilia);
         Switch diabetesFamiliar = (Switch) findViewById(R.id.swtDiabetesFamilia);
         Switch cardiovascularFamiliar = (Switch) findViewById(R.id.swtCardiovascularFamilia);
@@ -224,6 +230,7 @@ public class DadosUsuario extends AppCompatActivity {
 
         try {
             ParseObject InformacoesImutaveisData = query.getFirst();
+            System.out.println("InformacoesImutaveisData: " + InformacoesImutaveisData.getClassName());
             InformacoesImutaveisData.put("hipertensaoFamiliar", hipertensaoFamiliar.isChecked());
             InformacoesImutaveisData.put("diabetesFamiliar", diabetesFamiliar.isChecked());
             InformacoesImutaveisData.put("cardiovascularFamiliar", cardiovascularFamiliar.isChecked());

@@ -2,6 +2,7 @@ package com.example.eduardo.tcc;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,11 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 /**
  * Created by Eduardo on 14/08/2015.
@@ -19,6 +24,7 @@ import com.parse.ParseUser;
 public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
 
     View contentView;
+    EditText emailNutricionista;
 
     @Nullable
     @Override
@@ -46,7 +52,7 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
             EditText nome = (EditText) contentView.findViewById(R.id.textNome);
             EditText dataNasc = (EditText) contentView.findViewById(R.id.textDtNascimento);
             EditText email = (EditText) contentView.findViewById(R.id.textEmail);
-            EditText emailNutricionista = (EditText) contentView.findViewById(R.id.textEmailNutri);
+            emailNutricionista = (EditText) contentView.findViewById(R.id.textEmailNutri);
 
             Spinner sexo = (Spinner) contentView.findViewById(R.id.spnSexo);
             Spinner raca = (Spinner) contentView.findViewById(R.id.spnRaca);
@@ -57,7 +63,26 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
             altura.setText(ParseUser.getCurrentUser().getNumber("altura").toString());
             dataNasc.setText(ParseUser.getCurrentUser().getString("dtNascimento"));
             email.setText(ParseUser.getCurrentUser().getString("email"));
-            emailNutricionista.setText(ParseUser.getCurrentUser().getString("email"));
+
+
+            // pegar email nutri
+            if(ParseUser.getCurrentUser().getParseObject("idNutricionista").getObjectId() != null){
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+                query.whereEqualTo("nutricionista", true);
+                query.whereEqualTo("objectId", ParseUser.getCurrentUser().getParseObject("idNutricionista").getObjectId());
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, com.parse.ParseException e) {
+                        if (object == null) {
+                            Log.d("score", "Failed to get idNutricionista.");
+                        } else {
+                            Log.d("score", "idNutricionista retrieved ok.");
+                            System.out.println("objectId nutri: " + object.getObjectId().toString());
+                            emailNutricionista.setText(object.get("email").toString());
+                        }
+                    }
+                });
+            }
+
 
             for (int i=0;i<sexo.getCount();i++){
                 if (sexo.getItemAtPosition(i).toString().equalsIgnoreCase(ParseUser.getCurrentUser().getString("sexo"))){
