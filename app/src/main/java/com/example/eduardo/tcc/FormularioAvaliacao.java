@@ -92,10 +92,10 @@ public class FormularioAvaliacao extends Activity {
         });
     }
 
-    private void salvarUsuarioInformacao(String idInformacaoImutavel){
+    private void salvarUsuarioInformacao(String idInformacaoMutavel){
         ParseObject UsuarioInformacao = new ParseObject("UsuarioInformacao");
         UsuarioInformacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
-        UsuarioInformacao.put("idInformacao", ParseObject.createWithoutData("InformacoesMutaveis", idInformacaoImutavel));
+        UsuarioInformacao.put("idInformacao", ParseObject.createWithoutData("InformacoesMutaveis", idInformacaoMutavel));
 
         ParseQuery innerQuery = new ParseQuery("_User");
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
