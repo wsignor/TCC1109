@@ -19,6 +19,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,6 +65,8 @@ public class FormularioAvaliacao extends Activity {
     private void salvarInformacoesImutaveis(){
         Switch isFumante = (Switch) findViewById(R.id.swtFumante);
         Switch isBebidaAlcoolica = (Switch) findViewById(R.id.swtBebidaAlcoolica);
+        Switch isSodio = (Switch) findViewById(R.id.swtConsumoSodio);
+        Switch isAcucar = (Switch) findViewById(R.id.swtConsumoAcucar);
         Switch isAtividadeFisica = (Switch) findViewById(R.id.swtAtividadeFisica);
         Switch isAnticoncepcional = (Switch) findViewById(R.id.swtAnticoncepcional);
         EditText peso = (EditText) findViewById(R.id.txtPeso);
@@ -71,12 +75,14 @@ public class FormularioAvaliacao extends Activity {
 
         InformacoesMutaveisData = new ParseObject("InformacoesMutaveis");
         InformacoesMutaveisData.put("fumante", isFumante.isChecked());
-        InformacoesMutaveisData.put("ingereBebidaAlcoolica", isBebidaAlcoolica.isChecked());
+        InformacoesMutaveisData.put("altoConsumoAlcool", isBebidaAlcoolica.isChecked());
         InformacoesMutaveisData.put("praticaAtividadeFisica", isAtividadeFisica.isChecked());
         InformacoesMutaveisData.put("tomaAnticoncepcional", isAnticoncepcional.isChecked());
         InformacoesMutaveisData.put("peso", Double.parseDouble(peso.getText().toString()));
         InformacoesMutaveisData.put("nivelColesterol", nivelColesterol.getSelectedItem());
         InformacoesMutaveisData.put("nivelTriglicerideos", nivelTriglicerideos.getSelectedItem());
+        InformacoesMutaveisData.put("altoConsumoSodio", isSodio.isChecked());
+        InformacoesMutaveisData.put("altoConsumoAcucar", isSodio.isChecked());
 
         InformacoesMutaveisData.saveInBackground(new SaveCallback() {
             @Override
@@ -91,7 +97,11 @@ public class FormularioAvaliacao extends Activity {
         UsuarioInformacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
         UsuarioInformacao.put("idInformacao", ParseObject.createWithoutData("InformacoesMutaveis", idInformacaoImutavel));
 
+        ParseQuery innerQuery = new ParseQuery("_User");
+        innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UsuarioInformacao");
+        query.whereMatchesQuery("idUsuario", innerQuery);
         query.addDescendingOrder("versao");
         try {
             ParseObject obj = query.getFirst();
@@ -100,19 +110,66 @@ public class FormularioAvaliacao extends Activity {
             UsuarioInformacao.put("versao", 1);
         }
 
-        UsuarioInformacao.saveInBackground();
+        UsuarioInformacao.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                realizarAvaliacao();
+            }
+        });
     }
 
     private void realizarAvaliacao(){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("InformacoesImutaveis");
-        query.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
 
-        Boolean paisHipertensos, diabetesFamilia;
+        Boolean hipertensaoFamiliar, diabetesFamiliar, cardiovascularFamiliar, obesidadeFamiliar, sindromeFamiliar, diabetico, hipertenso, fumante, praticaAtividadeFisica, consumoAlcool, consumoSodio, consumoAcucar;
+        Integer peso, idade;
+        Double altura, calculoIMC;
+        String sexo, raca;
+
+        ParseQuery innerQuery = new ParseQuery("_User");
+        innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+
+        ParseQuery<ParseObject> queryImutaveis = ParseQuery.getQuery("InformacoesImutaveis");
+        queryImutaveis.whereMatchesQuery("idUsuario", innerQuery);
+
+        ParseQuery<ParseObject> queryUsuarioInformacao = ParseQuery.getQuery("UsuarioInformacao");
+        queryUsuarioInformacao.whereMatchesQuery("idUsuario", innerQuery);
+        queryUsuarioInformacao.addDescendingOrder("versao");
 
         try {
-            ParseObject informacoesImutaveis = query.getFirst();
-            paisHipertensos = informacoesImutaveis.getBoolean("paisHipertensos");
-            diabetesFamilia = informacoesImutaveis.getBoolean("diabetesFamilia");
+
+            //Informacoes Mutaveis
+            ParseObject informacoesMutaveis = queryUsuarioInformacao.getFirst();
+            informacoesMutaveis = informacoesMutaveis.getParseObject("idInformacao").fetch();
+            peso = informacoesMutaveis.getInt("peso");
+            fumante = informacoesMutaveis.getBoolean("fumante");
+            praticaAtividadeFisica = informacoesMutaveis.getBoolean("praticaAtividadeFisica");
+            consumoAlcool = informacoesMutaveis.getBoolean("ingereBebidaAlcoolica");
+            consumoSodio = informacoesMutaveis.getBoolean("altoConsumoAlcool");
+            consumoAcucar = informacoesMutaveis.getBoolean("altoConsumoAcucar");
+
+
+            //Informacoes do Usuário
+            altura = ParseUser.getCurrentUser().getDouble("altura");
+            sexo = ParseUser.getCurrentUser().getString("sexo");
+            idade = Calendar.getInstance().get(Calendar.YEAR) - ParseUser.getCurrentUser().getDate("dtNascimento").getYear();
+            raca = ParseUser.getCurrentUser().getString("raca");
+
+
+            //Informacoes Imutaveis
+            ParseObject informacoesImutaveis = queryImutaveis.getFirst();
+            hipertensaoFamiliar = informacoesImutaveis.getBoolean("hipertensaoFamiliar");
+            diabetesFamiliar = informacoesImutaveis.getBoolean("diabetesFamiliar");
+            cardiovascularFamiliar = informacoesImutaveis.getBoolean("cardiovascularFamiliar");
+            obesidadeFamiliar = informacoesImutaveis.getBoolean("obesidadeFamiliar");
+            sindromeFamiliar = informacoesImutaveis.getBoolean("sindromeFamiliar");
+            sindromeFamiliar = informacoesImutaveis.getBoolean("sindromeFamiliar");
+            diabetico = informacoesImutaveis.getBoolean("diabetico");
+            hipertenso = informacoesImutaveis.getBoolean("hipertenso");
+
+            //Outras Informacoes
+            calculoIMC = peso / (altura * altura);
+
+
         }catch (ParseException e){
 
         }

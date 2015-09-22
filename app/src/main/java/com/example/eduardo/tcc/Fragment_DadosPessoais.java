@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -82,7 +83,8 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
 
 
             // pegar email nutri
-            if(ParseUser.getCurrentUser().getParseObject("idNutricionista").getObjectId() != null){
+            ParseObject nutricionista = ParseUser.getCurrentUser().getParseObject("idNutricionista");
+            if(nutricionista != null){
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
                 query.whereEqualTo("nutricionista", true);
                 query.whereEqualTo("objectId", ParseUser.getCurrentUser().getParseObject("idNutricionista").getObjectId());
@@ -107,7 +109,7 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
                 }
             }
 
-            for (int i=0;i<sexo.getCount();i++){
+            for (int i=0;i<raca.getCount();i++){
                 if (raca.getItemAtPosition(i).toString().equalsIgnoreCase(ParseUser.getCurrentUser().getString("raca"))){
                     raca.setSelection(i);
                     break;
