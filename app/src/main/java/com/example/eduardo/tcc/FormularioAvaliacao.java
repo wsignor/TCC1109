@@ -69,6 +69,21 @@ public class FormularioAvaliacao extends Activity {
         Switch isAcucar = (Switch) findViewById(R.id.swtConsumoAcucar);
         Switch isAtividadeFisica = (Switch) findViewById(R.id.swtAtividadeFisica);
         Switch isAnticoncepcional = (Switch) findViewById(R.id.swtAnticoncepcional);
+        Switch isMenopausa = (Switch) findViewById(R.id.swtMenopausa);
+        Switch isEstressado = (Switch) findViewById(R.id.swtEstressado);
+        Switch isDiabetesGestacional = (Switch) findViewById(R.id.swtDiabetesGestacional);
+        Switch isCortisona = (Switch) findViewById(R.id.swtUsoCortisona);
+        Switch isDiuretico = (Switch) findViewById(R.id.swtDiureticos);
+        Switch isBetaBloqueador = (Switch) findViewById(R.id.swtBetaBloqueadores);
+        Switch isFilhos = (Switch) findViewById(R.id.swtTeveFilhos);
+        Switch isCompanheira = (Switch) findViewById(R.id.swtCompanheira);
+        Switch isOvarioPolicistico = (Switch) findViewById(R.id.swtOvarioPolicistico);
+        Switch isDislipidemia = (Switch) findViewById(R.id.swtDislipidemia);
+        Switch isMicroalbuminuria = (Switch) findViewById(R.id.swtMicroalbuminúria);
+        Switch isIntoleranciaGlicose = (Switch) findViewById(R.id.swtIntoleranciaGlicose);
+        Switch isIntoleranciaInsulina = (Switch) findViewById(R.id.swtIntoleranciaInsulina);
+        Switch isHiperuricemia = (Switch) findViewById(R.id.swtHiperuricemia);
+        Switch isProTrombotico = (Switch) findViewById(R.id.swtProTrombotico);
         EditText peso = (EditText) findViewById(R.id.txtPeso);
         Spinner nivelColesterol = (Spinner) findViewById(R.id.spnNivelColesterol);
         Spinner nivelTriglicerideos = (Spinner) findViewById(R.id.spnNivelTriglicerideos);
@@ -82,7 +97,25 @@ public class FormularioAvaliacao extends Activity {
         InformacoesMutaveisData.put("nivelColesterol", nivelColesterol.getSelectedItem());
         InformacoesMutaveisData.put("nivelTriglicerideos", nivelTriglicerideos.getSelectedItem());
         InformacoesMutaveisData.put("altoConsumoSodio", isSodio.isChecked());
-        InformacoesMutaveisData.put("altoConsumoAcucar", isSodio.isChecked());
+        InformacoesMutaveisData.put("altoConsumoAcucar", isAcucar.isChecked());
+        InformacoesMutaveisData.put("menopausa", isMenopausa.isChecked());
+        InformacoesMutaveisData.put("estressado", isEstressado.isChecked());
+        InformacoesMutaveisData.put("diabetesGestacional", isDiabetesGestacional.isChecked());
+        InformacoesMutaveisData.put("cortisona", isCortisona.isChecked());
+        InformacoesMutaveisData.put("diuretico", isDiuretico.isChecked());
+        InformacoesMutaveisData.put("betaBloqueador", isBetaBloqueador.isChecked());
+        InformacoesMutaveisData.put("teveFilhos", isFilhos.isChecked());
+        InformacoesMutaveisData.put("companheira", isCompanheira.isChecked());
+        InformacoesMutaveisData.put("ovarioPolicistico", isOvarioPolicistico.isChecked());
+        InformacoesMutaveisData.put("dislipidemia", isDislipidemia.isChecked());
+        InformacoesMutaveisData.put("microalbuminuria", isMicroalbuminuria.isChecked());
+        InformacoesMutaveisData.put("intoleranciaGlicose", isIntoleranciaGlicose.isChecked());
+        InformacoesMutaveisData.put("intoleranciaInsulina", isIntoleranciaInsulina.isChecked());
+        InformacoesMutaveisData.put("hiperuricemia", isHiperuricemia.isChecked());
+        InformacoesMutaveisData.put("proTrombotico", isProTrombotico.isChecked());
+
+
+
 
         InformacoesMutaveisData.saveInBackground(new SaveCallback() {
             @Override
@@ -120,10 +153,28 @@ public class FormularioAvaliacao extends Activity {
 
     private void realizarAvaliacao(){
 
-        Boolean hipertensaoFamiliar, diabetesFamiliar, cardiovascularFamiliar, obesidadeFamiliar, sindromeFamiliar, diabetico, hipertenso, fumante, praticaAtividadeFisica, consumoAlcool, consumoSodio, consumoAcucar;
-        Integer peso, idade;
-        Double altura, calculoIMC;
-        String sexo, raca;
+        Boolean
+                hipertensaoFamiliar,
+                diabetesFamiliar,
+                cardiovascularFamiliar,
+                obesidadeFamiliar,
+                sindromeFamiliar,
+                diabetico,
+                hipertenso,
+                fumante,
+                praticaAtividadeFisica,
+                consumoAlcool,
+                consumoSodio,
+                consumoAcucar;
+        Integer
+                peso,
+                idade;
+        Double
+                altura,
+                calculoIMC;
+        String
+                sexo,
+                raca;
 
         ParseQuery innerQuery = new ParseQuery("_User");
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
