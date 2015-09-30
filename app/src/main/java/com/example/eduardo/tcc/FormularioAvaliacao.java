@@ -202,7 +202,14 @@ public class FormularioAvaliacao extends Activity {
             //Informacoes do Usuário
             altura = ParseUser.getCurrentUser().getDouble("altura");
             sexo = ParseUser.getCurrentUser().getString("sexo");
-            idade = Calendar.getInstance().get(Calendar.YEAR) - ParseUser.getCurrentUser().getDate("dtNascimento").getYear();
+
+            String anoNascimento = ParseUser.getCurrentUser().get("dtNascimento").toString();
+            String[] parts = anoNascimento.split("/");
+            anoNascimento = parts[2];
+            System.out.println("anoNascimento: " + anoNascimento);
+            idade = Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(anoNascimento);
+            System.out.println("idade: " + idade.toString());
+
             raca = ParseUser.getCurrentUser().getString("raca");
 
 
