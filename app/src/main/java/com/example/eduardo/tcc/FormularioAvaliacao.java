@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -18,7 +19,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
+import com.parse.codec.binary.StringUtils;
 
+import java.text.Normalizer;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -53,10 +56,18 @@ public class FormularioAvaliacao extends Activity {
 
             @Override
             public void onClick(View v) {
-                salvarInformacoesImutaveis();
 
-                Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, Inicial.class);
-                startActivity(takeUserHomepage);
+
+                EditText peso = (EditText) findViewById(R.id.txtPeso);
+                if(!peso.getText().toString().isEmpty()) {
+                    salvarInformacoesImutaveis();
+
+                    Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, Inicial.class);
+                    startActivity(takeUserHomepage);
+
+                }else{
+                    Toast.makeText(FormularioAvaliacao.this, R.string.peso_invalido, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
