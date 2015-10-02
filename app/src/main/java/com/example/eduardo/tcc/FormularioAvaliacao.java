@@ -3,7 +3,6 @@ package com.example.eduardo.tcc;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,19 +11,14 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
-import com.parse.codec.binary.StringUtils;
 
-import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Eduardo on 16/09/2015.
@@ -32,6 +26,10 @@ import java.util.List;
 public class FormularioAvaliacao extends Activity {
 
     ParseObject InformacoesMutaveisData;
+
+    int pontuacaoDiabetes = 0,
+        pontuacaoHipertensao = 0,
+        pontuacaoObesidade = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,16 +229,198 @@ public class FormularioAvaliacao extends Activity {
             cardiovascularFamiliar = informacoesImutaveis.getBoolean("cardiovascularFamiliar");
             obesidadeFamiliar = informacoesImutaveis.getBoolean("obesidadeFamiliar");
             sindromeFamiliar = informacoesImutaveis.getBoolean("sindromeFamiliar");
-            sindromeFamiliar = informacoesImutaveis.getBoolean("sindromeFamiliar");
+            //sindromeFamiliar = informacoesImutaveis.getBoolean("sindromeFamiliar");
             diabetico = informacoesImutaveis.getBoolean("diabetico");
             hipertenso = informacoesImutaveis.getBoolean("hipertenso");
 
             //Outras Informacoes
             calculoIMC = peso / (altura * altura);
 
+            System.out.println("realizarAvaliacao ###### " +
+                    "\npeso: " + peso +
+                    "\nfumante: " + fumante +
+                    "\npraticaAtividadeFisica: " + praticaAtividadeFisica +
+                    "\nconsumoAlcool: " + consumoAlcool +
+                    "\nconsumoSodio: " + consumoSodio +
+                    "\nconsumoAcucar: " + consumoAcucar +
+                    "\naltura: " + altura +
+                    "\nsexo: " + sexo +
+                    "\nidade: " + idade +
+                    "\nraca: " + raca +
+                    "\nhipertensaoFamiliar: " + hipertensaoFamiliar +
+                    "\ndiabetesFamiliar: " + diabetesFamiliar +
+                    "\ncardiovascularFamiliar: " + cardiovascularFamiliar +
+                    "\nobesidadeFamiliar: " + obesidadeFamiliar +
+                    "\nsindromeFamiliar: " + sindromeFamiliar +
+                    "\ndiabetico: " + diabetico +
+                    "\nhipertenso: " + hipertenso +
+                    "\ncalculoIMC: " + calculoIMC);
+
+            distribuirPontuacao(hipertensaoFamiliar,
+                    diabetesFamiliar,
+                    cardiovascularFamiliar,
+                    obesidadeFamiliar,
+                    sindromeFamiliar,
+                    diabetico,
+                    hipertenso,
+                    fumante,
+                    praticaAtividadeFisica,
+                    consumoAlcool,
+                    consumoSodio,
+                    consumoAcucar,
+                    peso,
+                    idade,
+                    altura,
+                    calculoIMC,
+                    sexo,
+                    raca);
+
+            
+            ArrayList<String> ranking = new ArrayList<>();
+
+            if (getPontuacaoDiabetes() > getPontuacaoHipertensao() && getPontuacaoDiabetes() > getPontuacaoObesidade()) {
+                ranking.add("Diabetes");
+            } else if (getPontuacaoHipertensao() > getPontuacaoObesidade()) {
+                ranking.add("Hipertensao");
+            } else {
+                ranking.add("Obesidade");
+            }
 
         }catch (ParseException e){
 
         }
+    }
+
+    private void distribuirPontuacao(Boolean hipertensaoFamiliar, Boolean diabetesFamiliar, Boolean cardiovascularFamiliar, Boolean obesidadeFamiliar, Boolean sindromeFamiliar, Boolean diabetico, Boolean hipertenso, Boolean fumante, Boolean praticaAtividadeFisica, Boolean consumoAlcool, Boolean consumoSodio, Boolean consumoAcucar, Integer peso, Integer idade, Double altura, Double calculoIMC, String sexo, String raca) {
+
+        int diabetes = 0;
+        int hipertensao = 0;
+        int obesidade = 0;
+
+
+        if(peso != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(fumante != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(praticaAtividadeFisica != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(consumoAlcool != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(consumoSodio != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(consumoAcucar != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(altura != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(sexo != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(idade != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(raca != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(hipertensaoFamiliar != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(diabetesFamiliar != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(cardiovascularFamiliar != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(obesidadeFamiliar != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(sindromeFamiliar != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(diabetico != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(hipertenso != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+        if(calculoIMC != null){
+            diabetes += 1;
+            hipertensao += 1;
+            obesidade += 1;
+        }
+
+        System.out.println("distribuirPontuacao\n" +
+                            "Diabetes: " + diabetes +
+                            " - Hipertensao: " + hipertensao +
+                            " - Obesidade: " + obesidade);
+
+        setPontuacaoDiabetes(diabetes);
+        setPontuacaoHipertensao(hipertensao);
+        setPontuacaoObesidade(obesidade);
+
+    }
+
+    public int getPontuacaoObesidade() {
+        return pontuacaoObesidade;
+    }
+
+    public void setPontuacaoObesidade(int pontuacaoObesidade) {
+        this.pontuacaoObesidade = pontuacaoObesidade;
+    }
+
+    public int getPontuacaoDiabetes() {
+        return pontuacaoDiabetes;
+    }
+
+    public void setPontuacaoDiabetes(int pontuacaoDiabetes) {
+        this.pontuacaoDiabetes = pontuacaoDiabetes;
+    }
+
+    public int getPontuacaoHipertensao() {
+        return pontuacaoHipertensao;
+    }
+
+    public void setPontuacaoHipertensao(int pontuacaoHipertensao) {
+        this.pontuacaoHipertensao = pontuacaoHipertensao;
     }
 }
