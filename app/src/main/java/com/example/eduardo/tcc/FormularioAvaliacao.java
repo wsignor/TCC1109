@@ -35,9 +35,7 @@ public class FormularioAvaliacao extends Activity {
     int pontuacaoCardiovasculares = 0;
     int pontuacaoSindromeMetabolica = 0;
 
-
-    HashMap<Integer, String> ranking = new HashMap<>();
-    //ArrayList<String> ranking = new ArrayList<>();
+    Map<Integer, String> ranking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,7 +298,7 @@ public class FormularioAvaliacao extends Activity {
         int doencasCardiovasculares = 0;
         int sindromeMetabolica = 0;
 
-
+        /* considerando IMC
         if(peso != null){
             diabetes += 1;
             hipertensao += 1;
@@ -308,41 +306,35 @@ public class FormularioAvaliacao extends Activity {
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(fumante != null){
+        */
+
+        if(fumante){
+            diabetes += 1;
+            hipertensao += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
+        }
+        if(praticaAtividadeFisica){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(praticaAtividadeFisica != null){
-            diabetes += 1;
+        if(consumoAlcool){
             hipertensao += 1;
+        }
+        if(consumoSodio){
+            hipertensao += 1;
+        }
+        if(consumoAcucar){
+            diabetes += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(consumoAlcool != null){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(consumoSodio != null){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(consumoAcucar != null){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
+
+        /*
         if(altura != null){
             diabetes += 1;
             hipertensao += 1;
@@ -350,83 +342,115 @@ public class FormularioAvaliacao extends Activity {
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(sexo != null){
+        */
+
+        if(sexo.equalsIgnoreCase("Masculino")){
+            doencasCardiovasculares += 1;
+            hipertensao += 1;
+        } else {
+            diabetes += 1;
+            obesidade += 1;
+            sindromeMetabolica += 1;
+        }
+
+        if(idade >= 50){
+            hipertensao += 1;
+            sindromeMetabolica += 1;
+            obesidade += 1;
+            diabetes += 1;
+            doencasCardiovasculares += 1;
+        } else if (idade >= 45){
+            obesidade += 1;
+            diabetes += 1;
+            doencasCardiovasculares += 1;
+        } else if (idade >= 40){
+            obesidade += 1;
+        }
+
+        if(raca.equalsIgnoreCase("negro")){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(idade != null){
+        if(hipertensaoFamiliar){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(raca != null){
+        if(diabetesFamiliar){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(hipertensaoFamiliar != null){
+        if(cardiovascularFamiliar){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(diabetesFamiliar != null){
+        if(obesidadeFamiliar){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(cardiovascularFamiliar != null){
+        if(sindromeFamiliar){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(obesidadeFamiliar != null){
+
+        // diabetico pontua?
+        if(diabetico){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(sindromeFamiliar != null){
+
+        // hipertenso pontua?
+        if(hipertenso){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(diabetico != null){
+        if(calculoIMC >= 30){
             diabetes += 1;
             hipertensao += 1;
-            obesidade += 1;
+            //obesidade += 1;
             doencasCardiovasculares += 1;
             sindromeMetabolica += 1;
         }
-        if(hipertenso != null){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(calculoIMC != null){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
+
+        /* ## ADD
+        Colesterol
+        Menopausa (Mulhes)
+        Anticoncepcionais
+        Estresse
+        Diabete Gestacional
+        Uso de cortisona, diuréticos tiazídicos e beta-bloqueadores
+        Mulher + já teve filhos
+        Homem mora com companheira
+        Ovário Policístico (Mulheres)
+        Dislipidemia
+        Microalbuminúria
+        Intolerância a glicose e insulina
+        Hiperuricemia
+        Estados pró-trombóticos e pró-inflamatórios,
+         */
 
         System.out.println("distribuirPontuacao\n" +
                 " - Diabetes: " + diabetes +
@@ -449,10 +473,12 @@ public class FormularioAvaliacao extends Activity {
         map.put(getPontuacaoCardiovasculares()+1, "Cardiovasculares");
         map.put(getPontuacaoSindromeMetabolica()+33, "SindromeMetabolica");
 
-        Map<Integer, String> ranking = new TreeMap<Integer, String>(map);
+        ranking = new TreeMap<Integer, String>(map);
         for (Integer intt : ranking.keySet()) {
             System.out.println("map sort: "  + intt);
         }
+
+        System.out.println("ranking.toString - " + ranking.toString());
 
 
     }
