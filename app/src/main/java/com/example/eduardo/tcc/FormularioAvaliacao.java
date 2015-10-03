@@ -17,8 +17,10 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Eduardo on 16/09/2015.
@@ -27,9 +29,15 @@ public class FormularioAvaliacao extends Activity {
 
     ParseObject InformacoesMutaveisData;
 
-    int pontuacaoDiabetes = 0,
-        pontuacaoHipertensao = 0,
-        pontuacaoObesidade = 0;
+    int pontuacaoDiabetes = 0;
+    int pontuacaoHipertensao = 0;
+    int pontuacaoObesidade = 0;
+    int pontuacaoCardiovasculares = 0;
+    int pontuacaoSindromeMetabolica = 0;
+
+
+    HashMap<Integer, String> ranking = new HashMap<>();
+    //ArrayList<String> ranking = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,16 +283,9 @@ public class FormularioAvaliacao extends Activity {
                     sexo,
                     raca);
 
-            
-            ArrayList<String> ranking = new ArrayList<>();
+            // colocar doenças em ordem
 
-            if (getPontuacaoDiabetes() > getPontuacaoHipertensao() && getPontuacaoDiabetes() > getPontuacaoObesidade()) {
-                ranking.add("Diabetes");
-            } else if (getPontuacaoHipertensao() > getPontuacaoObesidade()) {
-                ranking.add("Hipertensao");
-            } else {
-                ranking.add("Obesidade");
-            }
+
 
         }catch (ParseException e){
 
@@ -296,107 +297,163 @@ public class FormularioAvaliacao extends Activity {
         int diabetes = 0;
         int hipertensao = 0;
         int obesidade = 0;
+        int doencasCardiovasculares = 0;
+        int sindromeMetabolica = 0;
 
 
         if(peso != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(fumante != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(praticaAtividadeFisica != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(consumoAlcool != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(consumoSodio != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(consumoAcucar != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(altura != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(sexo != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(idade != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(raca != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(hipertensaoFamiliar != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(diabetesFamiliar != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(cardiovascularFamiliar != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(obesidadeFamiliar != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(sindromeFamiliar != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(diabetico != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(hipertenso != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
         if(calculoIMC != null){
             diabetes += 1;
             hipertensao += 1;
             obesidade += 1;
+            doencasCardiovasculares += 1;
+            sindromeMetabolica += 1;
         }
 
         System.out.println("distribuirPontuacao\n" +
-                            "Diabetes: " + diabetes +
-                            " - Hipertensao: " + hipertensao +
-                            " - Obesidade: " + obesidade);
+                " - Diabetes: " + diabetes +
+                " - Hipertensao: " + hipertensao +
+                " - Obesidade: " + obesidade +
+                " - Doencas Cardiovasculares: " + doencasCardiovasculares +
+                " - Sindrome Metabolica: " + sindromeMetabolica);
 
         setPontuacaoDiabetes(diabetes);
         setPontuacaoHipertensao(hipertensao);
         setPontuacaoObesidade(obesidade);
+        setPontuacaoCardiovasculares(doencasCardiovasculares);
+        setPontuacaoSindromeMetabolica(sindromeMetabolica);
+
+        // montando ranking
+        Map<Integer, String> map = new HashMap<Integer, String>();
+        map.put(getPontuacaoDiabetes()+5, "Diabetes");
+        map.put(getPontuacaoHipertensao()+6, "Hipertensao");
+        map.put(getPontuacaoObesidade()+2, "Obesidade");
+        map.put(getPontuacaoCardiovasculares()+1, "Cardiovasculares");
+        map.put(getPontuacaoSindromeMetabolica()+33, "SindromeMetabolica");
+
+        Map<Integer, String> ranking = new TreeMap<Integer, String>(map);
+        for (Integer intt : ranking.keySet()) {
+            System.out.println("map sort: "  + intt);
+        }
+
 
     }
 
@@ -422,5 +479,21 @@ public class FormularioAvaliacao extends Activity {
 
     public void setPontuacaoHipertensao(int pontuacaoHipertensao) {
         this.pontuacaoHipertensao = pontuacaoHipertensao;
+    }
+
+    public int getPontuacaoSindromeMetabolica() {
+        return pontuacaoSindromeMetabolica;
+    }
+
+    public void setPontuacaoSindromeMetabolica(int pontuacaoSindromeMetabolica) {
+        this.pontuacaoSindromeMetabolica = pontuacaoSindromeMetabolica;
+    }
+
+    public int getPontuacaoCardiovasculares() {
+        return pontuacaoCardiovasculares;
+    }
+
+    public void setPontuacaoCardiovasculares(int pontuacaoCardiovasculares) {
+        this.pontuacaoCardiovasculares = pontuacaoCardiovasculares;
     }
 }
