@@ -467,11 +467,11 @@ public class FormularioAvaliacao extends Activity {
 
         // montando ranking
         Map<Integer, String> map = new HashMap<Integer, String>();
-        map.put(getPontuacaoDiabetes()+5, "Diabetes");
-        map.put(getPontuacaoHipertensao()+6, "Hipertensao");
-        map.put(getPontuacaoObesidade()+2, "Obesidade");
-        map.put(getPontuacaoCardiovasculares()+1, "Cardiovasculares");
-        map.put(getPontuacaoSindromeMetabolica()+33, "SindromeMetabolica");
+        map.put(getPontuacaoDiabetes(), "Diabetes");
+        map.put(getPontuacaoHipertensao(), "Hipertensao");
+        map.put(getPontuacaoObesidade(), "Obesidade");
+        map.put(getPontuacaoCardiovasculares(), "Cardiovasculares");
+        map.put(getPontuacaoSindromeMetabolica(), "SindromeMetabolica");
 
         ranking = new TreeMap<Integer, String>(map);
         for (Integer intt : ranking.keySet()) {
