@@ -8,12 +8,14 @@ import com.parse.ParseUser;
 /**
  * Created by Wagner on 20/09/2015.
  */
-public class ResultadoDoencas {
+public final class ResultadoDoencas {
+
+    private static final ResultadoDoencas INSTANCE = new ResultadoDoencas();
 
     boolean fumante;
     boolean sedentarismo;
-    boolean diabetes;
-    boolean hipertensao;
+    boolean diabetico;
+    boolean hipertenso;
     boolean altoConsumoAlcool;
     boolean altoConsumoSodio;
     boolean altoConsumoGorduraAcucares;
@@ -39,12 +41,70 @@ public class ResultadoDoencas {
     boolean obesidadeFamiliar;
     boolean sindromeFamiliar;
 
-    int peso, idade, qtdDiabetes, qtdHipertensao, qtdObesidade, qtdDoencasCardiovasculares, qtdSindromeMetabolica;
+    int peso, idade;
 
     double altura, imc;
 
     String sexo, raca, nivelColesterol;;
 
+    public Doenca getDiabetes() {
+        diabetes.setNome("Diabetes Mellitus");
+        return diabetes;
+    }
+
+    public Doenca getHipertensao() {
+        hipertensao.setNome("Hipertensão Arterial");
+        return hipertensao;
+    }
+
+    public Doenca getDoencasCardiovasculares() {
+        doencasCardiovasculares.setNome("Doenças Cardiovasculares");
+        return doencasCardiovasculares;
+    }
+
+    public Doenca getObesidade() {
+        obesidade.setNome("Obesidade");
+        return obesidade;
+    }
+
+    public Doenca getSindromeMetabolica() {
+        sindromeMetabolica.setNome("Sindrome Metabólica");
+        return sindromeMetabolica;
+    }
+
+    Doenca diabetes = new Doenca();
+    Doenca hipertensao = new Doenca();
+    Doenca doencasCardiovasculares = new Doenca();
+    Doenca obesidade = new Doenca();
+    Doenca sindromeMetabolica = new Doenca();
+
+    public int getQtdDiabetes() {
+        return diabetes.getQtdOcorrencias();
+    }
+    public int getQtdHipertensao() {
+        return hipertensao.getQtdOcorrencias();
+    }
+    public int getQtdObesidade() {
+        return obesidade.getQtdOcorrencias();
+    }
+    public int getQtdDoencasCardiovasculares() {
+        return doencasCardiovasculares.getQtdOcorrencias();
+    }
+    public int getQtdSindromeMetabolica() {
+        return sindromeMetabolica.getQtdOcorrencias();
+    }
+
+    public void limpaResultado(){
+        diabetes.setQtdOcorrencias(0);
+        obesidade.setQtdOcorrencias(0);
+        hipertensao.setQtdOcorrencias(0);
+        doencasCardiovasculares.setQtdOcorrencias(0);
+        sindromeMetabolica.setQtdOcorrencias(0);
+    }
+
+    public static ResultadoDoencas getInstance(){
+        return INSTANCE;
+    }
 
     public void setIMC(double altura, int peso){
         this.altura = altura;
@@ -52,10 +112,10 @@ public class ResultadoDoencas {
         this.imc =  peso / (altura * altura);
 
         if(this.imc >= 30){
-            qtdDiabetes += 1;
-            qtdHipertensao += 1;
-            qtdDoencasCardiovasculares += 1;
-            qtdSindromeMetabolica += 1;
+            incrementDiabetes();
+            incrementHipertensao();
+            incrementDoencasCardiovasculares();
+            incrementSindromeMetabolica();
         }
     }
 
@@ -75,12 +135,12 @@ public class ResultadoDoencas {
         this.sexo = sexo;
 
         if(sexo.equalsIgnoreCase("Masculino")){
-            qtdDoencasCardiovasculares += 1;
-            qtdHipertensao += 1;
+            incrementDoencasCardiovasculares();
+            incrementHipertensao();
         } else {
-            qtdDiabetes += 1;
-            qtdObesidade += 1;
-            qtdSindromeMetabolica += 1;
+            incrementDiabetes();
+            incrementObesidade();
+            incrementSindromeMetabolica();
         }
 
     }
@@ -101,49 +161,49 @@ public class ResultadoDoencas {
         this.idade = idade;
 
         if(idade >= 50){
-            qtdHipertensao += 1;
-            qtdSindromeMetabolica += 1;
-            qtdObesidade += 1;
-            qtdDiabetes += 1;
-            qtdDoencasCardiovasculares += 1;
+            incrementHipertensao();
+            incrementSindromeMetabolica();
+            incrementObesidade();
+            incrementDiabetes();
+            incrementDoencasCardiovasculares();
         } else if (idade >= 45){
-            qtdObesidade += 1;
-            qtdDiabetes += 1;
-            qtdDoencasCardiovasculares += 1;
+            incrementObesidade();
+            incrementDiabetes();
+            incrementDoencasCardiovasculares();
         } else if (idade >= 40){
-            qtdObesidade += 1;
+            incrementObesidade();
         }
 
     }
 
     public boolean isDiabetes() {
-        return diabetes;
+        return diabetico;
     }
 
     public void setDiabetes(boolean diabetes) {
-        this.diabetes = diabetes;
+        this.diabetico = diabetes;
 
         if(diabetes){
-            qtdHipertensao += 1;
-            qtdObesidade += 1;
-            qtdDoencasCardiovasculares += 1;
-            qtdSindromeMetabolica += 1;
+            incrementHipertensao();
+            incrementObesidade();
+            incrementDoencasCardiovasculares();
+            incrementSindromeMetabolica();
         }
 
     }
 
     public boolean isHipertensao() {
-        return hipertensao;
+        return hipertenso;
     }
 
     public void setHipertensao(boolean hipertensao) {
-        this.hipertensao = hipertensao;
+        this.hipertenso = hipertensao;
 
         if(hipertensao){
-            qtdDiabetes += 1;
-            qtdObesidade += 1;
-            qtdDoencasCardiovasculares += 1;
-            qtdSindromeMetabolica += 1;
+            incrementDiabetes();
+            incrementObesidade();
+            incrementDoencasCardiovasculares();
+            incrementSindromeMetabolica();
         }
 
     }
@@ -156,10 +216,10 @@ public class ResultadoDoencas {
         this.fumante = fumante;
 
         if(fumante){
-            qtdDiabetes += 1;
-            qtdHipertensao += 1;
-            qtdDoencasCardiovasculares += 1;
-            qtdSindromeMetabolica += 1;
+            incrementDiabetes();
+            incrementHipertensao();
+            incrementDoencasCardiovasculares();
+            incrementSindromeMetabolica();
         }
 
     }
@@ -172,11 +232,11 @@ public class ResultadoDoencas {
         this.sedentarismo = sedentarismo;
 
         if(sedentarismo){
-            qtdDiabetes += 1;
-            qtdHipertensao += 1;
-            qtdObesidade += 1;
-            qtdDoencasCardiovasculares += 1;
-            qtdSindromeMetabolica += 1;
+            incrementDiabetes();
+            incrementHipertensao();
+            incrementObesidade();
+            incrementDoencasCardiovasculares();
+            incrementSindromeMetabolica();
         }
 
     }
@@ -189,7 +249,7 @@ public class ResultadoDoencas {
         this.raca = raca;
 
         if(raca == "Negra"){
-            qtdHipertensao += 1;
+            incrementHipertensao();
         }
 
     }
@@ -202,7 +262,7 @@ public class ResultadoDoencas {
         this.altoConsumoAlcool = altoConsumoAlcool;
 
         if(altoConsumoAlcool){
-            qtdHipertensao += 1;
+            incrementHipertensao();
         }
 
     }
@@ -215,7 +275,7 @@ public class ResultadoDoencas {
         this.altoConsumoSodio = altoConsumoSodio;
 
         if(altoConsumoSodio) {
-            qtdHipertensao += 1;
+            incrementHipertensao();
         }
 
     }
@@ -228,10 +288,10 @@ public class ResultadoDoencas {
         this.altoConsumoGorduraAcucares = altoConsumoGorduraAcucares;
 
         if(altoConsumoGorduraAcucares){
-            qtdDiabetes += 1;
-            qtdObesidade += 1;
-            qtdDoencasCardiovasculares += 1;
-            qtdSindromeMetabolica += 1;
+            incrementDiabetes();
+            incrementObesidade();
+            incrementDoencasCardiovasculares();
+            incrementSindromeMetabolica();
         }
 
     }
@@ -244,11 +304,11 @@ public class ResultadoDoencas {
         this.nivelColesterol = colesterolAlto;
 
         if(colesterolAlto == "Alto") {
-            qtdDiabetes += 1;
-            qtdObesidade += 1;
-            qtdDoencasCardiovasculares += 1;
-            qtdSindromeMetabolica += 1;
-            qtdHipertensao += 1;
+            incrementDiabetes();
+            incrementObesidade();
+            incrementDoencasCardiovasculares();
+            incrementSindromeMetabolica();
+            incrementHipertensao();
         }
 
     }
@@ -261,7 +321,7 @@ public class ResultadoDoencas {
         this.mulherMenopausa = mulherMenopausa;
 
         if(mulherMenopausa){
-            qtdHipertensao += 1;
+            incrementHipertensao();
         }
 
     }
@@ -274,7 +334,7 @@ public class ResultadoDoencas {
         this.mulherAnticoncepcionais = mulherAnticoncepcionais;
 
         if(mulherAnticoncepcionais){
-            qtdHipertensao += 1;
+            incrementHipertensao();
         }
 
     }
@@ -287,10 +347,10 @@ public class ResultadoDoencas {
         this.estresse = estresse;
 
         if(estresse) {
-            qtdHipertensao += 1;
-            qtdDiabetes += 1;
-            qtdObesidade += 1;
-            qtdDoencasCardiovasculares += 1;
+            incrementHipertensao();
+            incrementDiabetes();
+            incrementObesidade();
+            incrementDoencasCardiovasculares();
         }
 
     }
@@ -303,7 +363,7 @@ public class ResultadoDoencas {
         this.mulherDiabeteGestacional = mulherDiabeteGestacional;
 
         if(mulherDiabeteGestacional){
-            qtdDiabetes += 1;
+            incrementDiabetes();
         }
 
     }
@@ -316,7 +376,7 @@ public class ResultadoDoencas {
         this.usoCortisona = usoCortisona;
 
         if(usoCortisona){
-            qtdDiabetes += 1;
+            incrementDiabetes();
         }
 
     }
@@ -329,7 +389,7 @@ public class ResultadoDoencas {
         this.usoDiureticos = usoDiureticos;
 
         if(usoDiureticos){
-            qtdDiabetes += 1;
+            incrementDiabetes();
         }
 
     }
@@ -342,7 +402,7 @@ public class ResultadoDoencas {
         this.usoBetabloqueadores = usoBetabloqueadores;
 
         if(usoBetabloqueadores){
-            qtdDiabetes += 1;
+            incrementDiabetes();
         }
 
     }
@@ -356,7 +416,7 @@ public class ResultadoDoencas {
 
 
         if(mulherComFilhos){
-            qtdObesidade += 1;
+            incrementObesidade();
         }
 
     }
@@ -369,7 +429,7 @@ public class ResultadoDoencas {
         this.homemMoraComCompanheira = homemMoraComCompanheira;
 
         if(homemMoraComCompanheira){
-            qtdObesidade += 1;
+            incrementObesidade();
         }
 
     }
@@ -382,7 +442,7 @@ public class ResultadoDoencas {
         this.mulherOvarioPolicistico = mulherOvarioPolicistico;
 
         if(mulherOvarioPolicistico){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
     }
@@ -395,7 +455,7 @@ public class ResultadoDoencas {
         this.dislipidemia = dislipidemia;
 
         if(dislipidemia){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
     }
@@ -408,7 +468,7 @@ public class ResultadoDoencas {
         this.microalbuminuria = microalbuminuria;
 
         if(microalbuminuria){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
     }
@@ -421,7 +481,7 @@ public class ResultadoDoencas {
         this.intoleranciaGlicose = intoleranciaGlicose;
 
         if(intoleranciaGlicose){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
     }
@@ -434,7 +494,7 @@ public class ResultadoDoencas {
         this.intoleranciaInsulina = intoleranciaInsulina;
 
         if(intoleranciaInsulina){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
     }
@@ -447,7 +507,7 @@ public class ResultadoDoencas {
         this.hiperuricemia = hiperuricemia;
 
         if(hiperuricemia){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
     }
@@ -460,7 +520,7 @@ public class ResultadoDoencas {
         this.estadoProTromboticoProInflamatorio = estadoProTromboticoProInflamatorio;
 
         if(estadoProTromboticoProInflamatorio){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
     }
@@ -473,7 +533,7 @@ public class ResultadoDoencas {
         this.cardiovascularFamiliar = cardiovascularFamiliar;
 
         if(cardiovascularFamiliar){
-            qtdDoencasCardiovasculares += 1;
+            incrementDoencasCardiovasculares();
         }
 
     }
@@ -486,7 +546,7 @@ public class ResultadoDoencas {
         this.diabetesFamiliar = diabetesFamiliar;
 
         if(diabetesFamiliar){
-            qtdDiabetes += 1;
+            incrementDiabetes();
         }
 
     }
@@ -499,7 +559,7 @@ public class ResultadoDoencas {
         this.hipertensaoFamiliar = hipertensaoFamiliar;
 
         if(hipertensaoFamiliar){
-            qtdHipertensao += 1;
+            incrementHipertensao();
         }
 
     }
@@ -512,7 +572,7 @@ public class ResultadoDoencas {
         this.obesidadeFamiliar = obesidadeFamiliar;
 
         if(obesidadeFamiliar){
-            qtdObesidade += 1;
+            incrementObesidade();
         }
 
     }
@@ -525,8 +585,28 @@ public class ResultadoDoencas {
         this.sindromeFamiliar = sindromeFamiliar;
 
         if(sindromeFamiliar){
-            qtdSindromeMetabolica += 1;
+            incrementSindromeMetabolica();
         }
 
+    }
+
+    public void incrementDiabetes(){
+        diabetes.setQtdOcorrencias(diabetes.getQtdOcorrencias() + 1);
+    }
+
+    public void incrementHipertensao(){
+        hipertensao.setQtdOcorrencias(hipertensao.getQtdOcorrencias() + 1);
+    }
+
+    public void incrementDoencasCardiovasculares(){
+        doencasCardiovasculares.setQtdOcorrencias(doencasCardiovasculares.getQtdOcorrencias() + 1);
+    }
+
+    public void incrementObesidade(){
+        obesidade.setQtdOcorrencias(obesidade.getQtdOcorrencias() + 1);
+    }
+
+    public void incrementSindromeMetabolica(){
+        sindromeMetabolica.setQtdOcorrencias(sindromeMetabolica.getQtdOcorrencias() + 1);
     }
 }

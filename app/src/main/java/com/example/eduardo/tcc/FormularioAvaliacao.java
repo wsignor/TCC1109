@@ -1,6 +1,7 @@
 package com.example.eduardo.tcc;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.TreeMap;
 public class FormularioAvaliacao extends Activity {
 
     ParseObject InformacoesMutaveisData;
+    protected ProgressDialog proDialog;
 
     int pontuacaoDiabetes = 0;
     int pontuacaoHipertensao = 0;
@@ -65,9 +67,6 @@ public class FormularioAvaliacao extends Activity {
                 EditText peso = (EditText) findViewById(R.id.txtPeso);
                 if(!peso.getText().toString().isEmpty()) {
                     salvarInformacoesImutaveis();
-
-                    Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, Inicial.class);
-                    startActivity(takeUserHomepage);
 
                 }else{
                     Toast.makeText(FormularioAvaliacao.this, R.string.peso_invalido, Toast.LENGTH_LONG).show();
@@ -137,6 +136,19 @@ public class FormularioAvaliacao extends Activity {
         });
     }
 
+    protected void startLoading() {
+        proDialog = new ProgressDialog(this);
+        proDialog.setMessage("loading...");
+        proDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        proDialog.setCancelable(false);
+        proDialog.show();
+    }
+
+    protected void stopLoading() {
+        proDialog.dismiss();
+        proDialog = null;
+    }
+
     private void salvarUsuarioInformacao(String idInformacaoMutavel){
         ParseObject UsuarioInformacao = new ParseObject("UsuarioInformacao");
         UsuarioInformacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
@@ -155,6 +167,7 @@ public class FormularioAvaliacao extends Activity {
             UsuarioInformacao.put("versao", 1);
         }
 
+        startLoading();
         UsuarioInformacao.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -165,7 +178,15 @@ public class FormularioAvaliacao extends Activity {
 
     private void realizarAvaliacao(){
 
-        ResultadoDoencas fatores = new ResultadoDoencas();
+        ResultadoDoencas fatores = ResultadoDoencas.getInstance();
+        fatores.limpaResultado();
+
+        System.out.println("Diabetes: " + fatores.getQtdDiabetes());
+        System.out.println("Hipertensao: " + fatores.getQtdHipertensao());
+        System.out.println("Doenças Cardiovasculares: " + fatores.getQtdDoencasCardiovasculares());
+        System.out.println("Obesidade: " + fatores.getQtdObesidade());
+        System.out.println("Sindrome Metabolica: " + fatores.getQtdSindromeMetabolica());
+
 
         ParseQuery innerQuery = new ParseQuery("_User");
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
@@ -228,8 +249,14 @@ public class FormularioAvaliacao extends Activity {
             fatores.setDiabetes(informacoesImutaveis.getBoolean("diabetico"));
             fatores.setHipertensao(informacoesImutaveis.getBoolean("hipertenso"));
 
+            stopLoading();
+
+            Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
+            startActivity(takeUserHomepage);
+
 
         }catch (ParseException e){
+            System.out.println("e.message: " + e.getMessage());
 
         }
     }
