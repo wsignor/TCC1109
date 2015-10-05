@@ -1,9 +1,14 @@
 package com.example.eduardo.tcc;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -19,6 +24,7 @@ public class ListItemDetail extends Activity {
 
 
     private List<ParseObject> queryClientes;
+    String objectIdClienteSelecionado = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,9 +55,36 @@ public class ListItemDetail extends Activity {
         TextView nome_cliente = (TextView) findViewById(R.id.nome_cliente);
         TextView email_cliente = (TextView) findViewById(R.id.email_cliente);
         TextView sexo_cliente = (TextView) findViewById(R.id.sexo_cliente);
+
+        objectIdClienteSelecionado = listaExibida.get(position).getObjectId();
         nome_cliente.setText(listaExibida.get(position).get("nome").toString());
         email_cliente.setText(listaExibida.get(position).get("email").toString());
         sexo_cliente.setText(listaExibida.get(position).get("sexo").toString());
+
+        Button visualizarDadosCliente = (Button)findViewById(R.id.btnVisualizarDadosCliente);
+        visualizarDadosCliente.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ListItemDetail.this, "Puxar mesma avaliação do usuário.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button btnAddAlimentos = (Button)findViewById(R.id.btnAddAlimentos);
+        btnAddAlimentos.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ListItemDetail.this, "Adicionar alimentos.", Toast.LENGTH_LONG).show();
+
+                // (String action, Uri uri,Context packageContext, Class<?> cls)
+                //Intent novoAlimento = new Intent("", null, ListItemDetail.this, NovoAlimento.class);
+                Intent novoAlimento = new Intent(ListItemDetail.this, NovoAlimento.class);
+
+                novoAlimento.putExtra("objectId" , objectIdClienteSelecionado);
+                startActivity(novoAlimento);
+            }
+        });
 
     }
 }

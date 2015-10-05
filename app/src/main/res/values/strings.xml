@@ -27,6 +27,8 @@
     <string name="FatoresUsuario"><u>Suas Informacoes</u></string>
     <string name="dados_invalidos">Existem campos que não foram preenchidos</string>
     <string name="peso_invalido">Informe o seu peso</string>
+    <string name="hintAlimento">Alimento</string>
+    <string name="hintQuantidade">Quantidade</string>
 
     <string-array name="sexo_array">
         <item>Masculino</item>

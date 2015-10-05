@@ -49,4 +49,16 @@
         android:layout_below="@+id/sexo_cliente"
         android:layout_marginTop="30dp"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicionar alimentos"
+        android:id="@+id/btnAddAlimentos"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/btnVisualizarDadosCliente"
+        android:layout_marginTop="30dp"/>
+
 </RelativeLayout>

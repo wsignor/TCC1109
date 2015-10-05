@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
@@ -61,6 +63,11 @@ public class Inicial extends Activity {
         });
 
         btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
+
+        if(ParseUser.getCurrentUser().get("nutricionista").equals(false)){
+            btnMeusClientes.setVisibility(View.INVISIBLE);
+        }
+
         btnMeusClientes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
