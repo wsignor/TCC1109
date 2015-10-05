@@ -54,6 +54,21 @@
         </activity>
 
         <activity
+            android:name=".ClientesNutricionista"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name=".ListItemDetail"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name=".NovoAlimento"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>

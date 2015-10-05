@@ -39,9 +39,20 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Meus Clientes"
+        android:id="@+id/btnMeusClientes"
+        android:layout_below="@+id/btnNovaAvaliacao"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Sair"
         android:id="@+id/btnSair"
-        android:layout_below="@+id/btnNovaAvaliacao"
+        android:layout_below="@+id/btnMeusClientes"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
