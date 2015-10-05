@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -249,6 +250,8 @@ public class FormularioAvaliacao extends Activity {
             fatores.setDiabetes(informacoesImutaveis.getBoolean("diabetico"));
             fatores.setHipertensao(informacoesImutaveis.getBoolean("hipertenso"));
 
+            salvarAvaliacao(fatores);
+
             stopLoading();
 
             Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
@@ -257,6 +260,98 @@ public class FormularioAvaliacao extends Activity {
 
         }catch (ParseException e){
             System.out.println("e.message: " + e.getMessage());
+
+        }
+    }
+
+    private void salvarAvaliacao(ResultadoDoencas fatores){
+
+        ParseQuery<ParseObject> queryDoenca;
+        ParseQuery<ParseObject> queryUsuario;
+        ParseObject obj;
+        ParseObject AvaliacaoTemporaria = new ParseObject("AvaliacaoTemp");
+        ParseObject DoencaAvaliacaoTemporaria;
+
+        try {
+            AvaliacaoTemporaria.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+            AvaliacaoTemporaria.save();
+
+            if(fatores.getDiabetes().getQtdOcorrencias() > 0){
+
+                DoencaAvaliacaoTemporaria = new ParseObject("DoencaAvaliacaoTemp");
+
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", fatores.getDiabetes().getNome());
+
+                obj = queryDoenca.getFirst();
+
+                DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+
+                DoencaAvaliacaoTemporaria.save();
+            }
+
+            if(fatores.getHipertensao().getQtdOcorrencias() > 0){
+
+                DoencaAvaliacaoTemporaria = new ParseObject("DoencaAvaliacaoTemp");
+
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", fatores.getHipertensao().getNome());
+
+                obj = queryDoenca.getFirst();
+
+                DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+
+                DoencaAvaliacaoTemporaria.save();
+            }
+
+            if(fatores.getDoencasCardiovasculares().getQtdOcorrencias() > 0){
+
+                DoencaAvaliacaoTemporaria = new ParseObject("DoencaAvaliacaoTemp");
+
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", fatores.getDoencasCardiovasculares().getNome());
+
+                obj = queryDoenca.getFirst();
+
+                DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+
+                DoencaAvaliacaoTemporaria.save();
+            }
+
+            if(fatores.getSindromeMetabolica().getQtdOcorrencias() > 0){
+
+                DoencaAvaliacaoTemporaria = new ParseObject("DoencaAvaliacaoTemp");
+
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", fatores.getSindromeMetabolica().getNome());
+
+                obj = queryDoenca.getFirst();
+
+                DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+
+                DoencaAvaliacaoTemporaria.save();
+            }
+
+            if(fatores.getObesidade().getQtdOcorrencias() > 0){
+
+                DoencaAvaliacaoTemporaria = new ParseObject("DoencaAvaliacaoTemp");
+
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", fatores.getObesidade().getNome());
+
+                obj = queryDoenca.getFirst();
+
+                DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+
+                DoencaAvaliacaoTemporaria.save();
+            }
+
+        }catch (ParseException e){
 
         }
     }
