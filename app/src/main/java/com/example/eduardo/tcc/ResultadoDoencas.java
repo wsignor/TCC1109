@@ -10,107 +10,110 @@ import com.parse.ParseUser;
  */
 public class ResultadoDoencas {
 
-    boolean
-            historicoFamiliar,
-            peso,
-            sexo,
-            idade,
-            diabetes,
-            hipertensao,
-            tabagismo,
-            sedentarismo,
-            raca,
-            altoConsumoAlcool,
-            altoConsumoSodio,
-            altoConsumoGorduraAcucares,
-            colesterolAlto,
-            mulherMenopausa,
-            mulherAnticoncepcionais,
-            estresse,
-            mulherDiabeteGestacional,
-            usoCortisonaDiureticosBetabloq,
-            mulherComFilhos,
-            homemMoraComCompanheira,
-            mulherOvarioPolicistico,
-            dislipidemia,
-            microalbuminuria,
-            intoleranciaGlicoseInsulina,
-            hiperuricemia,
-            estadoProTromboticoProInflamatorio,
-            cardiovascularFamiliar,
-            diabetesFamiliar,
-            hipertensaoFamiliar,
-            obesidadeFamiliar,
-            sindromeFamiliar;
+    boolean fumante;
+    boolean sedentarismo;
+    boolean diabetes;
+    boolean hipertensao;
+    boolean altoConsumoAlcool;
+    boolean altoConsumoSodio;
+    boolean altoConsumoGorduraAcucares;
+    boolean mulherMenopausa;
+    boolean mulherAnticoncepcionais;
+    boolean estresse;
+    boolean mulherDiabeteGestacional;
+    boolean usoCortisona;
+    boolean usoDiureticos;
+    boolean usoBetabloqueadores;
+    boolean mulherComFilhos;
+    boolean homemMoraComCompanheira;
+    boolean mulherOvarioPolicistico;
+    boolean dislipidemia;
+    boolean microalbuminuria;
+    boolean intoleranciaGlicose;
+    boolean intoleranciaInsulina;
+    boolean hiperuricemia;
+    boolean estadoProTromboticoProInflamatorio;
+    boolean cardiovascularFamiliar;
+    boolean diabetesFamiliar;
+    boolean hipertensaoFamiliar;
+    boolean obesidadeFamiliar;
+    boolean sindromeFamiliar;
+
+    int peso, idade, qtdDiabetes, qtdHipertensao, qtdObesidade, qtdDoencasCardiovasculares, qtdSindromeMetabolica;
+
+    double altura, imc;
+
+    String sexo, raca, nivelColesterol;;
 
 
-    public String carregarDados(){
+    public void setIMC(double altura, int peso){
+        this.altura = altura;
+        this.peso = peso;
+        this.imc =  peso / (altura * altura);
 
-        // pegar informacoes imutaveis
-        ParseQuery innerQuery = new ParseQuery("_User");
-        innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("InformacoesImutaveis");
-        query.whereMatchesQuery("idUsuario", innerQuery);
-
-        try {
-            diabetes = (boolean) query.getFirst().get("diabetico");
-            hipertensao = (boolean) query.getFirst().get("hipertenso");
-            cardiovascularFamiliar = (boolean) query.getFirst().get("cardiovascularFamiliar");
-            diabetesFamiliar = (boolean) query.getFirst().get("diabetesFamiliar");
-            hipertensaoFamiliar = (boolean) query.getFirst().get("hipertensaoFamiliar");
-            obesidadeFamiliar = (boolean) query.getFirst().get("obesidadeFamiliar");
-            sindromeFamiliar = (boolean) query.getFirst().get("sindromeFamiliar");
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(this.imc >= 30){
+            qtdDiabetes += 1;
+            qtdHipertensao += 1;
+            qtdDoencasCardiovasculares += 1;
+            qtdSindromeMetabolica += 1;
         }
-
-
-        // pegar informacoes mutaveis
-        ParseQuery query1 = new ParseQuery("_User");
-        query1.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-
-        ParseQuery query2 = new ParseQuery("UsuarioInformacao");
-        query2.whereEqualTo("idUsuario", query1);
-
-        ParseQuery query3 = ParseQuery.getQuery("InformacoesMutaveis");
-        query3.whereMatchesQuery("idInformacao", query2);
-
-
-        return null;
-
     }
 
-    public boolean isSexo() {
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public String getSexo() {
         return sexo;
     }
 
-    public void setSexo(boolean sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
+
+        if(sexo.equalsIgnoreCase("Masculino")){
+            qtdDoencasCardiovasculares += 1;
+            qtdHipertensao += 1;
+        } else {
+            qtdDiabetes += 1;
+            qtdObesidade += 1;
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
-    public boolean isHistoricoFamiliar() {
-        return historicoFamiliar;
-    }
-
-    public void setHistoricoFamiliar(boolean historicoFamiliar) {
-        this.historicoFamiliar = historicoFamiliar;
-    }
-
-    public boolean isPeso() {
+    public int getPeso() {
         return peso;
     }
 
-    public void setPeso(boolean peso) {
+    public void setPeso(int peso) {
         this.peso = peso;
     }
 
-    public boolean isIdade() {
+    public int getIdade() {
         return idade;
     }
 
-    public void setIdade(boolean idade) {
+    public void setIdade(int idade) {
         this.idade = idade;
+
+        if(idade >= 50){
+            qtdHipertensao += 1;
+            qtdSindromeMetabolica += 1;
+            qtdObesidade += 1;
+            qtdDiabetes += 1;
+            qtdDoencasCardiovasculares += 1;
+        } else if (idade >= 45){
+            qtdObesidade += 1;
+            qtdDiabetes += 1;
+            qtdDoencasCardiovasculares += 1;
+        } else if (idade >= 40){
+            qtdObesidade += 1;
+        }
+
     }
 
     public boolean isDiabetes() {
@@ -119,6 +122,14 @@ public class ResultadoDoencas {
 
     public void setDiabetes(boolean diabetes) {
         this.diabetes = diabetes;
+
+        if(diabetes){
+            qtdHipertensao += 1;
+            qtdObesidade += 1;
+            qtdDoencasCardiovasculares += 1;
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
     public boolean isHipertensao() {
@@ -127,14 +138,30 @@ public class ResultadoDoencas {
 
     public void setHipertensao(boolean hipertensao) {
         this.hipertensao = hipertensao;
+
+        if(hipertensao){
+            qtdDiabetes += 1;
+            qtdObesidade += 1;
+            qtdDoencasCardiovasculares += 1;
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
-    public boolean isTabagismo() {
-        return tabagismo;
+    public boolean isFumante() {
+        return fumante;
     }
 
-    public void setTabagismo(boolean tabagismo) {
-        this.tabagismo = tabagismo;
+    public void setFumante(boolean fumante) {
+        this.fumante = fumante;
+
+        if(fumante){
+            qtdDiabetes += 1;
+            qtdHipertensao += 1;
+            qtdDoencasCardiovasculares += 1;
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
     public boolean isSedentarismo() {
@@ -143,14 +170,28 @@ public class ResultadoDoencas {
 
     public void setSedentarismo(boolean sedentarismo) {
         this.sedentarismo = sedentarismo;
+
+        if(sedentarismo){
+            qtdDiabetes += 1;
+            qtdHipertensao += 1;
+            qtdObesidade += 1;
+            qtdDoencasCardiovasculares += 1;
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
-    public boolean isRaca() {
+    public String isRaca() {
         return raca;
     }
 
-    public void setRaca(boolean raca) {
+    public void setRaca(String raca) {
         this.raca = raca;
+
+        if(raca == "Negra"){
+            qtdHipertensao += 1;
+        }
+
     }
 
     public boolean isAltoConsumoAlcool() {
@@ -159,6 +200,11 @@ public class ResultadoDoencas {
 
     public void setAltoConsumoAlcool(boolean altoConsumoAlcool) {
         this.altoConsumoAlcool = altoConsumoAlcool;
+
+        if(altoConsumoAlcool){
+            qtdHipertensao += 1;
+        }
+
     }
 
     public boolean isAltoConsumoSodio() {
@@ -167,6 +213,11 @@ public class ResultadoDoencas {
 
     public void setAltoConsumoSodio(boolean altoConsumoSodio) {
         this.altoConsumoSodio = altoConsumoSodio;
+
+        if(altoConsumoSodio) {
+            qtdHipertensao += 1;
+        }
+
     }
 
     public boolean isAltoConsumoGorduraAcucares() {
@@ -175,14 +226,31 @@ public class ResultadoDoencas {
 
     public void setAltoConsumoGorduraAcucares(boolean altoConsumoGorduraAcucares) {
         this.altoConsumoGorduraAcucares = altoConsumoGorduraAcucares;
+
+        if(altoConsumoGorduraAcucares){
+            qtdDiabetes += 1;
+            qtdObesidade += 1;
+            qtdDoencasCardiovasculares += 1;
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
-    public boolean isColesterolAlto() {
-        return colesterolAlto;
+    public String isNivelColesterol() {
+        return nivelColesterol;
     }
 
-    public void setColesterolAlto(boolean colesterolAlto) {
-        this.colesterolAlto = colesterolAlto;
+    public void setNivelColesterol(String colesterolAlto) {
+        this.nivelColesterol = colesterolAlto;
+
+        if(colesterolAlto == "Alto") {
+            qtdDiabetes += 1;
+            qtdObesidade += 1;
+            qtdDoencasCardiovasculares += 1;
+            qtdSindromeMetabolica += 1;
+            qtdHipertensao += 1;
+        }
+
     }
 
     public boolean isMulherMenopausa() {
@@ -191,6 +259,11 @@ public class ResultadoDoencas {
 
     public void setMulherMenopausa(boolean mulherMenopausa) {
         this.mulherMenopausa = mulherMenopausa;
+
+        if(mulherMenopausa){
+            qtdHipertensao += 1;
+        }
+
     }
 
     public boolean isMulherAnticoncepcionais() {
@@ -199,6 +272,11 @@ public class ResultadoDoencas {
 
     public void setMulherAnticoncepcionais(boolean mulherAnticoncepcionais) {
         this.mulherAnticoncepcionais = mulherAnticoncepcionais;
+
+        if(mulherAnticoncepcionais){
+            qtdHipertensao += 1;
+        }
+
     }
 
     public boolean isEstresse() {
@@ -207,6 +285,14 @@ public class ResultadoDoencas {
 
     public void setEstresse(boolean estresse) {
         this.estresse = estresse;
+
+        if(estresse) {
+            qtdHipertensao += 1;
+            qtdDiabetes += 1;
+            qtdObesidade += 1;
+            qtdDoencasCardiovasculares += 1;
+        }
+
     }
 
     public boolean isMulherDiabeteGestacional() {
@@ -215,14 +301,50 @@ public class ResultadoDoencas {
 
     public void setMulherDiabeteGestacional(boolean mulherDiabeteGestacional) {
         this.mulherDiabeteGestacional = mulherDiabeteGestacional;
+
+        if(mulherDiabeteGestacional){
+            qtdDiabetes += 1;
+        }
+
     }
 
-    public boolean isUsoCortisonaDiureticosBetabloq() {
-        return usoCortisonaDiureticosBetabloq;
+    public boolean isUsoCortisona() {
+        return usoCortisona;
     }
 
-    public void setUsoCortisonaDiureticosBetabloq(boolean usoCortisonaDiureticosBetabloq) {
-        this.usoCortisonaDiureticosBetabloq = usoCortisonaDiureticosBetabloq;
+    public void setUsoCortisona(boolean usoCortisona) {
+        this.usoCortisona = usoCortisona;
+
+        if(usoCortisona){
+            qtdDiabetes += 1;
+        }
+
+    }
+
+    public boolean isUsoDiureticos() {
+        return usoDiureticos;
+    }
+
+    public void setUsoDiureticos(boolean usoDiureticos) {
+        this.usoDiureticos = usoDiureticos;
+
+        if(usoDiureticos){
+            qtdDiabetes += 1;
+        }
+
+    }
+
+    public boolean isUsoBetabloqueadores() {
+        return usoBetabloqueadores;
+    }
+
+    public void setUsoBetabloqueadores(boolean usoBetabloqueadores) {
+        this.usoBetabloqueadores = usoBetabloqueadores;
+
+        if(usoBetabloqueadores){
+            qtdDiabetes += 1;
+        }
+
     }
 
     public boolean isMulherComFilhos() {
@@ -231,6 +353,12 @@ public class ResultadoDoencas {
 
     public void setMulherComFilhos(boolean mulherComFilhos) {
         this.mulherComFilhos = mulherComFilhos;
+
+
+        if(mulherComFilhos){
+            qtdObesidade += 1;
+        }
+
     }
 
     public boolean isHomemMoraComCompanheira() {
@@ -239,6 +367,11 @@ public class ResultadoDoencas {
 
     public void setHomemMoraComCompanheira(boolean homemMoraComCompanheira) {
         this.homemMoraComCompanheira = homemMoraComCompanheira;
+
+        if(homemMoraComCompanheira){
+            qtdObesidade += 1;
+        }
+
     }
 
     public boolean isMulherOvarioPolicistico() {
@@ -247,6 +380,11 @@ public class ResultadoDoencas {
 
     public void setMulherOvarioPolicistico(boolean mulherOvarioPolicistico) {
         this.mulherOvarioPolicistico = mulherOvarioPolicistico;
+
+        if(mulherOvarioPolicistico){
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
     public boolean isDislipidemia() {
@@ -255,6 +393,11 @@ public class ResultadoDoencas {
 
     public void setDislipidemia(boolean dislipidemia) {
         this.dislipidemia = dislipidemia;
+
+        if(dislipidemia){
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
     public boolean isMicroalbuminuria() {
@@ -263,14 +406,37 @@ public class ResultadoDoencas {
 
     public void setMicroalbuminuria(boolean microalbuminuria) {
         this.microalbuminuria = microalbuminuria;
+
+        if(microalbuminuria){
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
-    public boolean isIntoleranciaGlicoseInsulina() {
-        return intoleranciaGlicoseInsulina;
+    public boolean isIntoleranciaGlicose() {
+        return intoleranciaGlicose;
     }
 
-    public void setIntoleranciaGlicoseInsulina(boolean intoleranciaGlicoseInsulina) {
-        this.intoleranciaGlicoseInsulina = intoleranciaGlicoseInsulina;
+    public void setIntoleranciaGlicose(boolean intoleranciaGlicose) {
+        this.intoleranciaGlicose = intoleranciaGlicose;
+
+        if(intoleranciaGlicose){
+            qtdSindromeMetabolica += 1;
+        }
+
+    }
+
+    public boolean isIntoleranciaInsulina() {
+        return intoleranciaInsulina;
+    }
+
+    public void setIntoleranciaInsulina(boolean intoleranciaInsulina) {
+        this.intoleranciaInsulina = intoleranciaInsulina;
+
+        if(intoleranciaInsulina){
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
     public boolean isHiperuricemia() {
@@ -279,6 +445,11 @@ public class ResultadoDoencas {
 
     public void setHiperuricemia(boolean hiperuricemia) {
         this.hiperuricemia = hiperuricemia;
+
+        if(hiperuricemia){
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
     public boolean isEstadoProTromboticoProInflamatorio() {
@@ -287,6 +458,11 @@ public class ResultadoDoencas {
 
     public void setEstadoProTromboticoProInflamatorio(boolean estadoProTromboticoProInflamatorio) {
         this.estadoProTromboticoProInflamatorio = estadoProTromboticoProInflamatorio;
+
+        if(estadoProTromboticoProInflamatorio){
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 
     public boolean isCardiovascularFamiliar() {
@@ -295,6 +471,11 @@ public class ResultadoDoencas {
 
     public void setCardiovascularFamiliar(boolean cardiovascularFamiliar) {
         this.cardiovascularFamiliar = cardiovascularFamiliar;
+
+        if(cardiovascularFamiliar){
+            qtdDoencasCardiovasculares += 1;
+        }
+
     }
 
     public boolean isDiabetesFamiliar() {
@@ -303,6 +484,11 @@ public class ResultadoDoencas {
 
     public void setDiabetesFamiliar(boolean diabetesFamiliar) {
         this.diabetesFamiliar = diabetesFamiliar;
+
+        if(diabetesFamiliar){
+            qtdDiabetes += 1;
+        }
+
     }
 
     public boolean isHipertensaoFamiliar() {
@@ -311,6 +497,11 @@ public class ResultadoDoencas {
 
     public void setHipertensaoFamiliar(boolean hipertensaoFamiliar) {
         this.hipertensaoFamiliar = hipertensaoFamiliar;
+
+        if(hipertensaoFamiliar){
+            qtdHipertensao += 1;
+        }
+
     }
 
     public boolean isObesidadeFamiliar() {
@@ -319,6 +510,11 @@ public class ResultadoDoencas {
 
     public void setObesidadeFamiliar(boolean obesidadeFamiliar) {
         this.obesidadeFamiliar = obesidadeFamiliar;
+
+        if(obesidadeFamiliar){
+            qtdObesidade += 1;
+        }
+
     }
 
     public boolean isSindromeFamiliar() {
@@ -327,5 +523,10 @@ public class ResultadoDoencas {
 
     public void setSindromeFamiliar(boolean sindromeFamiliar) {
         this.sindromeFamiliar = sindromeFamiliar;
+
+        if(sindromeFamiliar){
+            qtdSindromeMetabolica += 1;
+        }
+
     }
 }

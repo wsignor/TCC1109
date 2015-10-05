@@ -82,7 +82,7 @@ public class FormularioAvaliacao extends Activity {
         Switch isBebidaAlcoolica = (Switch) findViewById(R.id.swtBebidaAlcoolica);
         Switch isSodio = (Switch) findViewById(R.id.swtConsumoSodio);
         Switch isAcucar = (Switch) findViewById(R.id.swtConsumoAcucar);
-        Switch isAtividadeFisica = (Switch) findViewById(R.id.swtAtividadeFisica);
+        Switch isSedentarismo = (Switch) findViewById(R.id.swtSedentarismo);
         Switch isAnticoncepcional = (Switch) findViewById(R.id.swtAnticoncepcional);
         Switch isMenopausa = (Switch) findViewById(R.id.swtMenopausa);
         Switch isEstressado = (Switch) findViewById(R.id.swtEstressado);
@@ -106,7 +106,7 @@ public class FormularioAvaliacao extends Activity {
         InformacoesMutaveisData = new ParseObject("InformacoesMutaveis");
         InformacoesMutaveisData.put("fumante", isFumante.isChecked());
         InformacoesMutaveisData.put("altoConsumoAlcool", isBebidaAlcoolica.isChecked());
-        InformacoesMutaveisData.put("praticaAtividadeFisica", isAtividadeFisica.isChecked());
+        InformacoesMutaveisData.put("praticaAtividadeFisica", isSedentarismo.isChecked());
         InformacoesMutaveisData.put("tomaAnticoncepcional", isAnticoncepcional.isChecked());
         InformacoesMutaveisData.put("peso", Double.parseDouble(peso.getText().toString()));
         InformacoesMutaveisData.put("nivelColesterol", nivelColesterol.getSelectedItem());
@@ -128,9 +128,6 @@ public class FormularioAvaliacao extends Activity {
         InformacoesMutaveisData.put("intoleranciaInsulina", isIntoleranciaInsulina.isChecked());
         InformacoesMutaveisData.put("hiperuricemia", isHiperuricemia.isChecked());
         InformacoesMutaveisData.put("proTrombotico", isProTrombotico.isChecked());
-
-
-
 
         InformacoesMutaveisData.saveInBackground(new SaveCallback() {
             @Override
@@ -168,28 +165,7 @@ public class FormularioAvaliacao extends Activity {
 
     private void realizarAvaliacao(){
 
-        Boolean
-                hipertensaoFamiliar,
-                diabetesFamiliar,
-                cardiovascularFamiliar,
-                obesidadeFamiliar,
-                sindromeFamiliar,
-                diabetico,
-                hipertenso,
-                fumante,
-                praticaAtividadeFisica,
-                consumoAlcool,
-                consumoSodio,
-                consumoAcucar;
-        Integer
-                peso,
-                idade;
-        Double
-                altura,
-                calculoIMC;
-        String
-                sexo,
-                raca;
+        ResultadoDoencas fatores = new ResultadoDoencas();
 
         ParseQuery innerQuery = new ParseQuery("_User");
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
@@ -206,83 +182,51 @@ public class FormularioAvaliacao extends Activity {
             //Informacoes Mutaveis
             ParseObject informacoesMutaveis = queryUsuarioInformacao.getFirst();
             informacoesMutaveis = informacoesMutaveis.getParseObject("idInformacao").fetch();
-            peso = informacoesMutaveis.getInt("peso");
-            fumante = informacoesMutaveis.getBoolean("fumante");
-            praticaAtividadeFisica = informacoesMutaveis.getBoolean("praticaAtividadeFisica");
-            consumoAlcool = informacoesMutaveis.getBoolean("ingereBebidaAlcoolica");
-            consumoSodio = informacoesMutaveis.getBoolean("altoConsumoAlcool");
-            consumoAcucar = informacoesMutaveis.getBoolean("altoConsumoAcucar");
+
+            fatores.setIMC(ParseUser.getCurrentUser().getDouble("altura"), informacoesMutaveis.getInt("peso"));
+            fatores.setFumante(informacoesMutaveis.getBoolean("fumante"));
+            fatores.setSedentarismo(informacoesMutaveis.getBoolean("sedentarismo"));
+            fatores.setAltoConsumoAlcool(informacoesMutaveis.getBoolean("altoConsumoAlcool"));
+            fatores.setAltoConsumoSodio(informacoesMutaveis.getBoolean("altoConsumoSodio"));
+            fatores.setAltoConsumoGorduraAcucares(informacoesMutaveis.getBoolean("altoConsumoAcucar"));
+            fatores.setNivelColesterol(informacoesMutaveis.getString("nivelColesterol"));
+            fatores.setMulherMenopausa(informacoesMutaveis.getBoolean("menopausa"));
+            fatores.setMulherAnticoncepcionais(informacoesMutaveis.getBoolean("tomaAnticoncepcional"));
+            fatores.setEstresse(informacoesMutaveis.getBoolean("estressado"));
+            fatores.setMulherDiabeteGestacional(informacoesMutaveis.getBoolean("diabetesGestacional"));
+            fatores.setUsoCortisona(informacoesMutaveis.getBoolean("cortisona"));
+            fatores.setUsoDiureticos(informacoesMutaveis.getBoolean("diuretico"));
+            fatores.setUsoBetabloqueadores(informacoesMutaveis.getBoolean("betaBloqueador"));
+            fatores.setMulherComFilhos(informacoesMutaveis.getBoolean("teveFilhos"));
+            fatores.setHomemMoraComCompanheira(informacoesMutaveis.getBoolean("companheira"));
+            fatores.setMulherOvarioPolicistico(informacoesMutaveis.getBoolean("ovarioPolicistico"));
+            fatores.setDislipidemia(informacoesMutaveis.getBoolean("dislipidemia"));
+            fatores.setMicroalbuminuria(informacoesMutaveis.getBoolean("microalbuminuria"));
+            fatores.setIntoleranciaGlicose(informacoesMutaveis.getBoolean("intoleranciaGlicose"));
+            fatores.setIntoleranciaInsulina(informacoesMutaveis.getBoolean("intoleranciaInsulina"));
+            fatores.setHiperuricemia(informacoesMutaveis.getBoolean("hiperuricemia"));
+            fatores.setEstadoProTromboticoProInflamatorio(informacoesMutaveis.getBoolean("proTrombotico"));
 
 
             //Informacoes do Usuário
-            altura = ParseUser.getCurrentUser().getDouble("altura");
-            sexo = ParseUser.getCurrentUser().getString("sexo");
+            fatores.setSexo(ParseUser.getCurrentUser().getString("sexo"));
 
             String anoNascimento = ParseUser.getCurrentUser().get("dtNascimento").toString();
             String[] parts = anoNascimento.split("/");
             anoNascimento = parts[2];
-            System.out.println("anoNascimento: " + anoNascimento);
-            idade = Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(anoNascimento);
-            System.out.println("idade: " + idade.toString());
-
-            raca = ParseUser.getCurrentUser().getString("raca");
+            fatores.setIdade(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(anoNascimento));
+            fatores.setRaca(ParseUser.getCurrentUser().getString("raca"));
 
 
             //Informacoes Imutaveis
             ParseObject informacoesImutaveis = queryImutaveis.getFirst();
-            hipertensaoFamiliar = informacoesImutaveis.getBoolean("hipertensaoFamiliar");
-            diabetesFamiliar = informacoesImutaveis.getBoolean("diabetesFamiliar");
-            cardiovascularFamiliar = informacoesImutaveis.getBoolean("cardiovascularFamiliar");
-            obesidadeFamiliar = informacoesImutaveis.getBoolean("obesidadeFamiliar");
-            sindromeFamiliar = informacoesImutaveis.getBoolean("sindromeFamiliar");
-            //sindromeFamiliar = informacoesImutaveis.getBoolean("sindromeFamiliar");
-            diabetico = informacoesImutaveis.getBoolean("diabetico");
-            hipertenso = informacoesImutaveis.getBoolean("hipertenso");
-
-            //Outras Informacoes
-            calculoIMC = peso / (altura * altura);
-
-            System.out.println("realizarAvaliacao ###### " +
-                    "\npeso: " + peso +
-                    "\nfumante: " + fumante +
-                    "\npraticaAtividadeFisica: " + praticaAtividadeFisica +
-                    "\nconsumoAlcool: " + consumoAlcool +
-                    "\nconsumoSodio: " + consumoSodio +
-                    "\nconsumoAcucar: " + consumoAcucar +
-                    "\naltura: " + altura +
-                    "\nsexo: " + sexo +
-                    "\nidade: " + idade +
-                    "\nraca: " + raca +
-                    "\nhipertensaoFamiliar: " + hipertensaoFamiliar +
-                    "\ndiabetesFamiliar: " + diabetesFamiliar +
-                    "\ncardiovascularFamiliar: " + cardiovascularFamiliar +
-                    "\nobesidadeFamiliar: " + obesidadeFamiliar +
-                    "\nsindromeFamiliar: " + sindromeFamiliar +
-                    "\ndiabetico: " + diabetico +
-                    "\nhipertenso: " + hipertenso +
-                    "\ncalculoIMC: " + calculoIMC);
-
-            distribuirPontuacao(hipertensaoFamiliar,
-                    diabetesFamiliar,
-                    cardiovascularFamiliar,
-                    obesidadeFamiliar,
-                    sindromeFamiliar,
-                    diabetico,
-                    hipertenso,
-                    fumante,
-                    praticaAtividadeFisica,
-                    consumoAlcool,
-                    consumoSodio,
-                    consumoAcucar,
-                    peso,
-                    idade,
-                    altura,
-                    calculoIMC,
-                    sexo,
-                    raca);
-
-            // colocar doenças em ordem
-
+            fatores.setHipertensaoFamiliar(informacoesImutaveis.getBoolean("hipertensaoFamiliar"));
+            fatores.setDiabetesFamiliar(informacoesImutaveis.getBoolean("diabetesFamiliar"));
+            fatores.setCardiovascularFamiliar(informacoesImutaveis.getBoolean("cardiovascularFamiliar"));
+            fatores.setObesidadeFamiliar(informacoesImutaveis.getBoolean("obesidadeFamiliar"));
+            fatores.setSindromeFamiliar(informacoesImutaveis.getBoolean("sindromeFamiliar"));
+            fatores.setDiabetes(informacoesImutaveis.getBoolean("diabetico"));
+            fatores.setHipertensao(informacoesImutaveis.getBoolean("hipertenso"));
 
 
         }catch (ParseException e){
@@ -290,236 +234,4 @@ public class FormularioAvaliacao extends Activity {
         }
     }
 
-    private void distribuirPontuacao(Boolean hipertensaoFamiliar, Boolean diabetesFamiliar, Boolean cardiovascularFamiliar, Boolean obesidadeFamiliar, Boolean sindromeFamiliar, Boolean diabetico, Boolean hipertenso, Boolean fumante, Boolean praticaAtividadeFisica, Boolean consumoAlcool, Boolean consumoSodio, Boolean consumoAcucar, Integer peso, Integer idade, Double altura, Double calculoIMC, String sexo, String raca) {
-
-        int diabetes = 0;
-        int hipertensao = 0;
-        int obesidade = 0;
-        int doencasCardiovasculares = 0;
-        int sindromeMetabolica = 0;
-
-        /* considerando IMC
-        if(peso != null){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        */
-
-        if(fumante){
-            diabetes += 1;
-            hipertensao += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(praticaAtividadeFisica){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(consumoAlcool){
-            hipertensao += 1;
-        }
-        if(consumoSodio){
-            hipertensao += 1;
-        }
-        if(consumoAcucar){
-            diabetes += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-
-        /*
-        if(altura != null){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        */
-
-        if(sexo.equalsIgnoreCase("Masculino")){
-            doencasCardiovasculares += 1;
-            hipertensao += 1;
-        } else {
-            diabetes += 1;
-            obesidade += 1;
-            sindromeMetabolica += 1;
-        }
-
-        if(idade >= 50){
-            hipertensao += 1;
-            sindromeMetabolica += 1;
-            obesidade += 1;
-            diabetes += 1;
-            doencasCardiovasculares += 1;
-        } else if (idade >= 45){
-            obesidade += 1;
-            diabetes += 1;
-            doencasCardiovasculares += 1;
-        } else if (idade >= 40){
-            obesidade += 1;
-        }
-
-        if(raca.equalsIgnoreCase("negro")){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(hipertensaoFamiliar){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(diabetesFamiliar){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(cardiovascularFamiliar){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(obesidadeFamiliar){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(sindromeFamiliar){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-
-        // diabetico pontua?
-        if(diabetico){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-
-        // hipertenso pontua?
-        if(hipertenso){
-            diabetes += 1;
-            hipertensao += 1;
-            obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-        if(calculoIMC >= 30){
-            diabetes += 1;
-            hipertensao += 1;
-            //obesidade += 1;
-            doencasCardiovasculares += 1;
-            sindromeMetabolica += 1;
-        }
-
-        /* ## ADD
-        Colesterol
-        Menopausa (Mulhes)
-        Anticoncepcionais
-        Estresse
-        Diabete Gestacional
-        Uso de cortisona, diuréticos tiazídicos e beta-bloqueadores
-        Mulher + já teve filhos
-        Homem mora com companheira
-        Ovário Policístico (Mulheres)
-        Dislipidemia
-        Microalbuminúria
-        Intolerância a glicose e insulina
-        Hiperuricemia
-        Estados pró-trombóticos e pró-inflamatórios,
-         */
-
-        System.out.println("distribuirPontuacao\n" +
-                " - Diabetes: " + diabetes +
-                " - Hipertensao: " + hipertensao +
-                " - Obesidade: " + obesidade +
-                " - Doencas Cardiovasculares: " + doencasCardiovasculares +
-                " - Sindrome Metabolica: " + sindromeMetabolica);
-
-        setPontuacaoDiabetes(diabetes);
-        setPontuacaoHipertensao(hipertensao);
-        setPontuacaoObesidade(obesidade);
-        setPontuacaoCardiovasculares(doencasCardiovasculares);
-        setPontuacaoSindromeMetabolica(sindromeMetabolica);
-
-        // montando ranking
-        Map<Integer, String> map = new HashMap<Integer, String>();
-        map.put(getPontuacaoDiabetes()+5, "Diabetes");
-        map.put(getPontuacaoHipertensao()+6, "Hipertensao");
-        map.put(getPontuacaoObesidade()+2, "Obesidade");
-        map.put(getPontuacaoCardiovasculares()+1, "Cardiovasculares");
-        map.put(getPontuacaoSindromeMetabolica()+33, "SindromeMetabolica");
-
-        ranking = new TreeMap<Integer, String>(map);
-        for (Integer intt : ranking.keySet()) {
-            System.out.println("map sort: "  + intt);
-        }
-
-        System.out.println("ranking.toString - " + ranking.toString());
-
-
-    }
-
-    public int getPontuacaoObesidade() {
-        return pontuacaoObesidade;
-    }
-
-    public void setPontuacaoObesidade(int pontuacaoObesidade) {
-        this.pontuacaoObesidade = pontuacaoObesidade;
-    }
-
-    public int getPontuacaoDiabetes() {
-        return pontuacaoDiabetes;
-    }
-
-    public void setPontuacaoDiabetes(int pontuacaoDiabetes) {
-        this.pontuacaoDiabetes = pontuacaoDiabetes;
-    }
-
-    public int getPontuacaoHipertensao() {
-        return pontuacaoHipertensao;
-    }
-
-    public void setPontuacaoHipertensao(int pontuacaoHipertensao) {
-        this.pontuacaoHipertensao = pontuacaoHipertensao;
-    }
-
-    public int getPontuacaoSindromeMetabolica() {
-        return pontuacaoSindromeMetabolica;
-    }
-
-    public void setPontuacaoSindromeMetabolica(int pontuacaoSindromeMetabolica) {
-        this.pontuacaoSindromeMetabolica = pontuacaoSindromeMetabolica;
-    }
-
-    public int getPontuacaoCardiovasculares() {
-        return pontuacaoCardiovasculares;
-    }
-
-    public void setPontuacaoCardiovasculares(int pontuacaoCardiovasculares) {
-        this.pontuacaoCardiovasculares = pontuacaoCardiovasculares;
-    }
 }
