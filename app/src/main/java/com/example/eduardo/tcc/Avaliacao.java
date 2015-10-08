@@ -5,12 +5,14 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 /**
  * Created by Wagner on 20/09/2015.
  */
-public final class ResultadoDoencas {
+public final class Avaliacao {
 
-    private static final ResultadoDoencas INSTANCE = new ResultadoDoencas();
+    private static final Avaliacao INSTANCE = new Avaliacao();
 
     boolean fumante;
     boolean sedentarismo;
@@ -102,7 +104,7 @@ public final class ResultadoDoencas {
         sindromeMetabolica.setQtdOcorrencias(0);
     }
 
-    public static ResultadoDoencas getInstance(){
+    public static Avaliacao getInstance(){
         return INSTANCE;
     }
 
@@ -608,5 +610,117 @@ public final class ResultadoDoencas {
 
     public void incrementSindromeMetabolica(){
         sindromeMetabolica.setQtdOcorrencias(sindromeMetabolica.getQtdOcorrencias() + 1);
+    }
+
+    public List<ParseObject> buscarAvaliacao(){
+
+        ParseQuery<com.parse.ParseObject> queryDoenca;
+        ParseQuery<com.parse.ParseObject> queryDoencasAvaliacao;
+        ParseObject doenca;
+        ParseObject doencaAvaliacaoTemp;
+
+        ParseQuery innerQuery = new ParseQuery("_User");
+        innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+
+        ParseQuery<com.parse.ParseObject> queryAvaliacaoTemp = ParseQuery.getQuery("AvaliacaoTemp");
+        queryAvaliacaoTemp.whereMatchesQuery("idUsuario", innerQuery);
+
+
+        if(sindromeMetabolica != null) {
+            try {
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", "Sindrome Metabólica");
+                doenca = queryDoenca.getFirst();
+
+                queryDoencasAvaliacao = ParseQuery.getQuery("DoencaAvaliacaoTemp");
+                queryDoencasAvaliacao.whereMatchesQuery("idAvaliacaoTemp", queryAvaliacaoTemp);
+                queryDoencasAvaliacao.whereMatchesQuery("idDoenca", queryDoenca);
+                doencaAvaliacaoTemp = queryDoencasAvaliacao.getFirst();
+
+                sindromeMetabolica.setNome(doenca.getString("nome"));
+                sindromeMetabolica.setQtdOcorrencias(doencaAvaliacaoTemp.getInt("qtdFatores"));
+            }catch(ParseException e) {
+            }
+        }
+
+
+        if(obesidade != null) {
+            try{
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", "Obesidade");
+                doenca = queryDoenca.getFirst();
+
+                queryDoencasAvaliacao = ParseQuery.getQuery("DoencaAvaliacaoTemp");
+                queryDoencasAvaliacao.whereMatchesQuery("idAvaliacaoTemp", queryAvaliacaoTemp);
+                queryDoencasAvaliacao.whereMatchesQuery("idDoenca", queryDoenca);
+                doencaAvaliacaoTemp = queryDoencasAvaliacao.getFirst();
+
+                obesidade.setNome(doenca.getString("nome"));
+                obesidade.setQtdOcorrencias(doencaAvaliacaoTemp.getInt("qtdFatores"));
+            }catch(ParseException e) {
+            }
+        }
+
+        if(doencasCardiovasculares != null) {
+            try{
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", "Doenças Cardiovasculares");
+                doenca = queryDoenca.getFirst();
+
+                queryDoencasAvaliacao = ParseQuery.getQuery("DoencaAvaliacaoTemp");
+                queryDoencasAvaliacao.whereMatchesQuery("idAvaliacaoTemp", queryAvaliacaoTemp);
+                queryDoencasAvaliacao.whereMatchesQuery("idDoenca", queryDoenca);
+                doencaAvaliacaoTemp = queryDoencasAvaliacao.getFirst();
+
+                doencasCardiovasculares.setNome(doenca.getString("nome"));
+                doencasCardiovasculares.setQtdOcorrencias(doencaAvaliacaoTemp.getInt("qtdFatores"));
+
+            }catch(ParseException e) {
+            }
+        }
+
+        if(hipertensao != null) {
+            try{
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", "Hipertensão Arterial");
+                doenca = queryDoenca.getFirst();
+
+                queryDoencasAvaliacao = ParseQuery.getQuery("DoencaAvaliacaoTemp");
+                queryDoencasAvaliacao.whereMatchesQuery("idAvaliacaoTemp", queryAvaliacaoTemp);
+                queryDoencasAvaliacao.whereMatchesQuery("idDoenca", queryDoenca);
+                doencaAvaliacaoTemp = queryDoencasAvaliacao.getFirst();
+
+                hipertensao.setNome(doenca.getString("nome"));
+                hipertensao.setQtdOcorrencias(doencaAvaliacaoTemp.getInt("qtdFatores"));
+            }catch(ParseException e) {
+            }
+        }
+
+        if(diabetes != null) {
+            try{
+                queryDoenca = ParseQuery.getQuery("Doenca");
+                queryDoenca.whereEqualTo("nome", "Diabetes Mellitus");
+                doenca = queryDoenca.getFirst();
+
+                queryDoencasAvaliacao = ParseQuery.getQuery("DoencaAvaliacaoTemp");
+                queryDoencasAvaliacao.whereMatchesQuery("idAvaliacaoTemp", queryAvaliacaoTemp);
+                queryDoencasAvaliacao.whereMatchesQuery("idDoenca", queryDoenca);
+                doencaAvaliacaoTemp = queryDoencasAvaliacao.getFirst();
+
+                diabetes.setNome(doenca.getString("nome"));
+                diabetes.setQtdOcorrencias(doencaAvaliacaoTemp.getInt("qtdFatores"));
+            }catch(ParseException e) {
+            }
+        }
+
+        try{
+            return queryAvaliacaoTemp.find();
+        }catch(ParseException e){
+            return null;
+        }
+    }
+
+    public void removeAvaliacaoTemp() throws ParseException{
+        ParseObject.createWithoutData("AvaliacaoTemp", CurrentUser.getAvaliacaoTemp().getObjectId()).delete();
     }
 }

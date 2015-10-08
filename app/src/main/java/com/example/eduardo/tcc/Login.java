@@ -47,6 +47,7 @@ public class Login extends Activity {
                             LoadingUtils.startLoading(Login.this);
                             Toast.makeText(Login.this,
                                     R.string.login_toast, Toast.LENGTH_LONG).show();
+                            CurrentUser.startInstance();
                             Intent takeUserHomepage = new Intent(Login.this, Inicial.class);
                             startActivity(takeUserHomepage);
                             LoadingUtils.stopLoading();

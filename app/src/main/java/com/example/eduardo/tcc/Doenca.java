@@ -24,5 +24,5 @@ public class Doenca {
     }
 
     public String nome;
-    public Integer qtdOcorrencias;
+    public Integer qtdOcorrencias = 0;
 }

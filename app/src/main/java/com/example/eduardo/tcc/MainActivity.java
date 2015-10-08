@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
 
         if (ParseUser.getCurrentUser().getObjectId() != null){
             System.out.println("MainActivity - getcurruser: " + ParseUser.getCurrentUser().getObjectId());
+            CurrentUser.startInstance();
             Intent createNewAccount = new Intent(MainActivity.this, Inicial.class);
             startActivity(createNewAccount);
         }else{

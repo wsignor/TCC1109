@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -20,9 +19,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by Eduardo on 16/09/2015.
@@ -31,14 +29,6 @@ public class FormularioAvaliacao extends Activity {
 
     ParseObject InformacoesMutaveisData;
     protected ProgressDialog proDialog;
-
-    int pontuacaoDiabetes = 0;
-    int pontuacaoHipertensao = 0;
-    int pontuacaoObesidade = 0;
-    int pontuacaoCardiovasculares = 0;
-    int pontuacaoSindromeMetabolica = 0;
-
-    Map<Integer, String> ranking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +54,15 @@ public class FormularioAvaliacao extends Activity {
             @Override
             public void onClick(View v) {
 
+                LoadingUtils.startLoading(FormularioAvaliacao.this);
 
                 EditText peso = (EditText) findViewById(R.id.txtPeso);
-                if(!peso.getText().toString().isEmpty()) {
-                    LoadingUtils.startLoading(FormularioAvaliacao.this);
+                if (!peso.getText().toString().isEmpty()) {
                     salvarInformacoesImutaveis();
 
-                }else{
+                } else {
                     Toast.makeText(FormularioAvaliacao.this, R.string.peso_invalido, Toast.LENGTH_LONG).show();
+                    LoadingUtils.stopLoading();
                 }
             }
         });
@@ -152,8 +143,9 @@ public class FormularioAvaliacao extends Activity {
         try {
             ParseObject obj = query.getFirst();
             UsuarioInformacao.put("versao", Integer.parseInt(obj.get("versao").toString()) + 1);
-        } catch (ParseException e){
+        } catch (ParseException e) {
             UsuarioInformacao.put("versao", 1);
+            LoadingUtils.stopLoading();
         }
 
         UsuarioInformacao.saveInBackground(new SaveCallback() {
@@ -166,7 +158,7 @@ public class FormularioAvaliacao extends Activity {
 
     private void realizarAvaliacao(){
 
-        ResultadoDoencas fatores = ResultadoDoencas.getInstance();
+        Avaliacao fatores = Avaliacao.getInstance();
         fatores.limpaResultado();
 
         System.out.println("Diabetes: " + fatores.getQtdDiabetes());
@@ -237,25 +229,25 @@ public class FormularioAvaliacao extends Activity {
             fatores.setDiabetes(informacoesImutaveis.getBoolean("diabetico"));
             fatores.setHipertensao(informacoesImutaveis.getBoolean("hipertenso"));
 
+            try{
+                fatores.removeAvaliacaoTemp();
+            }catch (ParseException e){
+                Toast.makeText(FormularioAvaliacao.this,
+                        "Não foi possível excluir a avaliação temporária existente", Toast.LENGTH_LONG).show();
+            }
+
             salvarAvaliacao(fatores);
-
-            LoadingUtils.stopLoading();
-
-            Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
-            startActivity(takeUserHomepage);
-
 
         }catch (ParseException e){
             System.out.println("e.message: " + e.getMessage());
             LoadingUtils.stopLoading();
-
+            
         }
     }
 
-    private void salvarAvaliacao(ResultadoDoencas fatores){
+    private void salvarAvaliacao(Avaliacao fatores){
 
         ParseQuery<ParseObject> queryDoenca;
-        ParseQuery<ParseObject> queryUsuario;
         ParseObject obj;
         ParseObject AvaliacaoTemporaria = new ParseObject("AvaliacaoTemp");
         ParseObject DoencaAvaliacaoTemporaria;
@@ -275,6 +267,7 @@ public class FormularioAvaliacao extends Activity {
 
                 DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
                 DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("qtdFatores", fatores.getDiabetes().getQtdOcorrencias());
 
                 DoencaAvaliacaoTemporaria.save();
             }
@@ -290,6 +283,7 @@ public class FormularioAvaliacao extends Activity {
 
                 DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
                 DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("qtdFatores", fatores.getHipertensao().getQtdOcorrencias());
 
                 DoencaAvaliacaoTemporaria.save();
             }
@@ -305,6 +299,7 @@ public class FormularioAvaliacao extends Activity {
 
                 DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
                 DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("qtdFatores", fatores.getDoencasCardiovasculares().getQtdOcorrencias());
 
                 DoencaAvaliacaoTemporaria.save();
             }
@@ -320,6 +315,7 @@ public class FormularioAvaliacao extends Activity {
 
                 DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
                 DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("qtdFatores", fatores.getSindromeMetabolica().getQtdOcorrencias());
 
                 DoencaAvaliacaoTemporaria.save();
             }
@@ -335,13 +331,29 @@ public class FormularioAvaliacao extends Activity {
 
                 DoencaAvaliacaoTemporaria.put("idAvaliacaoTemp", ParseObject.createWithoutData("AvaliacaoTemp", AvaliacaoTemporaria.getObjectId()));
                 DoencaAvaliacaoTemporaria.put("idDoenca", ParseObject.createWithoutData("Doenca", obj.getObjectId()));
+                DoencaAvaliacaoTemporaria.put("qtdFatores", fatores.getObesidade().getQtdOcorrencias());
 
-                DoencaAvaliacaoTemporaria.save();
+                System.out.println("Diabetes: " + fatores.getQtdDiabetes());
+                System.out.println("Hipertensao: " + fatores.getQtdHipertensao());
+                System.out.println("Doenças Cardiovasculares: " + fatores.getQtdDoencasCardiovasculares());
+                System.out.println("Obesidade: " + fatores.getQtdObesidade());
+                System.out.println("Sindrome Metabolica: " + fatores.getQtdSindromeMetabolica());
+
+                DoencaAvaliacaoTemporaria.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        CurrentUser.carregaAvaliacaoTemp();
+                        LoadingUtils.stopLoading();
+
+                        Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
+                        startActivity(takeUserHomepage);
+                    }
+                });
             }
 
-        }catch (ParseException e){
 
+        }catch (ParseException e){
+            LoadingUtils.stopLoading();
         }
     }
-
 }
