@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Inicio;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,15 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
+import com.example.eduardo.tcc.CadastroUsuario.DadosUsuario;
+import com.example.eduardo.tcc.Nutricionista.ClientesNutricionista;
+import com.example.eduardo.tcc.Entidades.CurrentUser;
+import com.example.eduardo.tcc.Avaliacao.FormularioAvaliacao;
+import com.example.eduardo.tcc.R;
+import com.example.eduardo.tcc.Avaliacao.ResultadoAvaliacao;
 import com.parse.ParseUser;
-
-import java.util.List;
 
 
 public class Inicial extends Activity {

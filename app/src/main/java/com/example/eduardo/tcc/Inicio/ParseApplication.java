@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Inicio;
 
 import android.app.Application;
 import android.content.Context;

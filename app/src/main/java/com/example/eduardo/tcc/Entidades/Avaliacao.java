@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Entidades;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;

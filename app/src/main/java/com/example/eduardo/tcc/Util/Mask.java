@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Util;
 
 /**
  * Created by Wagner on 19/09/2015.

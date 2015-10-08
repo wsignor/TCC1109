@@ -1,7 +1,5 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Entidades;
 
-import com.example.eduardo.tcc.Entidades.Usuario;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Nutricionista;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.eduardo.tcc.R;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseUser;

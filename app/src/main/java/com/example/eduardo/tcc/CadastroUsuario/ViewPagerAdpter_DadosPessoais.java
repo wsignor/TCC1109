@@ -1,7 +1,10 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.CadastroUsuario;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.eduardo.tcc.CadastroUsuario.Fragment_DadosPessoais;
+import com.example.eduardo.tcc.CadastroUsuario.Fragment_FatoresRisco;
 
 /**
  * Created by Eduardo on 14/08/2015.

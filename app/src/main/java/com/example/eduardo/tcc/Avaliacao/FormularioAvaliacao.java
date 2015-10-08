@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Avaliacao;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -12,6 +12,10 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.eduardo.tcc.Entidades.Avaliacao;
+import com.example.eduardo.tcc.Entidades.CurrentUser;
+import com.example.eduardo.tcc.R;
+import com.example.eduardo.tcc.Util.LoadingUtils;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -19,8 +23,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Eduardo on 16/09/2015.

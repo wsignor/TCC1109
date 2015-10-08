@@ -1,9 +1,10 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Push;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.eduardo.tcc.Inicio.Inicial;
 import com.parse.ParsePushBroadcastReceiver;
 
 /**

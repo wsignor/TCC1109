@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Inicio;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.eduardo.tcc.CadastroUsuario.DadosUsuario;
+import com.example.eduardo.tcc.Entidades.CurrentUser;
+import com.example.eduardo.tcc.R;
+import com.example.eduardo.tcc.Util.LoadingUtils;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Util;
 
 import android.app.ProgressDialog;
 import android.content.Context;

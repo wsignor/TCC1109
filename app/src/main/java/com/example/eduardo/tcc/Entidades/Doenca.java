@@ -1,4 +1,4 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Entidades;
 
 /**
  * Created by Eduardo on 05/10/2015.

@@ -1,22 +1,11 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Inicio;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParsePush;
-import com.parse.ParseQuery;
+import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.parse.ParseUser;
-import com.parse.PushService;
-import com.parse.SaveCallback;
-
-import java.util.List;
 
 /**
  * Created by Eduardo on 16/09/2015.

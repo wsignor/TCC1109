@@ -1,12 +1,15 @@
-package com.example.eduardo.tcc;
+package com.example.eduardo.tcc.Avaliacao;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
+import com.example.eduardo.tcc.Entidades.CurrentUser;
+import com.example.eduardo.tcc.Entidades.Doenca;
+import com.example.eduardo.tcc.R;
 
 import java.util.List;
 
@@ -46,6 +49,12 @@ public class ResultadoAvaliacao extends Activity {
                 Button btn = new Button(this);
                 btn.setText(doencas.get(x).getNome() + " (" + doencas.get(x).getQtdOcorrencias() + ")");
                 btn.setId(idBotao);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
 
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 if(idBotao == 1){
