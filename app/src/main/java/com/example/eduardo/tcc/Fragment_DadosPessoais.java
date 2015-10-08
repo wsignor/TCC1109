@@ -2,10 +2,12 @@ package com.example.eduardo.tcc;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -57,7 +59,7 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (eNutricionista.isChecked()) {
                     emailNutricionista.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     emailNutricionista.setVisibility(View.VISIBLE);
                 }
             }
@@ -65,6 +67,8 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
 
         if(ParseUser.getCurrentUser() != null){
             EditText login = (EditText) contentView.findViewById(R.id.txtLogin);
+            //login.setInputType(InputType.TYPE_NULL);
+
             EditText altura = (EditText) contentView.findViewById(R.id.textAltura);
             EditText nome = (EditText) contentView.findViewById(R.id.textNome);
             dataNasc = (EditText) contentView.findViewById(R.id.textDtNascimento);

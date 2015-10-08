@@ -29,7 +29,6 @@ public class Inicial extends Activity {
         textViewToChange.setText(ParseUser.getCurrentUser().getString("nome"));
 
 
-
         btnMeusDados = (Button) findViewById(R.id.btnMeusDados);
         btnMeusDados.setOnClickListener(new View.OnClickListener() {
 
@@ -64,7 +63,9 @@ public class Inicial extends Activity {
 
         btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
 
-        if(ParseUser.getCurrentUser().get("nutricionista").equals(false)){
+        System.out.println("ParseUser: " + ParseUser.getCurrentUser().getObjectId());
+
+        if(ParseUser.getCurrentUser().get("nutricionista") != null && ParseUser.getCurrentUser().get("nutricionista").equals(false)) {
             btnMeusClientes.setVisibility(View.INVISIBLE);
         }
 

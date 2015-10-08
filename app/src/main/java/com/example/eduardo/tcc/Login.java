@@ -38,14 +38,18 @@ public class Login extends Activity {
                 String login = userLogin.getText().toString().trim();
                 String password = userPassword.getText().toString().trim();
 
+
+
                 ParseUser.logInInBackground(login, password, new LogInCallback() {
                     @Override
                     public void done(ParseUser parseUser, ParseException e) {
-                        if (parseUser != null){
+                        if (parseUser != null) {
+                            LoadingUtils.startLoading(Login.this);
                             Toast.makeText(Login.this,
                                     R.string.login_toast, Toast.LENGTH_LONG).show();
                             Intent takeUserHomepage = new Intent(Login.this, Inicial.class);
                             startActivity(takeUserHomepage);
+                            LoadingUtils.stopLoading();
 
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
@@ -61,6 +65,7 @@ public class Login extends Activity {
                         }
                     }
                 });
+
             }
         });
 

@@ -67,6 +67,7 @@ public class FormularioAvaliacao extends Activity {
 
                 EditText peso = (EditText) findViewById(R.id.txtPeso);
                 if(!peso.getText().toString().isEmpty()) {
+                    LoadingUtils.startLoading(FormularioAvaliacao.this);
                     salvarInformacoesImutaveis();
 
                 }else{
@@ -137,19 +138,6 @@ public class FormularioAvaliacao extends Activity {
         });
     }
 
-    protected void startLoading() {
-        proDialog = new ProgressDialog(this);
-        proDialog.setMessage("loading...");
-        proDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        proDialog.setCancelable(false);
-        proDialog.show();
-    }
-
-    protected void stopLoading() {
-        proDialog.dismiss();
-        proDialog = null;
-    }
-
     private void salvarUsuarioInformacao(String idInformacaoMutavel){
         ParseObject UsuarioInformacao = new ParseObject("UsuarioInformacao");
         UsuarioInformacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
@@ -168,7 +156,6 @@ public class FormularioAvaliacao extends Activity {
             UsuarioInformacao.put("versao", 1);
         }
 
-        startLoading();
         UsuarioInformacao.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -252,7 +239,7 @@ public class FormularioAvaliacao extends Activity {
 
             salvarAvaliacao(fatores);
 
-            stopLoading();
+            LoadingUtils.stopLoading();
 
             Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
             startActivity(takeUserHomepage);
@@ -260,6 +247,7 @@ public class FormularioAvaliacao extends Activity {
 
         }catch (ParseException e){
             System.out.println("e.message: " + e.getMessage());
+            LoadingUtils.stopLoading();
 
         }
     }

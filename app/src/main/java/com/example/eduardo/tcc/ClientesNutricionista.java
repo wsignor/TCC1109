@@ -9,14 +9,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,13 +25,13 @@ public class ClientesNutricionista extends Activity implements AdapterView.OnIte
 
     private ListView listview;
     private List<ParseObject> queryClientes;
+    String objectIdClienteSelecionado = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.clientes_nutricionista);
-
 
         queryClientes = new ArrayList<ParseObject>();
         ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("_User");
@@ -49,46 +47,24 @@ public class ClientesNutricionista extends Activity implements AdapterView.OnIte
                 listaExibida.add(parseObj.get("nome").toString());
             }
 
+            if(!listaExibida.isEmpty()) {
+                listview = (ListView) findViewById(R.id.listView1);
+
+                final StableArrayAdapter adapter = new StableArrayAdapter(this,
+                        android.R.layout.simple_list_item_1, listaExibida);
+                listview.setAdapter(adapter);
+
+                listview.setOnItemClickListener(this);
+            } else {
+                Toast.makeText(ClientesNutricionista.this, "Sem clientes para exibir.", Toast.LENGTH_LONG).show();
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        listview = (ListView) findViewById(R.id.listView1);
-        /*String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };*/
 
-        /*final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }*/
-        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, listaExibida);
-        listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(this);
-
-        /*listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            }
-                        });
-            }
-
-        });
-        */
     }
 
     @Override
@@ -99,7 +75,9 @@ public class ClientesNutricionista extends Activity implements AdapterView.OnIte
         intent.setClass(this, ListItemDetail.class);
         intent.putExtra("position", position);
         // Or / And
+        System.out.println("onItemClick: id - "  + id);
         intent.putExtra("id", id);
+        //intent.putExtra("objectIdClienteSelecionado" , objectIdClienteSelecionado);
         startActivity(intent);
     }
 

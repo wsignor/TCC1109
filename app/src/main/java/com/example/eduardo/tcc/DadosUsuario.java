@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -47,7 +46,6 @@ public class DadosUsuario extends AppCompatActivity {
 
         ViewPagerAdpter_DadosPessoais viewPagerAdpterDadosPessoais = new ViewPagerAdpter_DadosPessoais(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdpterDadosPessoais);
-
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -257,15 +255,6 @@ public class DadosUsuario extends AppCompatActivity {
             System.out.println("e.getMessage()" + e.getMessage());
 
         }
-    }
-
-
-    public boolean validarDados(){
-        boolean dadosOk = false;
-
-
-
-        return dadosOk;
     }
 }
 

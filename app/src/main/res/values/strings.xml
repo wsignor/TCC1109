@@ -20,9 +20,9 @@
     <string name="login_button">Login</string>
     <string name="or_register_button">Create new account</string>
 
-    <string name="login_toast">Succes! Welcome!</string>
+    <string name="login_toast">Bem vindo!</string>
 
-    <string name="oops_title">Oops!</string>
+    <string name="oops_title">Oops! Confira seus dados.</string>
     <string name="HistoricoFamiliar"><u>Histórico de doenças familiares</u></string>
     <string name="FatoresUsuario"><u>Suas Informacoes</u></string>
     <string name="dados_invalidos">Existem campos que não foram preenchidos</string>

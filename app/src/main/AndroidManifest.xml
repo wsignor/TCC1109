@@ -5,8 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
@@ -19,11 +19,11 @@
         android:name="com.example.eduardo.tcc.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.example.eduardo.tcc.permission.C2D_MESSAGE" />
 
-
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:name=".ParseApplication"
         android:theme="@style/AppTheme" >
 
         <meta-data
@@ -35,7 +35,8 @@
 
         <activity
             android:name=".DadosUsuario"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
@@ -82,7 +83,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
 
     <service android:name="com.parse.PushService" />
@@ -92,14 +92,9 @@
             <action android:name="android.intent.action.USER_PRESENT" />
         </intent-filter>
     </receiver>
-    <receiver android:name="com.parse.ParsePushBroadcastReceiver"
-        android:exported="false">
-        <intent-filter>
-            <action android:name="com.parse.push.intent.RECEIVE" />
-            <action android:name="com.parse.push.intent.DELETE" />
-            <action android:name="com.parse.push.intent.OPEN" />
-        </intent-filter>
-    </receiver>
+
+    <!--<receiver android:name="com.parse.ParsePushBroadcastReceiver"-->
+
     <receiver android:name="com.parse.GcmBroadcastReceiver"
         android:permission="com.google.android.c2dm.permission.SEND">
         <intent-filter>
@@ -112,5 +107,28 @@
             <category android:name="com.example.eduardo.tcc" />
         </intent-filter>
     </receiver>
+
+    <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+        android:exported="false">
+        <intent-filter>
+            <action android:name="com.parse.push.intent.RECEIVE" />
+            <action android:name="com.parse.push.intent.OPEN" />
+            <action android:name="com.parse.push.intent.DELETE" />
+        </intent-filter>
+    </receiver>
+
+    <!--<receiver android:name="com.example.eduardo.tcc.Reciever" -->
+    <!--<receiver android:name="com.parse.ParsePushBroadcastReceiver"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+            <!--<action android:name="com.parse.push.intent.RECEIVE" />-->
+            <!--<action android:name="com.parse.push.intent.DELETE" />-->
+            <!--<action android:name="com.parse.push.intent.OPEN" />-->
+        <!--</intent-filter>-->
+    <!--</receiver>-->
+
+    <meta-data android:name="com.parse.push.notification_icon" android:resource="@drawable/ic_launcher"/>
+
+    </application>
 
 </manifest>
