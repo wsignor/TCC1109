@@ -53,6 +53,7 @@ public final class CurrentUser {
                     ParseObject doenca = obj.getParseObject("idDoenca");
                     doencaAux.setNome(doenca.fetchIfNeeded().getString("nome"));
                     doencaAux.setQtdOcorrencias(obj.getInt("qtdFatores"));
+                    doencaAux.setIdDoenca(doenca.getObjectId());
                     doencasTemp.add(doencaAux);
                 }catch (ParseException exp){
 

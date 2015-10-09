@@ -1,5 +1,8 @@
 package com.example.eduardo.tcc.Entidades;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -720,7 +723,14 @@ public final class Avaliacao {
         }
     }
 
-    public void removeAvaliacaoTemp() throws ParseException{
-        ParseObject.createWithoutData("AvaliacaoTemp", CurrentUser.getAvaliacaoTemp().getObjectId()).delete();
+    public void removeAvaliacaoTemp(Context context) {
+        try{
+            if(CurrentUser.getAvaliacaoTemp() != null) {
+                ParseObject.createWithoutData("AvaliacaoTemp", CurrentUser.getAvaliacaoTemp().getObjectId()).delete();
+            }
+        }catch (ParseException e){
+            Toast.makeText(context,
+                    "Não foi possível excluir a avaliação temporária existente", Toast.LENGTH_LONG).show();
+        }
     }
 }

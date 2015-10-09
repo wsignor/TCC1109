@@ -1,15 +1,19 @@
 package com.example.eduardo.tcc.Avaliacao;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.eduardo.tcc.Entidades.Avaliacao;
 import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.Entidades.Doenca;
+import com.example.eduardo.tcc.Nutricionista.ListItemDetail;
 import com.example.eduardo.tcc.R;
+import com.example.eduardo.tcc.RecomendacoesAvaliacao.AlimentosPraticas;
 
 import java.util.List;
 
@@ -48,10 +52,18 @@ public class ResultadoAvaliacao extends Activity {
             if(doencas.get(x).getQtdOcorrencias() > 0) {
                 Button btn = new Button(this);
                 btn.setText(doencas.get(x).getNome() + " (" + doencas.get(x).getQtdOcorrencias() + ")");
+                btn.setTag(doencas.get(x).getIdDoenca());
                 btn.setId(idBotao);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Avaliacao.getInstance().removeAvaliacaoTemp(v.getContext());
+
+                        Intent intent = new Intent();
+                        intent.setClass(v.getContext(), AlimentosPraticas.class);
+                        intent.putExtra("idDoenca", v.getTag().toString());
+                        //intent.putExtra("objectIdClienteSelecionado" , objectIdClienteSelecionado);
+                        startActivity(intent);
 
                     }
                 });

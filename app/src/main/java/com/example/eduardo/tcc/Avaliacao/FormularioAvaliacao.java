@@ -231,12 +231,7 @@ public class FormularioAvaliacao extends Activity {
             fatores.setDiabetes(informacoesImutaveis.getBoolean("diabetico"));
             fatores.setHipertensao(informacoesImutaveis.getBoolean("hipertenso"));
 
-            try{
-                fatores.removeAvaliacaoTemp();
-            }catch (ParseException e){
-                Toast.makeText(FormularioAvaliacao.this,
-                        "Não foi possível excluir a avaliação temporária existente", Toast.LENGTH_LONG).show();
-            }
+            fatores.removeAvaliacaoTemp(FormularioAvaliacao.this);
 
             salvarAvaliacao(fatores);
 

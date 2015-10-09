@@ -40,6 +40,12 @@
         </activity>
 
         <activity
+            android:name=".RecomendacoesAvaliacao.AlimentosPraticas"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity
             android:name=".Inicio.Inicial"
             android:label="@string/app_name" >
         </activity>

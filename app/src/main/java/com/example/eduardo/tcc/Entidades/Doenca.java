@@ -23,6 +23,15 @@ public class Doenca {
         this.qtdOcorrencias = qtdOcorrencias;
     }
 
+    public String getIdDoenca() {
+        return idDoenca;
+    }
+
+    public void setIdDoenca(String idDoenca) {
+        this.idDoenca = idDoenca;
+    }
+
     public String nome;
     public Integer qtdOcorrencias = 0;
+    public String idDoenca;
 }
