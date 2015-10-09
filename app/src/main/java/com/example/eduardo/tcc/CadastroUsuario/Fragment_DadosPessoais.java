@@ -119,7 +119,13 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
                 }
             }
 
-            eNutricionista.setChecked(Boolean.parseBoolean(ParseUser.getCurrentUser().getString("nutricionista")));
+            eNutricionista.setChecked(ParseUser.getCurrentUser().getBoolean("nutricionista"));
+
+            if (eNutricionista.isChecked()) {
+                emailNutricionista.setVisibility(View.INVISIBLE);
+            } else {
+                emailNutricionista.setVisibility(View.VISIBLE);
+            }
 
         }
 
