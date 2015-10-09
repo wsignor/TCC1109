@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,7 +17,11 @@ import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.Avaliacao.FormularioAvaliacao;
 import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.Avaliacao.ResultadoAvaliacao;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 
 public class Inicial extends Activity {
@@ -33,6 +38,23 @@ public class Inicial extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inicial);
+
+        // tentando cadastrar o aparelho no login
+        ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId(), new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                } else {
+                    Log.e("com.parse.push", "failed to subscribe for push", e);
+                }
+            }
+        });
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+        //ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
+
+
+
 
         textViewToChange = (TextView) findViewById(R.id.txtNomeUsuario);
         textViewToChange.setText(ParseUser.getCurrentUser().getString("nome"));

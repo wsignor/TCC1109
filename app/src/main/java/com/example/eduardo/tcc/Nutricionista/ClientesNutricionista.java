@@ -16,6 +16,7 @@ import com.example.eduardo.tcc.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +37,8 @@ public class ClientesNutricionista extends Activity implements AdapterView.OnIte
 
         queryClientes = new ArrayList<ParseObject>();
         ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("_User");
-        //innerQuery.whereEqualTo("idNutricionista", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
-        innerQuery.whereEqualTo("nutricionista", false);
+        innerQuery.whereEqualTo("idNutricionista", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+        //innerQuery.whereEqualTo("nutricionista", false);
         ArrayList<String> listaExibida = new ArrayList<String>();
 
         try {

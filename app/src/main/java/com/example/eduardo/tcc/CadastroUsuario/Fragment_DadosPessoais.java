@@ -64,9 +64,9 @@ public class Fragment_DadosPessoais extends android.support.v4.app.Fragment {
             }
         });
 
-        if(ParseUser.getCurrentUser() != null){
+        if(ParseUser.getCurrentUser().getObjectId() != null){
+            System.out.println("Fragment_DadosPessoais - ParseUser.getCurrentUser().getObjectId: " + ParseUser.getCurrentUser().getObjectId());
             EditText login = (EditText) contentView.findViewById(R.id.txtLogin);
-            //login.setInputType(InputType.TYPE_NULL);
 
             EditText altura = (EditText) contentView.findViewById(R.id.textAltura);
             EditText nome = (EditText) contentView.findViewById(R.id.textNome);

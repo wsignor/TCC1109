@@ -16,6 +16,7 @@ import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.Util.LoadingUtils;
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -59,24 +60,6 @@ public class Login extends Activity {
                             Intent takeUserHomepage = new Intent(Login.this, Inicial.class);
                             startActivity(takeUserHomepage);
 
-
-                            // tentando cadastrar o aparelho no login
-                            ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId(), new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
-                                    } else {
-                                        Log.e("com.parse.push", "failed to subscribe for push", e);
-                                    }
-                                }
-                            });
-                            ParseInstallation.getCurrentInstallation().saveInBackground();
-                            //ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
-
-
-
-
                             LoadingUtils.stopLoading();
 
                         } else {
@@ -100,7 +83,7 @@ public class Login extends Activity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ParseUser.getCurrentUser().logOut();
                 Intent createNewAccount = new Intent(Login.this, DadosUsuario.class);
                 startActivity(createNewAccount);
 
