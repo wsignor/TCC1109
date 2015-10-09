@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +17,10 @@ import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.Util.LoadingUtils;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 
 public class Login extends Activity {
@@ -54,6 +58,25 @@ public class Login extends Activity {
                             CurrentUser.startInstance();
                             Intent takeUserHomepage = new Intent(Login.this, Inicial.class);
                             startActivity(takeUserHomepage);
+
+
+                            // tentando cadastrar o aparelho no login
+                            ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId(), new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                                    } else {
+                                        Log.e("com.parse.push", "failed to subscribe for push", e);
+                                    }
+                                }
+                            });
+                            ParseInstallation.getCurrentInstallation().saveInBackground();
+                            //ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
+
+
+
+
                             LoadingUtils.stopLoading();
 
                         } else {
