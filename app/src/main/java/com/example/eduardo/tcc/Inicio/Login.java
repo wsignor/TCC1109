@@ -55,7 +55,7 @@ public class Login extends Activity {
                         if (parseUser != null) {
                             LoadingUtils.startLoading(Login.this);
                             Toast.makeText(Login.this,
-                                    R.string.login_toast, Toast.LENGTH_LONG).show();
+                                    R.string.login_toast, Toast.LENGTH_SHORT).show();
                             CurrentUser.startInstance();
                             Intent takeUserHomepage = new Intent(Login.this, Inicial.class);
                             startActivity(takeUserHomepage);

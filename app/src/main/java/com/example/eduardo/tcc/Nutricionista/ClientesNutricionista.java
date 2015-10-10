@@ -58,7 +58,7 @@ public class ClientesNutricionista extends Activity implements AdapterView.OnIte
 
                 listview.setOnItemClickListener(this);
             } else {
-                Toast.makeText(ClientesNutricionista.this, "Sem clientes para exibir.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ClientesNutricionista.this, "Sem clientes para exibir.", Toast.LENGTH_SHORT).show();
             }
 
         } catch (ParseException e) {

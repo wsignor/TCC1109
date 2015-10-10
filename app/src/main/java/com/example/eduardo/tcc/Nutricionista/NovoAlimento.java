@@ -41,7 +41,7 @@ public class NovoAlimento extends Activity {
             @Override
             public void onClick(View v) {
                 //LoadingUtils.startLoading(NovoAlimento.this);
-                Toast.makeText(NovoAlimento.this, "Incluir alimento.", Toast.LENGTH_LONG).show();
+                Toast.makeText(NovoAlimento.this, "Incluir alimento.", Toast.LENGTH_SHORT).show();
 
                 try {
                     incluirAlimentos();

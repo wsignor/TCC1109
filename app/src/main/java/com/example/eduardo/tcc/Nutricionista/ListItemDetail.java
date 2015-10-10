@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eduardo.tcc.R;
+import com.example.eduardo.tcc.RecomendacoesAvaliacao.AlimentosPraticas;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -66,7 +67,7 @@ public class ListItemDetail extends Activity {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(ListItemDetail.this, "Puxar mesma avaliação do usuário.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListItemDetail.this, "Puxar mesma avaliação do usuário.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -75,7 +76,7 @@ public class ListItemDetail extends Activity {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(ListItemDetail.this, "Adicionar alimentos.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListItemDetail.this, "Adicionar alimentos.", Toast.LENGTH_SHORT).show();
 
                 // (String action, Uri uri,Context packageContext, Class<?> cls)
                 //Intent novoAlimento = new Intent("", null, ListItemDetail.this, NovoAlimento.class);
@@ -83,6 +84,19 @@ public class ListItemDetail extends Activity {
 
                 novoAlimento.putExtra("objectId" , objectIdClienteSelecionado);
                 startActivity(novoAlimento);
+            }
+        });
+
+        Button btnVisualizarDieta  = (Button) findViewById(R.id.btnVisualizarDadosCliente);
+        btnVisualizarDieta.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                Intent intent = new Intent();
+                intent.setClass(v.getContext(), AlimentosPraticas.class);
+                intent.putExtra("idDoencaCliente", "idDoencaClienteDado");
+                //intent.putExtra("objectIdClienteSelecionado" , objectIdClienteSelecionado);
+                startActivity(intent);
             }
         });
 
