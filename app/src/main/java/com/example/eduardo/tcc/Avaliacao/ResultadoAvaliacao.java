@@ -62,7 +62,6 @@ public class ResultadoAvaliacao extends Activity {
                         Intent intent = new Intent();
                         intent.setClass(v.getContext(), AlimentosPraticas.class);
                         intent.putExtra("idDoenca", v.getTag().toString());
-                        //intent.putExtra("objectIdClienteSelecionado" , objectIdClienteSelecionado);
                         startActivity(intent);
 
                     }

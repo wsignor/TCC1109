@@ -10,166 +10,30 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtLogin"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:hint="@string/hintLogin"
-                android:autoText="false" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:id="@+id/txtPassword"
-                android:layout_below="@+id/txtLogin"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:hint="@string/hintPassword" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:id="@+id/txtConfirmPassword"
-                android:layout_below="@+id/txtPassword"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:hint="@string/hintConfirmPassword" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:id="@+id/textNome"
-                android:layout_below="@+id/txtConfirmPassword"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:hint="@string/hintNome"
-                android:autoText="false" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Qual seu sexo?"
-                android:id="@+id/lblSexo"
-                android:layout_below="@+id/textNome"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="De acordo com os dados informados, você tem possibilidade de desenvolver as seguintes doenças:"
+                android:id="@+id/txtIntroducao"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="30dp"/>
+                android:layout_alignParentStart="true" />
 
-            <Spinner
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/spnSexo"
-                android:layout_toRightOf="@+id/lblSexo"
-                android:layout_below="@+id/textNome"
+            <ListView
+                android:id="@+id/ltvOrientacoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/txtIntroducao"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:id="@+id/textAltura"
-                android:layout_below="@+id/lblSexo"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:hint="@string/hintAltura"
-                android:autoText="false" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="10"
-                android:id="@+id/textDtNascimento"
-                android:layout_below="@+id/textAltura"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:hint="@string/hintDtNascimento"
-                android:layout_marginTop="30dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Qual a sua raça?"
-                android:id="@+id/lblRaca"
-                android:layout_below="@+id/textDtNascimento"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="30dp"/>
-
-            <Spinner
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/spnRaca"
-                android:layout_toRightOf="@+id/lblRaca"
-                android:layout_below="@+id/textDtNascimento"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:id="@+id/textEmail"
-                android:layout_below="@+id/lblRaca"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:hint="@string/hintEmail"
-                android:autoText="false" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="É nutricionista?"
-                android:id="@+id/swtNutricionista"
-                android:layout_below="@+id/textEmail"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:id="@+id/textEmailNutri"
-                android:layout_below="@+id/swtNutricionista"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:hint="@string/hintEmailNutricionista"
-                android:autoText="false" />
+                android:layout_marginTop="150dp" >
+                <!--android:entries="@array/sections"-->
+            </ListView>
 
         </RelativeLayout>
 
