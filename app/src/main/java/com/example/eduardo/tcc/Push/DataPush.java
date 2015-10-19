@@ -3,6 +3,7 @@ package com.example.eduardo.tcc.Push;
 import android.content.Context;
 import android.view.View;
 
+import com.parse.Parse;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 
@@ -27,6 +28,7 @@ public class DataPush {
     private static final String PUSH_URL = "https://api.parse.com/1/push";
 
     public static void main(String[] args) {
+
         String[] channels = new String[]{"testsddg"};
         String type = "android";
         Map<String, String> data = new HashMap<String, String>();

@@ -43,6 +43,7 @@ public class Inicial extends Activity {
         setContentView(R.layout.inicial);
 
         // tentando cadastrar o aparelho no login
+        System.out.println("Inicial - oncreate - ParseUser.getCurrentUser().getObjectId(): " + ParseUser.getCurrentUser().getObjectId());
         ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId(), new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -53,6 +54,7 @@ public class Inicial extends Activity {
                 }
             }
         });
+        ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
         ParseInstallation.getCurrentInstallation().saveInBackground();
         //ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
 

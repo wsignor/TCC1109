@@ -114,7 +114,7 @@
         </intent-filter>
     </receiver>
 
-    <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+    <receiver android:name="com.example.eduardo.tcc.Push.Reciever"
         android:exported="false">
         <intent-filter>
             <action android:name="com.parse.push.intent.RECEIVE" />
@@ -122,6 +122,8 @@
             <action android:name="com.parse.push.intent.DELETE" />
         </intent-filter>
     </receiver>
+
+    <receiver android:name="com.example.eduardo.tcc.Util.NotificationPublisher" />
 
     <!--<receiver android:name="com.parse.ParsePushBroadcastReceiver"-->
         <!--android:exported="false">-->
