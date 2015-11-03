@@ -340,7 +340,7 @@ public class FormularioAvaliacao extends Activity {
                     @Override
                     public void done(ParseException e) {
                         CurrentUser.carregaAvaliacaoTemp();
-                        LoadingUtils.stopLoading();
+                        //LoadingUtils.stopLoading();
 
                         Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
                         startActivity(takeUserHomepage);

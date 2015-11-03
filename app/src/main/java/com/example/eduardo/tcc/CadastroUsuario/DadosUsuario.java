@@ -21,6 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 /**
@@ -217,10 +218,14 @@ public class DadosUsuario extends AppCompatActivity {
                     user.put("idNutricionista", ParseObject.createWithoutData("_User", object.getObjectId().toString()));
                 }
 
-                user.saveInBackground();
-                salvarInformacoesImutaveis();
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        salvarInformacoesImutaveis();
 
-                login();
+                        login();
+                    }
+                });
 
             }
         });
@@ -240,23 +245,31 @@ public class DadosUsuario extends AppCompatActivity {
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
         ParseQuery<ParseObject> query = ParseQuery.getQuery("InformacoesImutaveis");
         query.whereMatchesQuery("idUsuario", innerQuery);
-
-        try {
-            ParseObject InformacoesImutaveisData = query.getFirst();
-            System.out.println("InformacoesImutaveisData: " + InformacoesImutaveisData.getClassName());
-            InformacoesImutaveisData.put("hipertensaoFamiliar", hipertensaoFamiliar.isChecked());
-            InformacoesImutaveisData.put("diabetesFamiliar", diabetesFamiliar.isChecked());
-            InformacoesImutaveisData.put("cardiovascularFamiliar", cardiovascularFamiliar.isChecked());
-            InformacoesImutaveisData.put("obesidadeFamiliar", obesidadeFamiliar.isChecked());
-            InformacoesImutaveisData.put("sindromeFamiliar", sindromeFamiliar.isChecked());
-            InformacoesImutaveisData.put("hipertenso", hipertenso.isChecked());
-            InformacoesImutaveisData.put("diabetico", diabetico.isChecked());
-            InformacoesImutaveisData.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
-            InformacoesImutaveisData.saveInBackground();
-        } catch (ParseException e){
-            System.out.println("e.getMessage()" + e.getMessage());
-
-        }
+            try {
+                ParseObject InformacoesImutaveisData = query.getFirst();
+                System.out.println("InformacoesImutaveisData: " + InformacoesImutaveisData.getClassName());
+                InformacoesImutaveisData.put("hipertensaoFamiliar", hipertensaoFamiliar.isChecked());
+                InformacoesImutaveisData.put("diabetesFamiliar", diabetesFamiliar.isChecked());
+                InformacoesImutaveisData.put("cardiovascularFamiliar", cardiovascularFamiliar.isChecked());
+                InformacoesImutaveisData.put("obesidadeFamiliar", obesidadeFamiliar.isChecked());
+                InformacoesImutaveisData.put("sindromeFamiliar", sindromeFamiliar.isChecked());
+                InformacoesImutaveisData.put("hipertenso", hipertenso.isChecked());
+                InformacoesImutaveisData.put("diabetico", diabetico.isChecked());
+                InformacoesImutaveisData.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+                InformacoesImutaveisData.saveInBackground();
+            } catch (ParseException e){
+                ParseObject InformacoesImutaveisData = new ParseObject("InformacoesImutaveis");
+                System.out.println("InformacoesImutaveisData: " + InformacoesImutaveisData.getClassName());
+                InformacoesImutaveisData.put("hipertensaoFamiliar", hipertensaoFamiliar.isChecked());
+                InformacoesImutaveisData.put("diabetesFamiliar", diabetesFamiliar.isChecked());
+                InformacoesImutaveisData.put("cardiovascularFamiliar", cardiovascularFamiliar.isChecked());
+                InformacoesImutaveisData.put("obesidadeFamiliar", obesidadeFamiliar.isChecked());
+                InformacoesImutaveisData.put("sindromeFamiliar", sindromeFamiliar.isChecked());
+                InformacoesImutaveisData.put("hipertenso", hipertenso.isChecked());
+                InformacoesImutaveisData.put("diabetico", diabetico.isChecked());
+                InformacoesImutaveisData.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+                InformacoesImutaveisData.saveInBackground();
+            }
     }
 }
 

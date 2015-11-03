@@ -51,7 +51,8 @@ public class ResultadoAvaliacao extends Activity {
         for (int x = 0; x < doencas.size(); x++){
             if(doencas.get(x).getQtdOcorrencias() > 0) {
                 Button btn = new Button(this);
-                btn.setText(doencas.get(x).getNome() + " (" + doencas.get(x).getQtdOcorrencias() + ")");
+                //btn.setText(doencas.get(x).getNome() + " (" + doencas.get(x).getQtdOcorrencias() + ")");
+                btn.setText(doencas.get(x).getNome());
                 btn.setTag(doencas.get(x).getIdDoenca());
                 btn.setId(idBotao);
                 btn.setOnClickListener(new View.OnClickListener() {
