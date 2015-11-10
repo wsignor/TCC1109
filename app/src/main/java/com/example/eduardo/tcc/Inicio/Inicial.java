@@ -24,6 +24,7 @@ import com.example.eduardo.tcc.Avaliacao.ResultadoAvaliacao;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.example.eduardo.tcc.RecomendacoesAvaliacao.PraticasNutricionais;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -39,6 +40,7 @@ public class Inicial extends Activity {
     private Button btnMinhaAvaliacao;
     private Button btnMeusClientes;
     private Button btnGrafico;
+    private Button btnTeste;
     private TextView textViewToChange;
     protected ProgressDialog proDialog;
 
@@ -74,7 +76,16 @@ public class Inicial extends Activity {
         btnNovaAvaliacao = (Button) findViewById(R.id.btnNovaAvaliacao);
         btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
         btnGrafico = (Button) findViewById(R.id.btnGrafico);
+        btnTeste = (Button) findViewById(R.id.btnTeste);
         btnSair = (Button) findViewById(R.id.btnSair);
+
+        btnTeste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takeUserEditarDados = new Intent(Inicial.this, PraticasNutricionais.class);
+                startActivity(takeUserEditarDados);
+            }
+        });
 
         btnMeusDados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +99,6 @@ public class Inicial extends Activity {
         btnMinhaAvaliacao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (CurrentUser.getDoencasTemp() != null && CurrentUser.getDoencasTemp().size() > 0) {
                     Intent takeUserHomepage = new Intent(Inicial.this, ResultadoAvaliacao.class);
                     startActivity(takeUserHomepage);

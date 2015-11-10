@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TCC</string>
+    <string name="app_name">Prevenção DCNT</string>
 
     <string name="parse_app_id">ih17LzHvWd7nsSZ9iQSqo0ymIfXWwYzmMG3sOilj</string>
     <string name="parse_client_key">PJW3q1jRs1Pll0LxfovghEzEjDiKufTPMUBc8yjH</string>
@@ -14,11 +14,11 @@
     <string name="hintDtNascimento">Data de Nascimento</string>
     <string name="hintEmailNutricionista">E-mail do(a) Nutricionista</string>
     <string name="hintEmail">E-mail</string>
-    <string name="login_hint">Login</string>
-    <string name="password_hint">Password</string>
+    <string name="login_hint">Usuário</string>
+    <string name="password_hint">Senha</string>
     <string name="or">ou</string>
-    <string name="login_button">Login</string>
-    <string name="or_register_button">Create new account</string>
+    <string name="login_button">Entrar</string>
+    <string name="cadastrar">Cadastre-se</string>
 
     <string name="login_toast">Bem vindo!</string>
 

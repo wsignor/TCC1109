@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eduardo.tcc.R;
-import com.example.eduardo.tcc.RecomendacoesAvaliacao.AlimentosPraticas;
+import com.example.eduardo.tcc.RecomendacoesAvaliacao.PraticasNutricionais;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -30,7 +30,7 @@ public class ListItemDetail extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listitem);
+        setContentView(R.layout.lista_cliente);
 
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
@@ -93,7 +93,7 @@ public class ListItemDetail extends Activity {
             public void onClick(View v){
 
                 Intent intent = new Intent();
-                intent.setClass(v.getContext(), AlimentosPraticas.class);
+                intent.setClass(v.getContext(), PraticasNutricionais.class);
                 intent.putExtra("idDoencaCliente", "idDoencaClienteDado");
                 //intent.putExtra("objectIdClienteSelecionado" , objectIdClienteSelecionado);
                 startActivity(intent);

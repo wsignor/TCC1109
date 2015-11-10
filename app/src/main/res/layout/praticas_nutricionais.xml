@@ -30,6 +30,7 @@
         android:layout_below="@+id/tablayout"
         android:id="@+id/viewpager"
         />
+
     
 
 

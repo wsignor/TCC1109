@@ -11,9 +11,8 @@ import android.widget.TextView;
 import com.example.eduardo.tcc.Entidades.Avaliacao;
 import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.Entidades.Doenca;
-import com.example.eduardo.tcc.Nutricionista.ListItemDetail;
 import com.example.eduardo.tcc.R;
-import com.example.eduardo.tcc.RecomendacoesAvaliacao.AlimentosPraticas;
+import com.example.eduardo.tcc.RecomendacoesAvaliacao.PraticasNutricionais;
 
 import java.util.List;
 
@@ -51,7 +50,6 @@ public class ResultadoAvaliacao extends Activity {
         for (int x = 0; x < doencas.size(); x++){
             if(doencas.get(x).getQtdOcorrencias() > 0) {
                 Button btn = new Button(this);
-                //btn.setText(doencas.get(x).getNome() + " (" + doencas.get(x).getQtdOcorrencias() + ")");
                 btn.setText(doencas.get(x).getNome());
                 btn.setTag(doencas.get(x).getIdDoenca());
                 btn.setId(idBotao);
@@ -60,8 +58,10 @@ public class ResultadoAvaliacao extends Activity {
                     public void onClick(View v) {
                         Avaliacao.getInstance().removeAvaliacaoTemp(v.getContext());
 
+                        Avaliacao.getInstance().salvarAvaliacao(v.getTag().toString());
+
                         Intent intent = new Intent();
-                        intent.setClass(v.getContext(), AlimentosPraticas.class);
+                        intent.setClass(v.getContext(), PraticasNutricionais.class);
                         intent.putExtra("idDoenca", v.getTag().toString());
                         startActivity(intent);
 

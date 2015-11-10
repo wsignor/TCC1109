@@ -100,7 +100,7 @@ public class FormularioAvaliacao extends Activity {
         InformacoesMutaveisData = new ParseObject("InformacoesMutaveis");
         InformacoesMutaveisData.put("fumante", isFumante.isChecked());
         InformacoesMutaveisData.put("altoConsumoAlcool", isBebidaAlcoolica.isChecked());
-        InformacoesMutaveisData.put("praticaAtividadeFisica", isSedentarismo.isChecked());
+        InformacoesMutaveisData.put("sedentarismo", isSedentarismo.isChecked());
         InformacoesMutaveisData.put("tomaAnticoncepcional", isAnticoncepcional.isChecked());
         InformacoesMutaveisData.put("peso", Double.parseDouble(peso.getText().toString()));
         InformacoesMutaveisData.put("nivelColesterol", nivelColesterol.getSelectedItem());
@@ -339,7 +339,7 @@ public class FormularioAvaliacao extends Activity {
                 DoencaAvaliacaoTemporaria.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        CurrentUser.carregaAvaliacaoTemp();
+                        CurrentUser.carregaAvaliacao();
                         //LoadingUtils.stopLoading();
 
                         Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);

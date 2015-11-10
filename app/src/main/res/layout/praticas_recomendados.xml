@@ -6,27 +6,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Selecione qual cliente você deseja visualizar: "
-        android:id="@+id/textViewNutricionista"
-        android:layout_marginTop="63dp"
+        android:id="@+id/textHabitosRecomendados"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <listView1
-        android:id="@+id/listView1"
+    <ListView
+        android:id="@+id/listViewHabitos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textViewNutricionista"
+        android:layout_below="@+id/textHabitosRecomendados"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="150dp" >
-        <!--android:entries="@array/sections"-->
-    </listView1>
+        android:layout_marginTop="100dp"
+        android:entries="@array/praticas" >
+    </ListView>
 
 </RelativeLayout>

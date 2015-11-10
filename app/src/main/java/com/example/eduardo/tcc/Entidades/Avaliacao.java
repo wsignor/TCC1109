@@ -1,6 +1,7 @@
 package com.example.eduardo.tcc.Entidades;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -8,6 +9,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -727,10 +729,25 @@ public final class Avaliacao {
         try{
             if(CurrentUser.getAvaliacaoTemp() != null) {
                 ParseObject.createWithoutData("AvaliacaoTemp", CurrentUser.getAvaliacaoTemp().getObjectId()).delete();
+                CurrentUser.removeAvaliacaoTemp();
             }
         }catch (ParseException e){
             Toast.makeText(context,
                     "Não foi possível excluir a avaliação temporária existente", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void salvarAvaliacao (String idDoenca){
+        ParseObject avaliacao = new ParseObject("Avaliacao");
+        avaliacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+        avaliacao.put("idDoenca", ParseObject.createWithoutData("Doenca", idDoenca));
+        avaliacao.put("dtInicio", avaliacao.getCreatedAt());
+
+        try {
+            avaliacao.save();
+        }catch(ParseException e){
+
+        }
+
     }
 }

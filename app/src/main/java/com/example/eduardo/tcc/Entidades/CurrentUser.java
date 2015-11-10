@@ -26,7 +26,9 @@ public final class CurrentUser {
         return avaliacaoTemp;
     }
 
-    public static void carregaAvaliacaoTemp(){
+    public static void removeAvaliacaoTemp() { avaliacaoTemp = null; }
+
+    public static void carregaAvaliacao(){
         ParseQuery innerQuery = new ParseQuery("_User");
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 
@@ -63,29 +65,11 @@ public final class CurrentUser {
         }catch (ParseException exp){
 
         }
-
-/*        queryDoencasAvaliacao.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                doencasTemp = new ArrayList<Doenca>();
-                for (ParseObject obj : list) {
-                    try{
-                        Doenca doencaAux = new Doenca();
-                        ParseObject doenca = obj.getParseObject("idDoenca");
-                        doencaAux.setNome(doenca.fetchIfNeeded().getString("nome"));
-                        doencaAux.setQtdOcorrencias(obj.getInt("qtdFatores"));
-                        doencasTemp.add(doencaAux);
-                    }catch (ParseException exp){
-
-                    }
-                }
-            }
-        });*/
     }
 
     public CurrentUser() {
         if (ParseUser.getCurrentUser() != null) {
-            carregaAvaliacaoTemp();
+            carregaAvaliacao();
         }
     }
 

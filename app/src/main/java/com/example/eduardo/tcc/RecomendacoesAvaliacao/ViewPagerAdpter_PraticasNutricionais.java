@@ -6,11 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * Created by Eduardo on 14/08/2015.
  */
-public class ViewPagerAdpter_AlimentosPraticas extends FragmentPagerAdapter {
+public class ViewPagerAdpter_PraticasNutricionais extends FragmentPagerAdapter {
 
-    String[] tabtitlearray = {"Recomendações Nutricionais", "Hábitos"};
+    String[] tabtitlearray = {"Praticas Recomendadas", "Orientações Nutricionais"};
 
-    public ViewPagerAdpter_AlimentosPraticas(android.support.v4.app.FragmentManager manager){
+    public ViewPagerAdpter_PraticasNutricionais(android.support.v4.app.FragmentManager manager){
         super(manager);
     }
 
@@ -18,8 +18,8 @@ public class ViewPagerAdpter_AlimentosPraticas extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         switch (position) {
-            case 0: return new Fragment_Recomendacoes_Nutricionais();
-            case 1: return new Fragment_Habitos();
+            case 0: return new Fragment_Praticas();
+            case 1: return new Fragment_Nutricionais();
         }
 
         return null;

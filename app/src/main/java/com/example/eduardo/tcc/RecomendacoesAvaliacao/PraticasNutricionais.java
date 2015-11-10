@@ -6,21 +6,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import com.example.eduardo.tcc.CadastroUsuario.ViewPagerAdpter_DadosPessoais;
 import com.example.eduardo.tcc.R;
 import com.parse.ParseUser;
 
 /**
  * Created by Eduardo on 08/10/2015.
  */
-public class AlimentosPraticas extends AppCompatActivity {
+public class PraticasNutricionais extends AppCompatActivity {
 
     Toolbar toolbar;
     ViewPager viewPager;
@@ -32,19 +27,14 @@ public class AlimentosPraticas extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alimentos_praticas);
-
-        Intent intent = getIntent();
-        String idDoenca = intent.getStringExtra("idDoenca");
-
-        System.out.println("idDoenca = " + idDoenca);
+        setContentView(R.layout.praticas_nutricionais);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        ViewPagerAdpter_AlimentosPraticas viewPagerAdpterAlimentosPraticas = new ViewPagerAdpter_AlimentosPraticas(getSupportFragmentManager());
+        ViewPagerAdpter_PraticasNutricionais viewPagerAdpterAlimentosPraticas = new ViewPagerAdpter_PraticasNutricionais(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdpterAlimentosPraticas);
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);

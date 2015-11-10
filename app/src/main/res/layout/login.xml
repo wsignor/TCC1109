@@ -34,7 +34,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/or_register_button"
+        android:text="@string/cadastrar"
         android:id="@+id/createButton"/>
 
 </LinearLayout>

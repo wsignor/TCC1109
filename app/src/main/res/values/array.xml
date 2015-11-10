@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="sections">
-        <item >Pro Constructive</item>
-        <item >Con Constructive</item>
-        <item >1st Speaker Cross</item>
-        <item >Pro Rebbutal</item>
-        <item >Con Rebuttal</item>
-        <item >2nd Speaker Cross</item>
-        <item >Pro Summary</item>
-        <item >Con Summary</item>
-        <item >Grand Cross</item>
-        <item >Pro Final Focus</item>
-        <item >Con Final Focus</item>
+    <string-array name="alimentos">
+        <item >Carnes Brancas - 100g - 2x ao dia</item>
+        <item >Banana - 1un - 2x ao dia</item>
+        <item >Cereais - 50g - 1x ao dia</item>
+        <item >Massas - 100g - 1x por semana</item>
+        <item >Beterraba - 30g - 1x ao dia</item>
+    </string-array>
+
+    <string-array name="praticas">
+        <item >Praticar exercícios físicos</item>
+        <item >Reduzir o consumo de alimentos com sódio</item>
+        <item >Aumentar o consumo de cereais</item>
+        <item >Aumentar o consumo de leguminosos</item>
+        <item >Reduzir o consumo de alimentos gordurosos</item>
     </string-array>
 </resources>
