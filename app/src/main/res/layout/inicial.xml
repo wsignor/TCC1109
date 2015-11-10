@@ -47,12 +47,28 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <!-- grafico
+    y = percentual de fatores (qtd de fatores)
+    x = avaliacao
+    linhas serao as doencas
+    -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resultados"
+        android:id="@+id/btnGrafico"
+        android:layout_below="@+id/btnMeusClientes"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sair"
         android:id="@+id/btnSair"
-        android:layout_below="@+id/btnMeusClientes"
+        android:layout_below="@+id/btnGrafico"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -77,5 +93,13 @@
         android:layout_toRightOf="@+id/textView"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="63dp"  />
+
+    <!--<com.jjoe64.graphview.GraphView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dip"-->
+        <!--android:id="@+id/graph"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/btnSair" />-->
 
 </RelativeLayout>

@@ -353,4 +353,5 @@ public class FormularioAvaliacao extends Activity {
             LoadingUtils.stopLoading();
         }
     }
+
 }
