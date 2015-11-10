@@ -53,7 +53,8 @@ public class Grafico extends Activity {
                 new DataPoint(1, 80),
                 new DataPoint(2, 50),
                 new DataPoint(3, 50),
-                new DataPoint(4, 20)
+                new DataPoint(4, 20),
+                new DataPoint(5, 30)
         });
         series.setTitle("Hipertensão");
 
@@ -62,7 +63,8 @@ public class Grafico extends Activity {
                 new DataPoint(1, 50),
                 new DataPoint(2, 50),
                 new DataPoint(3, 30),
-                new DataPoint(4, 20)
+                new DataPoint(4, 20),
+                new DataPoint(5, 10)
         });
 
         series2.setTitle("Diabetes");
@@ -73,7 +75,8 @@ public class Grafico extends Activity {
                 new DataPoint(1, 90),
                 new DataPoint(2, 20),
                 new DataPoint(3, 30),
-                new DataPoint(4, 80)
+                new DataPoint(4, 80),
+                new DataPoint(5, 70)
         });
 
         series3.setTitle("Cardiovasculares");
@@ -84,7 +87,8 @@ public class Grafico extends Activity {
                 new DataPoint(1, 40),
                 new DataPoint(2, 50),
                 new DataPoint(3, 80),
-                new DataPoint(4, 30)
+                new DataPoint(4, 30),
+                new DataPoint(5, 20)
         });
 
         series4.setTitle("Obesidade");
@@ -95,7 +99,8 @@ public class Grafico extends Activity {
                 new DataPoint(1, 40),
                 new DataPoint(2, 60),
                 new DataPoint(3, 60),
-                new DataPoint(4, 40)
+                new DataPoint(4, 40),
+                new DataPoint(5, 40)
         });
 
         series5.setTitle("Síndrome metab.");
@@ -118,8 +123,8 @@ public class Grafico extends Activity {
 
         // set manual X bounds
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(4);
+        graph.getViewport().setMinX(1);
+        graph.getViewport().setMaxX(5);
 
         graph.addSeries(series);
         graph.addSeries(series2);
