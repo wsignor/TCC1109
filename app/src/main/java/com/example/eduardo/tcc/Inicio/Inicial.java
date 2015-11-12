@@ -76,16 +76,16 @@ public class Inicial extends Activity {
         btnNovaAvaliacao = (Button) findViewById(R.id.btnNovaAvaliacao);
         btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
         btnGrafico = (Button) findViewById(R.id.btnGrafico);
-        btnTeste = (Button) findViewById(R.id.btnTeste);
+//        btnTeste = (Button) findViewById(R.id.btnTeste);
         btnSair = (Button) findViewById(R.id.btnSair);
 
-        btnTeste.setOnClickListener(new View.OnClickListener() {
+/*        btnTeste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent takeUserEditarDados = new Intent(Inicial.this, PraticasNutricionais.class);
                 startActivity(takeUserEditarDados);
             }
-        });
+        });*/
 
         btnMeusDados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,9 +150,12 @@ public class Inicial extends Activity {
 
 
         if(ParseUser.getCurrentUser().get("nutricionista") != null && ParseUser.getCurrentUser().get("nutricionista").equals(false)) {
+
             btnMeusClientes.setVisibility(View.INVISIBLE);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnSair.getLayoutParams();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnGrafico.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, R.id.btnNovaAvaliacao);
+            params = (RelativeLayout.LayoutParams)btnSair.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.btnGrafico);
             btnSair.setLayoutParams(params);
         }
 
