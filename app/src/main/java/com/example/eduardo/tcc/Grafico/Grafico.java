@@ -132,7 +132,7 @@ public class Grafico extends Activity {
         graph.addSeries(series4);
         graph.addSeries(series5);
         graph.getLegendRenderer().setVisible(true);
-        graph.getLegendRenderer().setFixedPosition(0,280);
+        graph.getLegendRenderer().setFixedPosition(0,200);
         //graph.getLegendRenderer().set
     }
 }
