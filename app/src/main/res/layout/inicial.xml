@@ -82,7 +82,17 @@
         android:text="Praticas Nutricionais"
         android:id="@+id/btnTeste"
         android:layout_below="@+id/btnSair"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notificação"
+        android:id="@+id/btnNotificacao"
+        android:layout_below="@+id/btnTeste"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
