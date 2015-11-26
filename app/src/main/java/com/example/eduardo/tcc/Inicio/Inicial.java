@@ -70,6 +70,9 @@ public class Inicial extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inicial);
 
+        scheduleClient = new ScheduleClient(this);
+        scheduleClient.doBindService();
+
         // tentando cadastrar o aparelho no login
         System.out.println("Inicial - oncreate - ParseUser.getCurrentUser().getObjectId(): " + ParseUser.getCurrentUser().getObjectId());
         ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId(), new SaveCallback() {
@@ -216,11 +219,11 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
                 startActivity(takeUserToNotif);
-
+                enviarNotificacoes();
             }
         });
 
-        //enviarNotificacoes();
+
 
     }
 
@@ -272,9 +275,7 @@ public class Inicial extends Activity {
     }
 
     private void enviarNotificacoes() {
-        scheduleClient = new ScheduleClient(this);
-        scheduleClient.doBindService();
-
+//        scheduleClient = new ScheduleClient(this);
         onDateSelectedButtonClick();
     }
 
@@ -283,8 +284,8 @@ public class Inicial extends Activity {
      */
     public void onDateSelectedButtonClick(){
         // Get the date from our datepicker
-        int day = 30;//picker.getDayOfMonth();
-        int month = 11;//picker.getMonth();
+        int day = 25;//picker.getDayOfMonth();
+        int month = 10;//picker.getMonth();
         int year = 2015;//picker.getYear();
 
         // Create a new calendar set to the date chosen
@@ -294,6 +295,7 @@ public class Inicial extends Activity {
         c.set(Calendar.HOUR_OF_DAY, 12);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
+        System.out.println(c.toString());
         // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
         scheduleClient.setAlarmForNotification(c);
         // Notify the user what they just did

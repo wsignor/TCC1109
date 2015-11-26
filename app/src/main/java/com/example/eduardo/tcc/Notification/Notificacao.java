@@ -44,8 +44,11 @@ public class Notificacao extends Activity  {
     public void onDateSelectedButtonClick(View v){
         // Get the date from our datepicker
         int day = picker.getDayOfMonth();
+        System.out.println("day = " + day);
         int month = picker.getMonth();
+        System.out.println("month = " + month);
         int year = picker.getYear();
+        System.out.println("year = " + year);
         // Create a new calendar set to the date chosen
         // we set the time to midnight (i.e. the first minute of that day)
         Calendar c = Calendar.getInstance();
