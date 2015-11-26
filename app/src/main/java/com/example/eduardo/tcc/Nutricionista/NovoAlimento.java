@@ -90,10 +90,10 @@ public class NovoAlimento extends Activity {
 
 
 
-            JSONObject json = new JSONObject();
-            json.put("nome", "dudu");
-            json.put("idade", "24");
-            json.put("alert", "Seu nutricionista adicionou novos alimentos à sua dieta, confira!");
+//            JSONObject json = new JSONObject();
+//            json.put("nome", "dudu");
+//            json.put("idade", "24");
+//            json.put("alert", "Seu nutricionista adicionou novos alimentos à sua dieta, confira!");
             //json.put("",ParseUser.getCurrentUser().getObjectId());
 
             //push.setData(json);
@@ -102,7 +102,7 @@ public class NovoAlimento extends Activity {
 
             // notification
 
-            scheduleNotification(getNotification("1 second delay"), 1000);
+            //scheduleNotification(getNotification("1 second delay"), 1000);
 
             // PendingIntent pendingIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, getIntent(), PendingIntent.FLAG_CANCEL_CURRENT);
 

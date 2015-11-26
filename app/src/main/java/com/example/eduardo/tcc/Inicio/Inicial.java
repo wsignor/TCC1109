@@ -2,11 +2,16 @@ package com.example.eduardo.tcc.Inicio;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +24,10 @@ import com.example.eduardo.tcc.Grafico.Grafico;
 import com.example.eduardo.tcc.Nutricionista.ClientesNutricionista;
 import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.Avaliacao.FormularioAvaliacao;
+import com.example.eduardo.tcc.Push.PraticaRandom;
 import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.Avaliacao.ResultadoAvaliacao;
+import com.example.eduardo.tcc.Util.NotificationPublisher;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -65,7 +72,7 @@ public class Inicial extends Activity {
         ParseInstallation.getCurrentInstallation().saveInBackground();
         //ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
 
-
+        scheduleNotification(getNotification("Redução de alimentos com sódio."), 1000);
 
 
         textViewToChange = (TextView) findViewById(R.id.txtNomeUsuario);
@@ -189,16 +196,25 @@ public class Inicial extends Activity {
             }
         });
 
-//        GraphView graph = (GraphView) findViewById(R.id.graph);
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-//                new DataPoint(0, 1),
-//                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
-//                new DataPoint(4, 6)
-//        });
-//        graph.addSeries(series);
+    }
 
+    private void scheduleNotification(Notification notification, int delay) {
 
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification(String content) {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("Prática recomendada:");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.ic_launcher);
+        return builder.build();
     }
 }
