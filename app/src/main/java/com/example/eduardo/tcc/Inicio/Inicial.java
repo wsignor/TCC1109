@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,9 +19,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eduardo.tcc.CadastroUsuario.DadosUsuario;
 import com.example.eduardo.tcc.Grafico.Grafico;
+import com.example.eduardo.tcc.Notification.Notificacao;
+import com.example.eduardo.tcc.Notification.ScheduleClient;
 import com.example.eduardo.tcc.Nutricionista.ClientesNutricionista;
 import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.Avaliacao.FormularioAvaliacao;
@@ -32,11 +36,17 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.example.eduardo.tcc.RecomendacoesAvaliacao.PraticasNutricionais;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Inicial extends Activity {
@@ -48,8 +58,12 @@ public class Inicial extends Activity {
     private Button btnMeusClientes;
     private Button btnGrafico;
     private Button btnTeste;
+    private Button btnNotificacao;
     private TextView textViewToChange;
     protected ProgressDialog proDialog;
+
+    // This is a handle so that we can call methods on our service
+    private ScheduleClient scheduleClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +99,7 @@ public class Inicial extends Activity {
         btnGrafico = (Button) findViewById(R.id.btnGrafico);
         btnTeste = (Button) findViewById(R.id.btnTeste);
         btnSair = (Button) findViewById(R.id.btnSair);
+        btnNotificacao = (Button) findViewById(R.id.btnNotificacao);
 
         btnTeste.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,9 +208,25 @@ public class Inicial extends Activity {
             }
         });
 
+        btnNotificacao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
+                startActivity(takeUserToNotif);
+
+            }
+        });
+
+        //enviarNotificacoes();
+
     }
 
     private void scheduleNotification(Notification notification, int delay) {
+
+
+        // make sure there are no pending notifications
+        cancelNotification();
+
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
@@ -213,5 +244,56 @@ public class Inicial extends Activity {
         builder.setContentText(content);
         builder.setSmallIcon(R.drawable.ic_launcher);
         return builder.build();
+    }
+
+    private void cancelNotification(){
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
+        nMgr.cancelAll();
+    }
+
+    public void sendMail() {
+        Map<String, String> params = new HashMap<>();
+        params.put("text", "Sample mail body");
+        params.put("subject", "Test Parse Push");
+        params.put("fromEmail", "wagnersignoretti@gmail.com");
+        params.put("fromName", "Wagner");
+        params.put("toEmail", "wag.signoretti@gmail.com");
+        params.put("toName", "Wagwagwagner");
+        ParseCloud.callFunctionInBackground("sendMail", params, new FunctionCallback<Object>() {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e("cloud code example", "response: " + response);
+            }
+        });
+    }
+
+    private void enviarNotificacoes() {
+        scheduleClient = new ScheduleClient(this);
+        scheduleClient.doBindService();
+
+        onDateSelectedButtonClick();
+    }
+
+    /**
+     * This is the onClick called from the method above
+     */
+    public void onDateSelectedButtonClick(){
+        // Get the date from our datepicker
+        int day = 30;//picker.getDayOfMonth();
+        int month = 11;//picker.getMonth();
+        int year = 2015;//picker.getYear();
+
+        // Create a new calendar set to the date chosen
+        // we set the time to midnight (i.e. the first minute of that day)
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day);
+        c.set(Calendar.HOUR_OF_DAY, 12);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
+        scheduleClient.setAlarmForNotification(c);
+        // Notify the user what they just did
+        Toast.makeText(this, "Notification set for: " + day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
     }
 }

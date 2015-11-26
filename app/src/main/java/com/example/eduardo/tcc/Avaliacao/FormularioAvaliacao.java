@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,8 +15,11 @@ import android.widget.Toast;
 
 import com.example.eduardo.tcc.Entidades.Avaliacao;
 import com.example.eduardo.tcc.Entidades.CurrentUser;
+import com.example.eduardo.tcc.Notification.ScheduleClient;
 import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.Util.LoadingUtils;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -23,6 +27,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Eduardo on 16/09/2015.
@@ -31,6 +37,9 @@ public class FormularioAvaliacao extends Activity {
 
     ParseObject InformacoesMutaveisData;
     protected ProgressDialog proDialog;
+
+    // This is a handle so that we can call methods on our service
+    private ScheduleClient scheduleClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -349,9 +358,59 @@ public class FormularioAvaliacao extends Activity {
             }
 
 
+            sendMail();
+            
+            enviarNotificacoes();
+
+
+
         }catch (ParseException e){
             LoadingUtils.stopLoading();
         }
     }
 
+    private void enviarNotificacoes() {
+        scheduleClient = new ScheduleClient(this);
+        scheduleClient.doBindService();
+
+        onDateSelectedButtonClick();
+    }
+
+    /**
+     * This is the onClick called from the method above
+     */
+    public void onDateSelectedButtonClick(){
+        // Get the date from our datepicker
+        int day = 30;//picker.getDayOfMonth();
+        int month = 11;//picker.getMonth();
+        int year = 2015;//picker.getYear();
+
+        // Create a new calendar set to the date chosen
+        // we set the time to midnight (i.e. the first minute of that day)
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day);
+        c.set(Calendar.HOUR_OF_DAY, 12);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
+        scheduleClient.setAlarmForNotification(c);
+        // Notify the user what they just did
+        Toast.makeText(this, "Notification set for: "+ day +"/"+ (month+1) +"/"+ year, Toast.LENGTH_SHORT).show();
+    }
+
+    public void sendMail() {
+        Map<String, String> params = new HashMap<>();
+        params.put("text", "Sample mail body");
+        params.put("subject", "Test Parse Push");
+        params.put("fromEmail", "wagnersignoretti@gmail.com");
+        params.put("fromName", "Wagner");
+        params.put("toEmail", "wag.signoretti@gmail.com");
+        params.put("toName", "Wagwagwagner");
+        ParseCloud.callFunctionInBackground("sendMail", params, new FunctionCallback<Object>() {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e("cloud code example", "response: " + response);
+            }
+        });
+    }
 }
