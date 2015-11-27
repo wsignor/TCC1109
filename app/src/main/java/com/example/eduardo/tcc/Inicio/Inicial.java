@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eduardo.tcc.CadastroUsuario.DadosUsuario;
+import com.example.eduardo.tcc.Email.GMailSender;
 import com.example.eduardo.tcc.Grafico.Grafico;
 import com.example.eduardo.tcc.Notification.Notificacao;
 import com.example.eduardo.tcc.Notification.ScheduleClient;
@@ -89,7 +90,7 @@ public class Inicial extends Activity {
         ParseInstallation.getCurrentInstallation().saveInBackground();
         //ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
 
-        scheduleNotification(getNotification("Redução de alimentos com sódio."), 1000);
+        //scheduleNotification(getNotification("Redução de alimentos com sódio."), 1000);
 
 
         textViewToChange = (TextView) findViewById(R.id.txtNomeUsuario);
@@ -210,6 +211,7 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 Intent takeUserToGraphics = new Intent(Inicial.this, Grafico.class);
                 startActivity(takeUserToGraphics);
+                enviarEmail();
 
             }
         });
@@ -224,6 +226,21 @@ public class Inicial extends Activity {
         });
 
 
+
+    }
+
+
+    private void enviarEmail(){
+
+        try {
+            GMailSender sender = new GMailSender("wag.signoretti@gmail.com", "---");
+            sender.sendMail("This is Subject",
+                    "This is Body",
+                    "wag.signoretti@gmail.com",
+                    "wagnersignoretti@gmail.com");
+        } catch (Exception e) {
+            Log.e("SendMail", e.getMessage(), e);
+        }
 
     }
 
@@ -275,30 +292,64 @@ public class Inicial extends Activity {
     }
 
     private void enviarNotificacoes() {
-//        scheduleClient = new ScheduleClient(this);
-        onDateSelectedButtonClick();
+        //scheduleClient = new ScheduleClient(this);
+
+        int dia = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int mes = Calendar.getInstance().getTime().getMonth();
+        int ano = Calendar.getInstance().get(Calendar.YEAR);
+
+        System.out.print("dia: " + dia + " - mes: " + mes + " - ano: " + ano);
+
+        for(int i = 0 ; i <= 14 ; i++){
+            //System.out.println("MAXIMUM: " + Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if(dia > Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)){
+                dia = 1;
+                mes = mes + 1;
+            }
+
+            if(mes > 12){
+                mes = 1;
+                ano = ano + 1;
+            }
+
+            onDateSelectedButtonClick(dia,mes,ano);
+
+            dia++;
+        }
+
+
     }
 
     /**
      * This is the onClick called from the method above
      */
-    public void onDateSelectedButtonClick(){
+    public void onDateSelectedButtonClick(int dia, int mes, int ano){
         // Get the date from our datepicker
-        int day = 25;//picker.getDayOfMonth();
-        int month = 10;//picker.getMonth();
+        int day = 26;//picker.getDayOfMonth();
+        int month = 11;//picker.getMonth();
         int year = 2015;//picker.getYear();
 
         // Create a new calendar set to the date chosen
         // we set the time to midnight (i.e. the first minute of that day)
         Calendar c = Calendar.getInstance();
-        c.set(year, month, day);
-        c.set(Calendar.HOUR_OF_DAY, 12);
+        //c.set(c.getTime().getYear(), c.getTime().getMonth(), c.getTime().getDay());
+
+        c.set(ano, mes, dia);
+
+        //c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
+        //c.set(Calendar.MINUTE, c.getTime().getMinutes());
+        //c.set(Calendar.SECOND, c.getTime().getSeconds()+5);
+
+        c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
+
         System.out.println(c.toString());
         // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
         scheduleClient.setAlarmForNotification(c);
         // Notify the user what they just did
-        Toast.makeText(this, "Notification set for: " + day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Notification set for: " + day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Notification set for: " + dia + "/" + (mes + 1) + "/" + ano, Toast.LENGTH_SHORT).show();
     }
 }
