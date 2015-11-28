@@ -14,20 +14,39 @@ import java.util.List;
  */
 public final class CurrentUser {
 
+    // Variáveis
     private static CurrentUser INSTANCE = new CurrentUser();
     private static List<Doenca> doencasTemp;
     private static ParseObject avaliacaoTemp;
+    private static ParseObject avaliacao;
 
+    public CurrentUser() {
+        if (ParseUser.getCurrentUser() != null) {
+            carregaAvaliacao();
+        }
+    }
+
+    // gets e sets
     public static List<Doenca> getDoencasTemp() {
         return doencasTemp;
     }
-
     public static ParseObject getAvaliacaoTemp() {
         return avaliacaoTemp;
     }
+    public static void setAvaliacaoTemp(ParseObject avaliacaoTemp) { avaliacaoTemp = avaliacaoTemp; }
+    public static ParseObject getAvaliacao() {
+        return avaliacao;
+    }
+    public static void setAvaliacao(ParseObject avaliacao) { avaliacao = avaliacao; }
+    public static CurrentUser getInstance(){
+        return INSTANCE;
+    }
 
-    public static void removeAvaliacaoTemp() { avaliacaoTemp = null; }
 
+    // Funções
+    public static void startInstance(){
+        INSTANCE = new CurrentUser();
+    }
     public static void carregaAvaliacao(){
         ParseQuery innerQuery = new ParseQuery("_User");
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
@@ -65,21 +84,16 @@ public final class CurrentUser {
         }catch (ParseException exp){
 
         }
-    }
 
-    public CurrentUser() {
-        if (ParseUser.getCurrentUser() != null) {
-            carregaAvaliacao();
+        ParseQuery<com.parse.ParseObject> queryAvaliacao = ParseQuery.getQuery("Avaliacao");
+        queryAvaliacao.whereMatchesQuery("idUsuario", innerQuery);
+        queryAvaliacao.whereDoesNotExist("dtTermino");
+
+        try{
+            avaliacao = queryAvaliacao.getFirst();
+        }catch (ParseException exp){
+
         }
-    }
 
-
-
-    public static CurrentUser getInstance(){
-        return INSTANCE;
-    }
-
-    public static void startInstance(){
-        INSTANCE = new CurrentUser();
     }
 }

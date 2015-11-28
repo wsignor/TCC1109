@@ -64,8 +64,6 @@ public class Inicial extends Activity {
     private Button btnMail;
     private TextView textViewToChange;
     protected ProgressDialog proDialog;
-
-    // This is a handle so that we can call methods on our service
     private ScheduleClient scheduleClient;
 
     @Override
@@ -73,10 +71,22 @@ public class Inicial extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inicial);
 
+
+        // Atribuições
         scheduleClient = new ScheduleClient(this);
         scheduleClient.doBindService();
+        textViewToChange = (TextView) findViewById(R.id.txtNomeUsuario);
+        textViewToChange.setText(ParseUser.getCurrentUser().getString("nome"));
+        btnMeusDados = (Button) findViewById(R.id.btnMeusDados);
+        btnMinhaAvaliacao = (Button) findViewById(R.id.btnMinhaAvaliacao);
+        btnNovaAvaliacao = (Button) findViewById(R.id.btnNovaAvaliacao);
+        btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
+        btnGrafico = (Button) findViewById(R.id.btnGrafico);
+        btnSair = (Button) findViewById(R.id.btnSair);
+        btnNotificacao = (Button) findViewById(R.id.btnNotificacao);
 
-        // tentando cadastrar o aparelho no login
+
+        // Tentando cadastrar o aparelho no login
         System.out.println("Inicial - oncreate - ParseUser.getCurrentUser().getObjectId(): " + ParseUser.getCurrentUser().getObjectId());
         ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId(), new SaveCallback() {
             @Override
@@ -90,32 +100,30 @@ public class Inicial extends Activity {
         });
         ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
         ParseInstallation.getCurrentInstallation().saveInBackground();
-        //ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
-
-        //scheduleNotification(getNotification("Redução de alimentos com sódio."), 1000);
 
 
-        textViewToChange = (TextView) findViewById(R.id.txtNomeUsuario);
-        textViewToChange.setText(ParseUser.getCurrentUser().getString("nome"));
+        // Tramento para exibição dos botões
+        if(CurrentUser.getAvaliacaoTemp() == null && CurrentUser.getAvaliacao() == null){
+            btnMinhaAvaliacao.setVisibility(View.INVISIBLE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnNovaAvaliacao.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.btnMeusDados);
+            btnNovaAvaliacao.setLayoutParams(params);
+        }
 
-        btnMeusDados = (Button) findViewById(R.id.btnMeusDados);
-        btnMinhaAvaliacao = (Button) findViewById(R.id.btnMinhaAvaliacao);
-        btnNovaAvaliacao = (Button) findViewById(R.id.btnNovaAvaliacao);
-        btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
-        btnGrafico = (Button) findViewById(R.id.btnGrafico);
-//        btnTeste = (Button) findViewById(R.id.btnTeste);
-        btnSair = (Button) findViewById(R.id.btnSair);
-        btnNotificacao = (Button) findViewById(R.id.btnNotificacao);
-        //btnMail = (Button) findViewById(R.id.btnEmail);
+        if(ParseUser.getCurrentUser().get("nutricionista") != null && ParseUser.getCurrentUser().get("nutricionista").equals(false)) {
+            btnMeusClientes.setVisibility(View.INVISIBLE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnGrafico.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.btnNovaAvaliacao);
+            params = (RelativeLayout.LayoutParams)btnSair.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.btnGrafico);
+            btnSair.setLayoutParams(params);
+        }
 
-/*        btnTeste.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takeUserEditarDados = new Intent(Inicial.this, PraticasNutricionais.class);
-                startActivity(takeUserEditarDados);
-            }
-        });*/
 
+
+
+
+        // Eventos dos botões
         btnMeusDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +132,6 @@ public class Inicial extends Activity {
             }
         });
 
-
         btnMinhaAvaliacao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,23 +139,18 @@ public class Inicial extends Activity {
                     Intent takeUserHomepage = new Intent(Inicial.this, ResultadoAvaliacao.class);
                     startActivity(takeUserHomepage);
                 }
+
+                if(CurrentUser.getAvaliacao() != null){
+                    Intent takeUserHomepage = new Intent(Inicial.this, PraticasNutricionais.class);
+                    startActivity(takeUserHomepage);
+                }
             }
         });
-
-        if(CurrentUser.getAvaliacaoTemp() == null){
-            btnMinhaAvaliacao.setVisibility(View.INVISIBLE);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnNovaAvaliacao.getLayoutParams();
-            params.addRule(RelativeLayout.BELOW, R.id.btnMeusDados);
-            btnNovaAvaliacao.setLayoutParams(params);
-        }
-
 
         btnNovaAvaliacao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (CurrentUser.getDoencasTemp() != null && CurrentUser.getDoencasTemp().size() > 0) {
+                if ((CurrentUser.getDoencasTemp() != null && CurrentUser.getDoencasTemp().size() > 0) || CurrentUser.getAvaliacao() != null) {
 
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
@@ -160,7 +162,6 @@ public class Inicial extends Activity {
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:
-                                    //No button clicked
                                     break;
                             }
                         }
@@ -176,25 +177,11 @@ public class Inicial extends Activity {
             }
         });
 
-
-
-        if(ParseUser.getCurrentUser().get("nutricionista") != null && ParseUser.getCurrentUser().get("nutricionista").equals(false)) {
-
-            btnMeusClientes.setVisibility(View.INVISIBLE);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnGrafico.getLayoutParams();
-            params.addRule(RelativeLayout.BELOW, R.id.btnNovaAvaliacao);
-            params = (RelativeLayout.LayoutParams)btnSair.getLayoutParams();
-            params.addRule(RelativeLayout.BELOW, R.id.btnGrafico);
-            btnSair.setLayoutParams(params);
-        }
-
         btnMeusClientes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent takeNutriClientsPage = new Intent(Inicial.this, ClientesNutricionista.class);
                 startActivity(takeNutriClientsPage);
-
             }
         });
 
@@ -207,7 +194,6 @@ public class Inicial extends Activity {
                 startActivity(takeUserHomepage);
             }
         });
-
 
         btnGrafico.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,15 +208,10 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
                 startActivity(takeUserToNotif);
-
-                //c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
-                //c.set(Calendar.MINUTE, c.getTime().getMinutes());
-                //c.set(Calendar.SECOND, c.getTime().getSeconds()+5);
-
                 onDateSelectedButtonClick(27,10,2015);
             }
         });
-//
+
 //        btnMail.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

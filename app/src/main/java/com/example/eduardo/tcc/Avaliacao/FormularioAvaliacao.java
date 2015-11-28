@@ -69,7 +69,7 @@ public class FormularioAvaliacao extends Activity {
 
                 EditText peso = (EditText) findViewById(R.id.txtPeso);
                 if (!peso.getText().toString().isEmpty()) {
-                    salvarInformacoesImutaveis();
+                    salvarInformacoesMutaveis();
 
                 } else {
                     Toast.makeText(FormularioAvaliacao.this, R.string.peso_invalido, Toast.LENGTH_LONG).show();
@@ -80,7 +80,7 @@ public class FormularioAvaliacao extends Activity {
 
     }
 
-    private void salvarInformacoesImutaveis(){
+    private void salvarInformacoesMutaveis(){
         Switch isFumante = (Switch) findViewById(R.id.swtFumante);
         Switch isBebidaAlcoolica = (Switch) findViewById(R.id.swtBebidaAlcoolica);
         Switch isSodio = (Switch) findViewById(R.id.swtConsumoSodio);
@@ -358,9 +358,9 @@ public class FormularioAvaliacao extends Activity {
             }
 
 
-            sendMail();
+            //sendMail();
             
-            enviarNotificacoes();
+            //enviarNotificacoes();
 
 
 

@@ -17,8 +17,8 @@ import java.util.List;
  */
 public final class Avaliacao {
 
+    // Atributos
     private static final Avaliacao INSTANCE = new Avaliacao();
-
     boolean fumante;
     boolean sedentarismo;
     boolean diabetico;
@@ -47,44 +47,37 @@ public final class Avaliacao {
     boolean hipertensaoFamiliar;
     boolean obesidadeFamiliar;
     boolean sindromeFamiliar;
-
     int peso, idade;
-
     double altura, imc;
-
     String sexo, raca, nivelColesterol;;
-
-    public Doenca getDiabetes() {
-        diabetes.setNome("Diabetes Mellitus");
-        return diabetes;
-    }
-
-    public Doenca getHipertensao() {
-        hipertensao.setNome("Hipertensão Arterial");
-        return hipertensao;
-    }
-
-    public Doenca getDoencasCardiovasculares() {
-        doencasCardiovasculares.setNome("Doenças Cardiovasculares");
-        return doencasCardiovasculares;
-    }
-
-    public Doenca getObesidade() {
-        obesidade.setNome("Obesidade");
-        return obesidade;
-    }
-
-    public Doenca getSindromeMetabolica() {
-        sindromeMetabolica.setNome("Sindrome Metabólica");
-        return sindromeMetabolica;
-    }
-
     Doenca diabetes = new Doenca();
     Doenca hipertensao = new Doenca();
     Doenca doencasCardiovasculares = new Doenca();
     Doenca obesidade = new Doenca();
     Doenca sindromeMetabolica = new Doenca();
 
+
+    // gets e sets
+    public Doenca getDiabetes() {
+        diabetes.setNome("Diabetes Mellitus");
+        return diabetes;
+    }
+    public Doenca getHipertensao() {
+        hipertensao.setNome("Hipertensão Arterial");
+        return hipertensao;
+    }
+    public Doenca getDoencasCardiovasculares() {
+        doencasCardiovasculares.setNome("Doenças Cardiovasculares");
+        return doencasCardiovasculares;
+    }
+    public Doenca getObesidade() {
+        obesidade.setNome("Obesidade");
+        return obesidade;
+    }
+    public Doenca getSindromeMetabolica() {
+        sindromeMetabolica.setNome("Sindrome Metabólica");
+        return sindromeMetabolica;
+    }
     public int getQtdDiabetes() {
         return diabetes.getQtdOcorrencias();
     }
@@ -100,19 +93,6 @@ public final class Avaliacao {
     public int getQtdSindromeMetabolica() {
         return sindromeMetabolica.getQtdOcorrencias();
     }
-
-    public void limpaResultado(){
-        diabetes.setQtdOcorrencias(0);
-        obesidade.setQtdOcorrencias(0);
-        hipertensao.setQtdOcorrencias(0);
-        doencasCardiovasculares.setQtdOcorrencias(0);
-        sindromeMetabolica.setQtdOcorrencias(0);
-    }
-
-    public static Avaliacao getInstance(){
-        return INSTANCE;
-    }
-
     public void setIMC(double altura, int peso){
         this.altura = altura;
         this.peso = peso;
@@ -125,19 +105,15 @@ public final class Avaliacao {
             incrementSindromeMetabolica();
         }
     }
-
     public double getAltura() {
         return altura;
     }
-
     public void setAltura(double altura) {
         this.altura = altura;
     }
-
     public String getSexo() {
         return sexo;
     }
-
     public void setSexo(String sexo) {
         this.sexo = sexo;
 
@@ -151,19 +127,15 @@ public final class Avaliacao {
         }
 
     }
-
     public int getPeso() {
         return peso;
     }
-
     public void setPeso(int peso) {
         this.peso = peso;
     }
-
     public int getIdade() {
         return idade;
     }
-
     public void setIdade(int idade) {
         this.idade = idade;
 
@@ -182,11 +154,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isDiabetes() {
         return diabetico;
     }
-
     public void setDiabetes(boolean diabetes) {
         this.diabetico = diabetes;
 
@@ -198,11 +168,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isHipertensao() {
         return hipertenso;
     }
-
     public void setHipertensao(boolean hipertensao) {
         this.hipertenso = hipertensao;
 
@@ -214,11 +182,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isFumante() {
         return fumante;
     }
-
     public void setFumante(boolean fumante) {
         this.fumante = fumante;
 
@@ -230,11 +196,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isSedentarismo() {
         return sedentarismo;
     }
-
     public void setSedentarismo(boolean sedentarismo) {
         this.sedentarismo = sedentarismo;
 
@@ -247,11 +211,9 @@ public final class Avaliacao {
         }
 
     }
-
     public String isRaca() {
         return raca;
     }
-
     public void setRaca(String raca) {
         this.raca = raca;
 
@@ -260,11 +222,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isAltoConsumoAlcool() {
         return altoConsumoAlcool;
     }
-
     public void setAltoConsumoAlcool(boolean altoConsumoAlcool) {
         this.altoConsumoAlcool = altoConsumoAlcool;
 
@@ -273,11 +233,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isAltoConsumoSodio() {
         return altoConsumoSodio;
     }
-
     public void setAltoConsumoSodio(boolean altoConsumoSodio) {
         this.altoConsumoSodio = altoConsumoSodio;
 
@@ -286,11 +244,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isAltoConsumoGorduraAcucares() {
         return altoConsumoGorduraAcucares;
     }
-
     public void setAltoConsumoGorduraAcucares(boolean altoConsumoGorduraAcucares) {
         this.altoConsumoGorduraAcucares = altoConsumoGorduraAcucares;
 
@@ -302,11 +258,9 @@ public final class Avaliacao {
         }
 
     }
-
     public String isNivelColesterol() {
         return nivelColesterol;
     }
-
     public void setNivelColesterol(String colesterolAlto) {
         this.nivelColesterol = colesterolAlto;
 
@@ -319,11 +273,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isMulherMenopausa() {
         return mulherMenopausa;
     }
-
     public void setMulherMenopausa(boolean mulherMenopausa) {
         this.mulherMenopausa = mulherMenopausa;
 
@@ -332,11 +284,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isMulherAnticoncepcionais() {
         return mulherAnticoncepcionais;
     }
-
     public void setMulherAnticoncepcionais(boolean mulherAnticoncepcionais) {
         this.mulherAnticoncepcionais = mulherAnticoncepcionais;
 
@@ -345,11 +295,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isEstresse() {
         return estresse;
     }
-
     public void setEstresse(boolean estresse) {
         this.estresse = estresse;
 
@@ -361,11 +309,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isMulherDiabeteGestacional() {
         return mulherDiabeteGestacional;
     }
-
     public void setMulherDiabeteGestacional(boolean mulherDiabeteGestacional) {
         this.mulherDiabeteGestacional = mulherDiabeteGestacional;
 
@@ -374,11 +320,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isUsoCortisona() {
         return usoCortisona;
     }
-
     public void setUsoCortisona(boolean usoCortisona) {
         this.usoCortisona = usoCortisona;
 
@@ -387,11 +331,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isUsoDiureticos() {
         return usoDiureticos;
     }
-
     public void setUsoDiureticos(boolean usoDiureticos) {
         this.usoDiureticos = usoDiureticos;
 
@@ -400,11 +342,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isUsoBetabloqueadores() {
         return usoBetabloqueadores;
     }
-
     public void setUsoBetabloqueadores(boolean usoBetabloqueadores) {
         this.usoBetabloqueadores = usoBetabloqueadores;
 
@@ -413,11 +353,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isMulherComFilhos() {
         return mulherComFilhos;
     }
-
     public void setMulherComFilhos(boolean mulherComFilhos) {
         this.mulherComFilhos = mulherComFilhos;
 
@@ -427,11 +365,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isHomemMoraComCompanheira() {
         return homemMoraComCompanheira;
     }
-
     public void setHomemMoraComCompanheira(boolean homemMoraComCompanheira) {
         this.homemMoraComCompanheira = homemMoraComCompanheira;
 
@@ -440,11 +376,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isMulherOvarioPolicistico() {
         return mulherOvarioPolicistico;
     }
-
     public void setMulherOvarioPolicistico(boolean mulherOvarioPolicistico) {
         this.mulherOvarioPolicistico = mulherOvarioPolicistico;
 
@@ -453,11 +387,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isDislipidemia() {
         return dislipidemia;
     }
-
     public void setDislipidemia(boolean dislipidemia) {
         this.dislipidemia = dislipidemia;
 
@@ -466,11 +398,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isMicroalbuminuria() {
         return microalbuminuria;
     }
-
     public void setMicroalbuminuria(boolean microalbuminuria) {
         this.microalbuminuria = microalbuminuria;
 
@@ -479,11 +409,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isIntoleranciaGlicose() {
         return intoleranciaGlicose;
     }
-
     public void setIntoleranciaGlicose(boolean intoleranciaGlicose) {
         this.intoleranciaGlicose = intoleranciaGlicose;
 
@@ -492,11 +420,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isIntoleranciaInsulina() {
         return intoleranciaInsulina;
     }
-
     public void setIntoleranciaInsulina(boolean intoleranciaInsulina) {
         this.intoleranciaInsulina = intoleranciaInsulina;
 
@@ -505,11 +431,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isHiperuricemia() {
         return hiperuricemia;
     }
-
     public void setHiperuricemia(boolean hiperuricemia) {
         this.hiperuricemia = hiperuricemia;
 
@@ -518,11 +442,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isEstadoProTromboticoProInflamatorio() {
         return estadoProTromboticoProInflamatorio;
     }
-
     public void setEstadoProTromboticoProInflamatorio(boolean estadoProTromboticoProInflamatorio) {
         this.estadoProTromboticoProInflamatorio = estadoProTromboticoProInflamatorio;
 
@@ -531,11 +453,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isCardiovascularFamiliar() {
         return cardiovascularFamiliar;
     }
-
     public void setCardiovascularFamiliar(boolean cardiovascularFamiliar) {
         this.cardiovascularFamiliar = cardiovascularFamiliar;
 
@@ -544,11 +464,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isDiabetesFamiliar() {
         return diabetesFamiliar;
     }
-
     public void setDiabetesFamiliar(boolean diabetesFamiliar) {
         this.diabetesFamiliar = diabetesFamiliar;
 
@@ -557,11 +475,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isHipertensaoFamiliar() {
         return hipertensaoFamiliar;
     }
-
     public void setHipertensaoFamiliar(boolean hipertensaoFamiliar) {
         this.hipertensaoFamiliar = hipertensaoFamiliar;
 
@@ -570,11 +486,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isObesidadeFamiliar() {
         return obesidadeFamiliar;
     }
-
     public void setObesidadeFamiliar(boolean obesidadeFamiliar) {
         this.obesidadeFamiliar = obesidadeFamiliar;
 
@@ -583,11 +497,9 @@ public final class Avaliacao {
         }
 
     }
-
     public boolean isSindromeFamiliar() {
         return sindromeFamiliar;
     }
-
     public void setSindromeFamiliar(boolean sindromeFamiliar) {
         this.sindromeFamiliar = sindromeFamiliar;
 
@@ -597,26 +509,33 @@ public final class Avaliacao {
 
     }
 
+
+    // Funções
+    public void limpaResultado(){
+        diabetes.setQtdOcorrencias(0);
+        obesidade.setQtdOcorrencias(0);
+        hipertensao.setQtdOcorrencias(0);
+        doencasCardiovasculares.setQtdOcorrencias(0);
+        sindromeMetabolica.setQtdOcorrencias(0);
+    }
+    public static Avaliacao getInstance(){
+        return INSTANCE;
+    }
     public void incrementDiabetes(){
         diabetes.setQtdOcorrencias(diabetes.getQtdOcorrencias() + 1);
     }
-
     public void incrementHipertensao(){
         hipertensao.setQtdOcorrencias(hipertensao.getQtdOcorrencias() + 1);
     }
-
     public void incrementDoencasCardiovasculares(){
         doencasCardiovasculares.setQtdOcorrencias(doencasCardiovasculares.getQtdOcorrencias() + 1);
     }
-
     public void incrementObesidade(){
         obesidade.setQtdOcorrencias(obesidade.getQtdOcorrencias() + 1);
     }
-
     public void incrementSindromeMetabolica(){
         sindromeMetabolica.setQtdOcorrencias(sindromeMetabolica.getQtdOcorrencias() + 1);
     }
-
     public List<ParseObject> buscarAvaliacao(){
 
         ParseQuery<com.parse.ParseObject> queryDoenca;
@@ -724,29 +643,30 @@ public final class Avaliacao {
             return null;
         }
     }
-
     public void removeAvaliacaoTemp(Context context) {
         try{
             if(CurrentUser.getAvaliacaoTemp() != null) {
                 ParseObject.createWithoutData("AvaliacaoTemp", CurrentUser.getAvaliacaoTemp().getObjectId()).delete();
-                CurrentUser.removeAvaliacaoTemp();
+                CurrentUser.setAvaliacaoTemp(null);
             }
         }catch (ParseException e){
             Toast.makeText(context,
                     "Não foi possível excluir a avaliação temporária existente", Toast.LENGTH_LONG).show();
         }
     }
-
-    public void salvarAvaliacao (String idDoenca){
+    public void salvarAvaliacao (String idDoenca, Context context){
         ParseObject avaliacao = new ParseObject("Avaliacao");
         avaliacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
         avaliacao.put("idDoenca", ParseObject.createWithoutData("Doenca", idDoenca));
-        avaliacao.put("dtInicio", avaliacao.getCreatedAt());
+        Calendar c = Calendar.getInstance();
+        avaliacao.put("dtInicio", c.getTime());
 
         try {
             avaliacao.save();
+            CurrentUser.setAvaliacao(avaliacao);
         }catch(ParseException e){
-
+            Toast.makeText(context,
+                    "Não foi possível iniciar uma nova avaliação", Toast.LENGTH_LONG).show();
         }
 
     }

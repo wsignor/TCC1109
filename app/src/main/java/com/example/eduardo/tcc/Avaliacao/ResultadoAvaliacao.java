@@ -71,17 +71,17 @@ public class ResultadoAvaliacao extends Activity {
                     public void onClick(View v) {
                         Avaliacao.getInstance().removeAvaliacaoTemp(v.getContext());
 
-                        Avaliacao.getInstance().salvarAvaliacao(v.getTag().toString());
+                        Avaliacao.getInstance().salvarAvaliacao(v.getTag().toString(), v.getContext());
 
                         Intent intent = new Intent();
                         intent.setClass(v.getContext(), PraticasNutricionais.class);
                         intent.putExtra("idDoenca", v.getTag().toString());
                         startActivity(intent);
 
-                        enviarNotificacoes();
+                        //enviarNotificacoes();
 
                         // colocar dados corretos
-                        enviarEmail("nutri@nutri", "hipertensao", "5");
+                        //enviarEmail("nutri@nutri", "hipertensao", "5");
 
                     }
                 });
