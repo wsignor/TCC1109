@@ -69,14 +69,13 @@ public class ResultadoAvaliacao extends Activity {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        String objectIdAvaliacaoTemp = CurrentUser.getAvaliacaoTemp().getObjectId();
+                        Avaliacao.getInstance().salvarAvaliacao(objectIdAvaliacaoTemp, v.getTag().toString(), v.getContext());
                         Avaliacao.getInstance().removeAvaliacaoTemp(v.getContext());
 
-                        Avaliacao.getInstance().salvarAvaliacao(v.getTag().toString(), v.getContext());
-
-                        Intent intent = new Intent();
-                        intent.setClass(v.getContext(), PraticasNutricionais.class);
-                        intent.putExtra("idDoenca", v.getTag().toString());
-                        startActivity(intent);
+                        Intent takeUserHomepage = new Intent(v.getContext(), PraticasNutricionais.class);
+                        startActivity(takeUserHomepage);
 
                         //enviarNotificacoes();
 

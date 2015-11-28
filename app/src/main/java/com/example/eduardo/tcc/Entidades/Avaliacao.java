@@ -654,7 +654,7 @@ public final class Avaliacao {
                     "Não foi possível excluir a avaliação temporária existente", Toast.LENGTH_LONG).show();
         }
     }
-    public void salvarAvaliacao (String idDoenca, Context context){
+    public void salvarAvaliacao (String idAvaliacaoTemp, String idDoenca, Context context){
         ParseObject avaliacao = new ParseObject("Avaliacao");
         avaliacao.put("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
         avaliacao.put("idDoenca", ParseObject.createWithoutData("Doenca", idDoenca));
@@ -663,11 +663,60 @@ public final class Avaliacao {
 
         try {
             avaliacao.save();
+            atualizarDoencaAvaliacaoTemp(idAvaliacaoTemp, idDoenca, avaliacao.getObjectId());
             CurrentUser.setAvaliacao(avaliacao);
         }catch(ParseException e){
             Toast.makeText(context,
                     "Não foi possível iniciar uma nova avaliação", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public void atualizarDoencaAvaliacaoTemp(String idAvaliacaoTemp, String idDoenca, String idAvaliacao){
+
+        ParseQuery<ParseObject> queryDoenca = ParseQuery.getQuery("Doenca");
+        queryDoenca.whereEqualTo("objectId", idDoenca);
+
+        ParseQuery<ParseObject> queryAvaliacaoTemp = ParseQuery.getQuery("AvaliacaoTemp");
+        queryAvaliacaoTemp.whereEqualTo("objectId", idAvaliacaoTemp);
+
+        ParseQuery<com.parse.ParseObject> queryDoencaAvaliacaoTemp = ParseQuery.getQuery("DoencaAvaliacaoTemp");
+        queryDoencaAvaliacaoTemp.whereMatchesQuery("idAvaliacaoTemp", queryAvaliacaoTemp);
+        queryDoencaAvaliacaoTemp.whereMatchesQuery("idDoenca", queryDoenca);
+
+        try {
+            List<ParseObject> doencasAvaliacao = queryDoencaAvaliacaoTemp.find();
+
+            for (ParseObject obj : doencasAvaliacao) {
+                try{
+                    obj.put("idAvaliacao", ParseObject.createWithoutData("Avaliacao", idAvaliacao));
+                    obj.save();
+                }catch (ParseException exp){
+
+                }
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void inativarAvaliacao(){
+        if(CurrentUser.getAvaliacao() != null) {
+            ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Avaliacao");
+            innerQuery.whereEqualTo("objectId", CurrentUser.getAvaliacao().getObjectId());
+
+            try {
+                ParseObject avaliacao = innerQuery.getFirst();
+                Calendar c = Calendar.getInstance();
+                avaliacao.put("dtTermino", c.getTime());
+                avaliacao.put("finalizadaCorretamente", "N");
+
+                avaliacao.save();
+                CurrentUser.setAvaliacao(null);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

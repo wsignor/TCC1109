@@ -29,7 +29,7 @@ public class PraticasNutricionais extends AppCompatActivity {
     ParseUser user;
     EditText emailNutricionista;
     Switch eNutricionista;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -64,7 +64,7 @@ public class Descricao_Pratica extends Activity {
 
         objectIdClienteSelecionado = listaExibida.get(position).getObjectId();
         descricao.setText(String.format(getResources().getString(R.string.descricaoPratica), listaExibida.get(position).get("descricao").toString()));
-        Object descricao_completa = listaExibida.get(position).get("descricao_completa");
+        Object descricao_completa = listaExibida.get(position).get("descricaoCompleta");
         if(descricao_completa != null) {
             descricao_detalhada.setText(descricao_completa.toString());
         }

@@ -46,6 +46,7 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
 
         ParseObject doenca = CurrentUser.getAvaliacao().getParseObject("idDoenca");
         String idDoenca = doenca.getObjectId();
+        System.out.println("idDoenca = " + idDoenca);
 
         carregaListaPraticas(idDoenca, contentView2);
 

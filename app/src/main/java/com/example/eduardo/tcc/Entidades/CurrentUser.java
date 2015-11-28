@@ -37,7 +37,7 @@ public final class CurrentUser {
     public static ParseObject getAvaliacao() {
         return avaliacao;
     }
-    public static void setAvaliacao(ParseObject avaliacao) { avaliacao = avaliacao; }
+    public static void setAvaliacao(ParseObject newAvaliacao) { avaliacao = newAvaliacao; }
     public static CurrentUser getInstance(){
         return INSTANCE;
     }

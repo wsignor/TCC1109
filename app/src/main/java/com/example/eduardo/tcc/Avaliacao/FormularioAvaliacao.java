@@ -240,6 +240,7 @@ public class FormularioAvaliacao extends Activity {
             fatores.setDiabetes(informacoesImutaveis.getBoolean("diabetico"));
             fatores.setHipertensao(informacoesImutaveis.getBoolean("hipertenso"));
 
+
             fatores.removeAvaliacaoTemp(FormularioAvaliacao.this);
 
             salvarAvaliacao(fatores);
@@ -351,7 +352,10 @@ public class FormularioAvaliacao extends Activity {
                         CurrentUser.carregaAvaliacao();
                         //LoadingUtils.stopLoading();
 
+                        Avaliacao.getInstance().inativarAvaliacao();
+
                         Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
+                        takeUserHomepage.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(takeUserHomepage);
                     }
                 });

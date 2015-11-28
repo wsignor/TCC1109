@@ -137,6 +137,7 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 if (CurrentUser.getDoencasTemp() != null && CurrentUser.getDoencasTemp().size() > 0) {
                     Intent takeUserHomepage = new Intent(Inicial.this, ResultadoAvaliacao.class);
+                    takeUserHomepage.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(takeUserHomepage);
                 }
 
@@ -158,6 +159,7 @@ public class Inicial extends Activity {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     Intent takeUserHomepage = new Intent(Inicial.this, FormularioAvaliacao.class);
+                                    takeUserHomepage.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                     startActivity(takeUserHomepage);
                                     break;
 
@@ -172,6 +174,7 @@ public class Inicial extends Activity {
 
                 } else {
                     Intent takeUserHomepage = new Intent(Inicial.this, FormularioAvaliacao.class);
+                    takeUserHomepage.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(takeUserHomepage);
                 }
             }
