@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eduardo.tcc.CadastroUsuario.DadosUsuario;
-import com.example.eduardo.tcc.Email.GMailSender;
+import com.example.eduardo.tcc.Email.SendMailActivity;
 import com.example.eduardo.tcc.Grafico.Grafico;
 import com.example.eduardo.tcc.Notification.Notificacao;
 import com.example.eduardo.tcc.Notification.ScheduleClient;
@@ -60,6 +61,7 @@ public class Inicial extends Activity {
     private Button btnGrafico;
     private Button btnTeste;
     private Button btnNotificacao;
+    private Button btnMail;
     private TextView textViewToChange;
     protected ProgressDialog proDialog;
 
@@ -104,6 +106,7 @@ public class Inicial extends Activity {
 //        btnTeste = (Button) findViewById(R.id.btnTeste);
         btnSair = (Button) findViewById(R.id.btnSair);
         btnNotificacao = (Button) findViewById(R.id.btnNotificacao);
+        //btnMail = (Button) findViewById(R.id.btnEmail);
 
 /*        btnTeste.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,8 +214,6 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 Intent takeUserToGraphics = new Intent(Inicial.this, Grafico.class);
                 startActivity(takeUserToGraphics);
-                enviarEmail();
-
             }
         });
 
@@ -221,105 +222,96 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
                 startActivity(takeUserToNotif);
-                enviarNotificacoes();
+
+                //c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
+                //c.set(Calendar.MINUTE, c.getTime().getMinutes());
+                //c.set(Calendar.SECOND, c.getTime().getSeconds()+5);
+
+                onDateSelectedButtonClick(27,10,2015);
             }
         });
+//
+//        btnMail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Intent takeUserToMail = new Intent(Inicial.this, SendMailActivity.class);
+//                //startActivity(takeUserToMail);
+//
+//                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+//                sendIntent.setType("plain/text");
+//                sendIntent.setData(Uri.parse("test@gmail.com"));
+//                sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+//                sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "test@gmail.com" });
+//                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Um cliente seu concluiu a avaliação, veja o resultado.");
+//                sendIntent.putExtra(Intent.EXTRA_TEXT, "Corpo do email com as informações necessárias.");
+//                startActivity(sendIntent);
+//            }
+//        });
 
 
 
     }
 
+//    private void scheduleNotification(Notification notification, int delay) {
+//
+//
+//        // make sure there are no pending notifications
+//        cancelNotification();
+//
+//
+//        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+//        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+//        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+//        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+//    }
 
-    private void enviarEmail(){
-
-        try {
-            GMailSender sender = new GMailSender("wag.signoretti@gmail.com", "---");
-            sender.sendMail("This is Subject",
-                    "This is Body",
-                    "wag.signoretti@gmail.com",
-                    "wagnersignoretti@gmail.com");
-        } catch (Exception e) {
-            Log.e("SendMail", e.getMessage(), e);
-        }
-
-    }
-
-    private void scheduleNotification(Notification notification, int delay) {
-
-
-        // make sure there are no pending notifications
-        cancelNotification();
-
-
-        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    private Notification getNotification(String content) {
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setContentTitle("Prática recomendada:");
-        builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.ic_launcher);
-        return builder.build();
-    }
-
-    private void cancelNotification(){
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
-        nMgr.cancelAll();
-    }
-
-    public void sendMail() {
-        Map<String, String> params = new HashMap<>();
-        params.put("text", "Sample mail body");
-        params.put("subject", "Test Parse Push");
-        params.put("fromEmail", "wagnersignoretti@gmail.com");
-        params.put("fromName", "Wagner");
-        params.put("toEmail", "wag.signoretti@gmail.com");
-        params.put("toName", "Wagwagwagner");
-        ParseCloud.callFunctionInBackground("sendMail", params, new FunctionCallback<Object>() {
-            @Override
-            public void done(Object response, ParseException exc) {
-                Log.e("cloud code example", "response: " + response);
-            }
-        });
-    }
-
-    private void enviarNotificacoes() {
-        //scheduleClient = new ScheduleClient(this);
-
-        int dia = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        int mes = Calendar.getInstance().getTime().getMonth();
-        int ano = Calendar.getInstance().get(Calendar.YEAR);
-
-        System.out.print("dia: " + dia + " - mes: " + mes + " - ano: " + ano);
-
-        for(int i = 0 ; i <= 14 ; i++){
-            //System.out.println("MAXIMUM: " + Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
-
-            if(dia > Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)){
-                dia = 1;
-                mes = mes + 1;
-            }
-
-            if(mes > 12){
-                mes = 1;
-                ano = ano + 1;
-            }
-
-            onDateSelectedButtonClick(dia,mes,ano);
-
-            dia++;
-        }
-
-
-    }
+//    private Notification getNotification(String content) {
+//        Notification.Builder builder = new Notification.Builder(this);
+//        builder.setContentTitle("Prática recomendada:");
+//        builder.setContentText(content);
+//        builder.setSmallIcon(R.drawable.ic_launcher);
+//        return builder.build();
+//    }
+//
+//    private void cancelNotification(){
+//        String ns = Context.NOTIFICATION_SERVICE;
+//        NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
+//        nMgr.cancelAll();
+//    }
+//
+//    private void enviarNotificacoes() {
+//        //scheduleClient = new ScheduleClient(this);
+//
+//        int dia = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//        int mes = Calendar.getInstance().getTime().getMonth();
+//        int ano = Calendar.getInstance().get(Calendar.YEAR);
+//
+//        System.out.print("dia: " + dia + " - mes: " + mes + " - ano: " + ano);
+//
+//        for(int i = 0 ; i <= 14 ; i++){
+//            //System.out.println("MAXIMUM: " + Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+//
+//            if(dia > Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)){
+//                dia = 1;
+//                mes = mes + 1;
+//            }
+//
+//            if(mes > 12){
+//                mes = 1;
+//                ano = ano + 1;
+//            }
+//
+//            onDateSelectedButtonClick(dia,mes,ano);
+//
+//            dia++;
+//        }
+//
+//
+//    }
 
     /**
      * This is the onClick called from the method above
@@ -337,13 +329,13 @@ public class Inicial extends Activity {
 
         c.set(ano, mes, dia);
 
-        //c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
-        //c.set(Calendar.MINUTE, c.getTime().getMinutes());
-        //c.set(Calendar.SECOND, c.getTime().getSeconds()+5);
+        c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
+        c.set(Calendar.MINUTE, c.getTime().getMinutes());
+        c.set(Calendar.SECOND, c.getTime().getSeconds()+20);
 
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
+//        c.set(Calendar.HOUR_OF_DAY, 0);
+//        c.set(Calendar.MINUTE, 0);
+//        c.set(Calendar.SECOND, 0);
 
         System.out.println(c.toString());
         // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service

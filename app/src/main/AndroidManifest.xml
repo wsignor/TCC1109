@@ -107,6 +107,11 @@
 
         <activity android:name=".Notification.SecondActivity" />
 
+        <activity
+            android:name=".Email.SendMailActivity"
+            android:label="@string/app_name" >
+        </activity>
+
         <service android:name=".Notification.ScheduleService" />
         <service android:name=".Notification.NotifyService" />
 

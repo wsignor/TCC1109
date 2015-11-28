@@ -69,23 +69,23 @@ public class NovoAlimento extends Activity {
         EditText alimento = (EditText) findViewById(R.id.txtAlimento);
         EditText quantidade = (EditText) findViewById(R.id.txtQuantidade);
 
-        /*
-        novoAlimentoParse = new ParseObject("TABELA_ALIMENTOS");
+
+        novoAlimentoParse = new ParseObject("ALIMENTO_AVALIACAO");
         novoAlimentoParse.put("objectId", "");
         novoAlimentoParse.put("idUsuario", ParseObject.createWithoutData("_User", objectIdClienteSelecionado));
-        novoAlimentoParse.put("alimento", "");
-        novoAlimentoParse.put("quantidade", "");
-        */
+        novoAlimentoParse.put("alimento", alimento.getText().toString());
+        novoAlimentoParse.put("quantidade", quantidade.getText().toString());
+
 
 
         try {
 
 
             ParsePush push = new ParsePush();
-            push.setChannel(ParseUser.getCurrentUser().getObjectId());
+            //push.setChannel(ParseUser.getCurrentUser().getObjectId());
             System.out.println("ParseUser.getCurrentUser().getObjectId() - set channel: " + ParseUser.getCurrentUser().getObjectId());
             // depois que o cliente estiver configurado
-            //push.setChannel(objectIdClienteSelecionado);
+            push.setChannel(objectIdClienteSelecionado);
             push.setMessage("Seu nutricionista adicionou novos alimentos à sua dieta, confira!");
 
 
