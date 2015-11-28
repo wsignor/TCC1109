@@ -76,6 +76,12 @@
         </activity>
 
         <activity
+            android:name=".Nutricionista.Descricao_Pratica"
+            android:label="@string/app_name">
+        </activity>
+
+
+        <activity
             android:name=".Nutricionista.NovoAlimento"
             android:label="@string/app_name" >
         </activity>

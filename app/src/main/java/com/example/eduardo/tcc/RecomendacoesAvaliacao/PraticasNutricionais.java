@@ -10,7 +10,13 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.example.eduardo.tcc.R;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Eduardo on 08/10/2015.

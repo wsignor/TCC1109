@@ -30,6 +30,8 @@
     <string name="hintAlimento">Alimento</string>
     <string name="hintQuantidade">Quantidade</string>
 
+    <string name="descricaoPratica"><b>%1$s</b></string>
+
     <string-array name="sexo_array">
         <item>Masculino</item>
         <item>Feminino</item>
