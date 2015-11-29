@@ -310,7 +310,6 @@ public class Inicial extends Activity {
         int month = 11;//picker.getMonth();
         int year = 2015;//picker.getYear();
 
-
         // Create a new calendar set to the date chosen
         // we set the time to midnight (i.e. the first minute of that day)
         Calendar c = Calendar.getInstance();
