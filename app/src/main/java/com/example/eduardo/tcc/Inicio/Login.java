@@ -66,7 +66,7 @@ public class Login extends Activity {
                             Intent takeUserHomepage = new Intent(Login.this, Inicial.class);
                             startActivity(takeUserHomepage);
 
-                            montarMensagem();
+                            //montarMensagem();
 
                             LoadingUtils.stopLoading();
 

@@ -215,7 +215,7 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
                 startActivity(takeUserToNotif);
-                onDateSelectedButtonClick(27,10,2015);
+                onDateSelectedButtonClick(30,10,2015);
             }
         });
 
@@ -310,6 +310,7 @@ public class Inicial extends Activity {
         int month = 11;//picker.getMonth();
         int year = 2015;//picker.getYear();
 
+
         // Create a new calendar set to the date chosen
         // we set the time to midnight (i.e. the first minute of that day)
         Calendar c = Calendar.getInstance();
@@ -317,9 +318,12 @@ public class Inicial extends Activity {
 
         c.set(ano, mes, dia);
 
-        c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
-        c.set(Calendar.MINUTE, c.getTime().getMinutes());
-        c.set(Calendar.SECOND, c.getTime().getSeconds()+20);
+
+        System.out.println("current time: " + c.getTime().toString());
+
+//        c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
+//        c.set(Calendar.MINUTE, c.getTime().getMinutes());
+//        c.set(Calendar.SECOND, c.getTime().getSeconds()+20);
 
 //        c.set(Calendar.HOUR_OF_DAY, 0);
 //        c.set(Calendar.MINUTE, 0);

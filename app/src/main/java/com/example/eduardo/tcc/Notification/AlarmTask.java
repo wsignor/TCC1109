@@ -43,6 +43,8 @@ public class AlarmTask implements Runnable{
 
         System.out.println("date to string - " + date.toString());
         System.out.println("date get seconds to string - " + date.getTime().getSeconds());
+        System.out.println("date get day of the month - " + date.get(Calendar.DAY_OF_MONTH));
+        System.out.println("date month - " + date.get(Calendar.MONTH));
 
         // Sets an alarm - note this alarm will be lost if the phone is turned off and on again
         am.set(AlarmManager.RTC, date.getTimeInMillis(), pendingIntent);
