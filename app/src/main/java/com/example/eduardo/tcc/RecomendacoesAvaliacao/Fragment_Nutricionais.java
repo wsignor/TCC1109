@@ -36,7 +36,6 @@ public class Fragment_Nutricionais extends android.support.v4.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         contentView = inflater.inflate(R.layout.orientacoes_nutricionais, null);
 
         textViewToChange = (TextView) contentView.findViewById(R.id.textOrientacaoNutricional);

@@ -46,7 +46,6 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
 
         ParseObject doenca = CurrentUser.getAvaliacao().getParseObject("idDoenca");
         String idDoenca = doenca.getObjectId();
-        System.out.println("idDoenca = " + idDoenca);
 
         carregaListaPraticas(idDoenca, contentView2);
 
@@ -59,7 +58,6 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
 
         textViewToChange = (TextView) contentView2.findViewById(R.id.textHabitosRecomendados);
         textViewToChange.setText("As praticas recomendadas para a " + nomeDoenca + " são:");
-
 
         return contentView2;
     }
@@ -103,8 +101,6 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
                         Intent intent = new Intent();
                         intent.setClass(view.getContext(), Descricao_Pratica.class);
                         intent.putExtra("position", position);
-                        System.out.println("onItemClick: id - " + id);
-                        intent.putExtra("id", id);
                         ParseObject doenca = CurrentUser.getAvaliacao().getParseObject("idDoenca");
                         intent.putExtra("idDoenca", doenca.getObjectId());
                         startActivity(intent);

@@ -58,11 +58,19 @@ public class Grafico extends Activity {
         List<ParseObject> doencas = new ArrayList<ParseObject>();
         ParseObject doencaAvaliacaoTemp;
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        
+
         ParseQuery queryUsuario = new ParseQuery("_User");
         ParseQuery<com.parse.ParseObject> queryAvaliacao = ParseQuery.getQuery("Avaliacao");
         ParseQuery queryDoencas = new ParseQuery("Doenca");
         ParseQuery queryDoencasAvaliacaoTemp = new ParseQuery("DoencaAvaliacaoTemp");
+        List<Integer> cores = new ArrayList<Integer>();
+        int corVigente=0;
+        cores.add(Color.MAGENTA);
+        cores.add(Color.RED);
+        cores.add(Color.BLUE);
+        cores.add(Color.GREEN);
+        cores.add(Color.CYAN);
+        cores.add(Color.BLACK);
 
         try {
 
@@ -96,7 +104,7 @@ public class Grafico extends Activity {
 
                     try{
                         doencaAvaliacaoTemp = queryDoencasAvaliacaoTemp.getFirst();
-                        double percentualFatores = (( doencaAvaliacaoTemp.fetchIfNeeded().getInt("qtdFatores")) * 100 ) / 20;
+                        double percentualFatores = (( doencaAvaliacaoTemp.fetchIfNeeded().getInt("qtdFatores")) * 100 ) / doenca.getInt("qtdTotalFatores");
                         percentuaisFatores.add(percentualFatores);
                         //lines.appendData(new DataPoint(contatorAvaliacao, percentualFatores), true, avaliacoes.size());
                     }catch (ParseException e){
@@ -111,34 +119,19 @@ public class Grafico extends Activity {
                 }
 
                 DataPoint s[] = v.toArray(new DataPoint[percentuaisFatores.size()]);
-
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(s);
 
-/*                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                        new DataPoint(0, percentuaisFatores.size() > 0 ? percentuaisFatores.get(0).doubleValue() : 0.0),
-                        new DataPoint(1, percentuaisFatores.size() > 1 ? percentuaisFatores.get(1).doubleValue() : 0.0),
-                        new DataPoint(2, percentuaisFatores.size() > 2 ? percentuaisFatores.get(2).doubleValue() : 0.0),
-                        new DataPoint(3, percentuaisFatores.size() > 3 ? percentuaisFatores.get(3).doubleValue() : 0.0),
-                        new DataPoint(4, percentuaisFatores.size() > 4 ? percentuaisFatores.get(4).doubleValue() : 0.0),
-                        new DataPoint(5, percentuaisFatores.size() > 5 ? percentuaisFatores.get(5).doubleValue() : 0.0),
-                });*/
-
-
-
                 series.setTitle(doenca.getString("nome"));
-                Random rnd = new Random();
-                int color = Color.argb(255, rnd.nextInt(256),rnd.nextInt(256),rnd.nextInt(256));
-                series.setColor(color);
+                series.setColor(cores.get(corVigente));
 
                 graph.addSeries(series);
+                corVigente++;
             }
 
 
-            graph.getGridLabelRenderer().setVerticalAxisTitle("Percent. fatores");//setNumHorizontalLabels(3);
+            graph.getGridLabelRenderer().setVerticalAxisTitle("Fatores de Risco (%)");
             graph.getGridLabelRenderer().setHorizontalAxisTitle("Avaliações");
             graph.getGridLabelRenderer().setPadding(70);
-
-
 
             // set manual Y bounds
             graph.getViewport().setYAxisBoundsManual(true);
@@ -148,97 +141,11 @@ public class Grafico extends Activity {
             // set manual X bounds
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setMinX(1);
-            graph.getViewport().setMaxX(avaliacoes.size());
+            graph.getViewport().setMinX(avaliacoes.size());
+
 
             graph.getLegendRenderer().setVisible(true);
             graph.getLegendRenderer().setFixedPosition(0, 200);
-
-
-            /*LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 80),
-                    new DataPoint(1, 80),
-                    new DataPoint(2, 50),
-                    new DataPoint(3, 50),
-                    new DataPoint(4, 20),
-                    new DataPoint(5, 30)
-            });
-            series.setTitle("Hipertensão");
-
-            LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 80),
-                    new DataPoint(1, 50),
-                    new DataPoint(2, 50),
-                    new DataPoint(3, 30),
-                    new DataPoint(4, 20),
-                    new DataPoint(5, 10)
-            });
-
-            series2.setTitle("Diabetes");
-            series2.setColor(Color.RED);
-
-            LineGraphSeries<DataPoint> series3 = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 70),
-                    new DataPoint(1, 90),
-                    new DataPoint(2, 20),
-                    new DataPoint(3, 30),
-                    new DataPoint(4, 80),
-                    new DataPoint(5, 70)
-            });
-
-            series3.setTitle("Cardiovasculares");
-            series3.setColor(Color.GREEN);
-
-            LineGraphSeries<DataPoint> series4 = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 30),
-                    new DataPoint(1, 40),
-                    new DataPoint(2, 50),
-                    new DataPoint(3, 80),
-                    new DataPoint(4, 30),
-                    new DataPoint(5, 20)
-            });
-
-            series4.setTitle("Obesidade");
-            series4.setColor(Color.MAGENTA);
-
-            LineGraphSeries<DataPoint> series5 = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 50),
-                    new DataPoint(1, 40),
-                    new DataPoint(2, 60),
-                    new DataPoint(3, 60),
-                    new DataPoint(4, 40),
-                    new DataPoint(5, 40)
-            });
-
-            series5.setTitle("Síndrome metab.");
-            series5.setColor(Color.CYAN);
-
-            //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(Grafico.this));
-
-            graph.getGridLabelRenderer().setVerticalAxisTitle("Percent. fatores");//setNumHorizontalLabels(3);
-
-            graph.getGridLabelRenderer().setHorizontalAxisTitle("Avaliações");
-            graph.getGridLabelRenderer().setPadding(70);
-
-//        graph.getViewport().setScalable(true);
-//        graph.getViewport().setScrollable(true);
-
-            // set manual Y bounds
-            graph.getViewport().setYAxisBoundsManual(true);
-            graph.getViewport().setMinY(0);
-            graph.getViewport().setMaxY(100);
-
-            // set manual X bounds
-            graph.getViewport().setXAxisBoundsManual(true);
-            graph.getViewport().setMinX(1);
-            graph.getViewport().setMaxX(5);
-
-            graph.addSeries(series);
-            graph.addSeries(series2);
-            graph.addSeries(series3);
-            graph.addSeries(series4);
-            graph.addSeries(series5);
-            graph.getLegendRenderer().setVisible(true);
-            graph.getLegendRenderer().setFixedPosition(0, 200);*/
         }
     }
 }

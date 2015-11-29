@@ -35,6 +35,8 @@ public class Descricao_Pratica extends Activity {
 
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
+        int id = intent.getIntExtra("id", 0);
+        System.out.println("id = " + id);
 
         listaPraticas = new ArrayList<ParseObject>();
 
