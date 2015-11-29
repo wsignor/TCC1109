@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,11 @@ import com.example.eduardo.tcc.Entidades.Doenca;
 import com.example.eduardo.tcc.Notification.ScheduleClient;
 import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.RecomendacoesAvaliacao.PraticasNutricionais;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Calendar;
 import java.util.List;
@@ -83,7 +90,7 @@ public class ResultadoAvaliacao extends Activity {
                         //enviarNotificacoes();
 
                         // colocar dados corretos
-                        //enviarEmail("nutri@nutri", "hipertensao", "5");
+                        enviarEmail("nutri@nutri", v.getTag().toString(), "5");
 
                     }
                 });
@@ -305,11 +312,11 @@ public class ResultadoAvaliacao extends Activity {
 
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.setType("plain/text");
-        sendIntent.setData(Uri.parse("test@gmail.com"));
+        sendIntent.setData(Uri.parse(emailNutricionista));
         sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "test@gmail.com" });
+        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { emailNutricionista });
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Um cliente seu concluiu a avaliação, veja o resultado.");
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "Corpo do email com as informações necessárias.");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, builderBody.toString());
         startActivity(sendIntent);
     }
 }
