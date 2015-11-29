@@ -131,6 +131,7 @@ public class Grafico extends Activity {
             graph.getGridLabelRenderer().setVerticalAxisTitle("Fatores de Risco (%)");
             graph.getGridLabelRenderer().setHorizontalAxisTitle("Avaliações");
             graph.getGridLabelRenderer().setPadding(70);
+            graph.getViewport().setScrollable(true);
 
             // set manual Y bounds
             graph.getViewport().setYAxisBoundsManual(true);
@@ -140,7 +141,7 @@ public class Grafico extends Activity {
             // set manual X bounds
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setMinX(1);
-            graph.getViewport().setMinX(avaliacoes.size());
+            graph.getViewport().setMaxX(avaliacoes.size());
 
 
             graph.getLegendRenderer().setVisible(true);

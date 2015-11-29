@@ -352,7 +352,7 @@ public class FormularioAvaliacao extends Activity {
                         CurrentUser.carregaAvaliacao();
                         //LoadingUtils.stopLoading();
 
-                        Avaliacao.getInstance().inativarAvaliacao();
+                        Avaliacao.getInstance().inativarAvaliacao("N");
 
                         Intent takeUserHomepage = new Intent(FormularioAvaliacao.this, ResultadoAvaliacao.class);
                         takeUserHomepage.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

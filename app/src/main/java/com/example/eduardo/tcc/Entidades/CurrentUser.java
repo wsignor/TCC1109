@@ -7,6 +7,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -97,6 +98,16 @@ public final class CurrentUser {
 
         try{
             avaliacao = queryAvaliacao.getFirst();
+            Calendar dataAtual = Calendar.getInstance();
+            Calendar dataAvaliacao = Calendar.getInstance();
+            dataAvaliacao.setTime(avaliacao.getDate("dtInicio"));
+
+            long diff = dataAtual.getTimeInMillis() - dataAvaliacao.getTimeInMillis();
+            long days = diff / (24 * 60 * 60 * 1000);
+
+            if(days > 14) {
+                Avaliacao.getInstance().inativarAvaliacao("S");
+            }
         }catch (ParseException exp){
 
         }

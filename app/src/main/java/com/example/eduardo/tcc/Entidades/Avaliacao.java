@@ -701,7 +701,7 @@ public final class Avaliacao {
         }
 
     }
-    public void inativarAvaliacao(){
+    public void inativarAvaliacao(String finalizadaCorretamente){
         if(CurrentUser.getAvaliacao() != null) {
             ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Avaliacao");
             innerQuery.whereEqualTo("objectId", CurrentUser.getAvaliacao().getObjectId());
@@ -710,7 +710,7 @@ public final class Avaliacao {
                 ParseObject avaliacao = innerQuery.getFirst();
                 Calendar c = Calendar.getInstance();
                 avaliacao.put("dtTermino", c.getTime());
-                avaliacao.put("finalizadaCorretamente", "N");
+                avaliacao.put("finalizadaCorretamente", finalizadaCorretamente);
 
                 avaliacao.save();
                 CurrentUser.setAvaliacao(null);

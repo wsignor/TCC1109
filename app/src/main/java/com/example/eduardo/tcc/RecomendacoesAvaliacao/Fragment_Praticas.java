@@ -87,7 +87,7 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
                 listview = (ListView) contentView2.findViewById(R.id.listViewHabitos);
 
                 final StableArrayAdapter adapter = new StableArrayAdapter(contentView2.getContext(),
-                        android.R.layout.simple_list_item_1, listaExibida);
+                android.R.layout.simple_list_item_1, listaExibida);
                 listview.setAdapter(adapter);
 
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
