@@ -83,7 +83,6 @@ public class Inicial extends Activity {
         btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
         btnGrafico = (Button) findViewById(R.id.btnGrafico);
         btnSair = (Button) findViewById(R.id.btnSair);
-        btnNotificacao = (Button) findViewById(R.id.btnNotificacao);
 
 
         // Tentando cadastrar o aparelho no login
@@ -118,8 +117,6 @@ public class Inicial extends Activity {
             params.addRule(RelativeLayout.BELOW, R.id.btnGrafico);
             btnSair.setLayoutParams(params);
         }
-
-
 
 
 
@@ -210,130 +207,5 @@ public class Inicial extends Activity {
             }
         });
 
-        btnNotificacao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
-                startActivity(takeUserToNotif);
-                onDateSelectedButtonClick(30,10,2015);
-            }
-        });
-
-//        btnMail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Intent takeUserToMail = new Intent(Inicial.this, SendMailActivity.class);
-//                //startActivity(takeUserToMail);
-//
-//                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-//                sendIntent.setType("plain/text");
-//                sendIntent.setData(Uri.parse("test@gmail.com"));
-//                sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-//                sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "test@gmail.com" });
-//                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Um cliente seu concluiu a avaliação, veja o resultado.");
-//                sendIntent.putExtra(Intent.EXTRA_TEXT, "Corpo do email com as informações necessárias.");
-//                startActivity(sendIntent);
-//            }
-//        });
-
-
-
-    }
-
-//    private void scheduleNotification(Notification notification, int delay) {
-//
-//
-//        // make sure there are no pending notifications
-//        cancelNotification();
-//
-//
-//        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-//        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
-//        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-//        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-//    }
-
-//    private Notification getNotification(String content) {
-//        Notification.Builder builder = new Notification.Builder(this);
-//        builder.setContentTitle("Prática recomendada:");
-//        builder.setContentText(content);
-//        builder.setSmallIcon(R.drawable.ic_launcher);
-//        return builder.build();
-//    }
-//
-//    private void cancelNotification(){
-//        String ns = Context.NOTIFICATION_SERVICE;
-//        NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
-//        nMgr.cancelAll();
-//    }
-//
-//    private void enviarNotificacoes() {
-//        //scheduleClient = new ScheduleClient(this);
-//
-//        int dia = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-//        int mes = Calendar.getInstance().getTime().getMonth();
-//        int ano = Calendar.getInstance().get(Calendar.YEAR);
-//
-//        System.out.print("dia: " + dia + " - mes: " + mes + " - ano: " + ano);
-//
-//        for(int i = 0 ; i <= 14 ; i++){
-//            //System.out.println("MAXIMUM: " + Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
-//
-//            if(dia > Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)){
-//                dia = 1;
-//                mes = mes + 1;
-//            }
-//
-//            if(mes > 12){
-//                mes = 1;
-//                ano = ano + 1;
-//            }
-//
-//            onDateSelectedButtonClick(dia,mes,ano);
-//
-//            dia++;
-//        }
-//
-//
-//    }
-
-    /**
-     * This is the onClick called from the method above
-     */
-    public void onDateSelectedButtonClick(int dia, int mes, int ano){
-        // Get the date from our datepicker
-        int day = 26;//picker.getDayOfMonth();
-        int month = 11;//picker.getMonth();
-        int year = 2015;//picker.getYear();
-
-
-        // Create a new calendar set to the date chosen
-        // we set the time to midnight (i.e. the first minute of that day)
-        Calendar c = Calendar.getInstance();
-        //c.set(c.getTime().getYear(), c.getTime().getMonth(), c.getTime().getDay());
-
-        c.set(ano, mes, dia);
-
-
-        System.out.println("current time: " + c.getTime().toString());
-
-//        c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
-//        c.set(Calendar.MINUTE, c.getTime().getMinutes());
-//        c.set(Calendar.SECOND, c.getTime().getSeconds()+20);
-
-//        c.set(Calendar.HOUR_OF_DAY, 0);
-//        c.set(Calendar.MINUTE, 0);
-//        c.set(Calendar.SECOND, 0);
-
-        System.out.println(c.toString());
-        // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
-        scheduleClient.setAlarmForNotification(c);
-        // Notify the user what they just did
-        //Toast.makeText(this, "Notification set for: " + day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Notification set for: " + dia + "/" + (mes + 1) + "/" + ano, Toast.LENGTH_SHORT).show();
     }
 }
