@@ -187,7 +187,7 @@ public class ResultadoAvaliacao extends Activity {
 
     private void enviarEmail(String emailNutri, String idDoenca, String fatores){
 
-        String emailNutricionista = "";
+        String emailNutricionista = "" ;
         String nomeDoenca = "";
 
         StringBuilder builderBody = new StringBuilder();

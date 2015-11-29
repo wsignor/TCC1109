@@ -60,7 +60,7 @@ public class Inicial extends Activity {
     private Button btnMeusClientes;
     private Button btnGrafico;
     private Button btnTeste;
-    private Button btnNotificacao;
+    //private Button btnNotificacao;
     private Button btnMail;
     private TextView textViewToChange;
     protected ProgressDialog proDialog;
@@ -83,7 +83,7 @@ public class Inicial extends Activity {
         btnMeusClientes = (Button) findViewById(R.id.btnMeusClientes);
         btnGrafico = (Button) findViewById(R.id.btnGrafico);
         btnSair = (Button) findViewById(R.id.btnSair);
-        btnNotificacao = (Button) findViewById(R.id.btnNotificacao);
+        //btnNotificacao = (Button) findViewById(R.id.btnNotificacao);
 
 
         // Tentando cadastrar o aparelho no login
@@ -210,14 +210,14 @@ public class Inicial extends Activity {
             }
         });
 
-        btnNotificacao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
-                startActivity(takeUserToNotif);
-                onDateSelectedButtonClick(30,10,2015);
-            }
-        });
+//        btnNotificacao.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent takeUserToNotif = new Intent(Inicial.this, Notificacao.class);
+//                startActivity(takeUserToNotif);
+//                onDateSelectedButtonClick(30,10,2015);
+//            }
+//        });
 
 //        btnMail.setOnClickListener(new View.OnClickListener() {
 //            @Override
