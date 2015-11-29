@@ -13,10 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.eduardo.tcc.CadastroUsuario.DadosUsuario;
+import com.example.eduardo.tcc.Inicio.Inicial;
 import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.Util.NotificationPublisher;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONObject;
@@ -28,6 +31,8 @@ public class NovoAlimento extends Activity {
 
     private Button btnMeusDados;
     private String objectIdClienteSelecionado = "";
+    private String idAvaliacao;
+    private String idCliente;
     ParseObject novoAlimentoParse;
     private static final String PUSH_URL = "https://api.parse.com/1/push";
 
@@ -37,21 +42,14 @@ public class NovoAlimento extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.novo_alimento);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            objectIdClienteSelecionado = extras.getString("objectId");
-            System.out.println("objectId cliente selecionado: " + objectIdClienteSelecionado);
-        }
+        idAvaliacao = getIntent().getExtras().getString("idAvaliacao");
+        idCliente = getIntent().getExtras().getString("idCliente");
 
-
-        final Button btnIncluirAlimentos = (Button)findViewById(R.id.btnIncluirAlimento);
+        Button btnIncluirAlimentos = (Button)findViewById(R.id.btnIncluirAlimento);
         btnIncluirAlimentos.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //LoadingUtils.startLoading(NovoAlimento.this);
-                Toast.makeText(NovoAlimento.this, "Incluir alimento.", Toast.LENGTH_SHORT).show();
-
                 try {
                     incluirAlimentos();
                 } catch (IOException e) {
@@ -65,27 +63,27 @@ public class NovoAlimento extends Activity {
 
     private void incluirAlimentos() throws IOException {
         //LoadingUtils.stopLoading();
-        System.out.println("incluirAlimentos para: " + objectIdClienteSelecionado);
         EditText alimento = (EditText) findViewById(R.id.txtAlimento);
         EditText quantidade = (EditText) findViewById(R.id.txtQuantidade);
+        EditText periodicidade = (EditText) findViewById(R.id.txtPeriodicidade);
 
 
-        novoAlimentoParse = new ParseObject("ALIMENTO_AVALIACAO");
-        novoAlimentoParse.put("objectId", "");
-        novoAlimentoParse.put("idUsuario", ParseObject.createWithoutData("_User", objectIdClienteSelecionado));
-        novoAlimentoParse.put("alimento", alimento.getText().toString());
+
+        novoAlimentoParse = new ParseObject("AlimentoAvaliacao");
+        novoAlimentoParse.put("idAvaliacao", ParseObject.createWithoutData("Avaliacao", idAvaliacao));
+        novoAlimentoParse.put("descricaoAlimento", alimento.getText().toString());
         novoAlimentoParse.put("quantidade", quantidade.getText().toString());
-
-
+        novoAlimentoParse.put("periodicidade", periodicidade.getText().toString());
 
         try {
 
+            novoAlimentoParse.save();
 
             ParsePush push = new ParsePush();
             //push.setChannel(ParseUser.getCurrentUser().getObjectId());
             System.out.println("ParseUser.getCurrentUser().getObjectId() - set channel: " + ParseUser.getCurrentUser().getObjectId());
             // depois que o cliente estiver configurado
-            push.setChannel(objectIdClienteSelecionado);
+            push.setChannel(idCliente);
             push.setMessage("Seu nutricionista adicionou novos alimentos à sua dieta, confira!");
 
 
@@ -111,6 +109,9 @@ public class NovoAlimento extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        finish();
+
 
     }
 

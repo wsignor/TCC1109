@@ -1,34 +1,22 @@
 package com.example.eduardo.tcc.RecomendacoesAvaliacao;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.eduardo.tcc.Entidades.Avaliacao;
 import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.Nutricionista.Descricao_Pratica;
-import com.example.eduardo.tcc.Nutricionista.ListItemDetail;
 import com.example.eduardo.tcc.R;
 import com.example.eduardo.tcc.Util.StableArrayAdapter;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.net.ContentHandler;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,7 +26,7 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
 
     View contentView2;
     private TextView textViewToChange;
-    private String idDoenca;
+    private String idDoencaVigente;
 
     @Nullable
     @Override
@@ -46,19 +34,16 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
 
         contentView2 = inflater.inflate(R.layout.praticas_recomendados, null);
 
-        idDoenca = getActivity().getIntent().getExtras().getString("idDoenca");
+        idDoencaVigente = getActivity().getIntent().getExtras().getString("idDoenca");
 
-        //ParseObject doenca = CurrentUser.getAvaliacao().getParseObject("idDoenca");
-        //String idDoenca = doenca.getObjectId();
+        ParseObject doenca;
 
-        ParseObject doenca = new ParseObject("Doenca");
-
-        carregaListaPraticas(idDoenca, contentView2);
+        carregaListaPraticas(idDoencaVigente, contentView2);
 
         String nomeDoenca = "";
         try {
             ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Doenca");
-            innerQuery.whereEqualTo("objectId", idDoenca);
+            innerQuery.whereEqualTo("objectId", idDoencaVigente);
 
             doenca = innerQuery.getFirst();
             nomeDoenca = doenca.fetchIfNeeded().getString("nome");
@@ -111,8 +96,7 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
                         Intent intent = new Intent();
                         intent.setClass(view.getContext(), Descricao_Pratica.class);
                         intent.putExtra("position", position);
-                        ParseObject doenca = CurrentUser.getAvaliacao().getParseObject("idDoenca");
-                        intent.putExtra("idDoenca", doenca.getObjectId());
+                        intent.putExtra("idDoenca", idDoencaVigente);
                         startActivity(intent);
                     }
                 });

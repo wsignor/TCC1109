@@ -26,12 +26,24 @@
         android:layout_marginTop="30dp"
         android:hint="@string/hintQuantidade" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtPeriodicidade"
+        android:layout_below="@+id/txtQuantidade"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:hint="@string/hintPeriodicidade" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Incluir alimento"
         android:id="@+id/btnIncluirAlimento"
-        android:layout_below="@+id/txtQuantidade"
+        android:layout_below="@+id/txtPeriodicidade"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="false"

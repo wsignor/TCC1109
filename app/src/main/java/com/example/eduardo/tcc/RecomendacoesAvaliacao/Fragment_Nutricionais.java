@@ -1,36 +1,18 @@
 package com.example.eduardo.tcc.RecomendacoesAvaliacao;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.eduardo.tcc.Entidades.CurrentUser;
-import com.example.eduardo.tcc.Nutricionista.Descricao_Pratica;
 import com.example.eduardo.tcc.R;
-import com.example.eduardo.tcc.Util.Mask;
 import com.example.eduardo.tcc.Util.StableArrayAdapter;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

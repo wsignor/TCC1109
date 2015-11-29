@@ -39,13 +39,10 @@ public class ListItemDetail extends Activity {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(ListItemDetail.this, "Adicionar alimentos.", Toast.LENGTH_SHORT).show();
-
-                // (String action, Uri uri,Context packageContext, Class<?> cls)
-                //Intent novoAlimento = new Intent("", null, ListItemDetail.this, NovoAlimento.class);
                 Intent novoAlimento = new Intent(ListItemDetail.this, NovoAlimento.class);
 
-                novoAlimento.putExtra("objectId" , objectIdClienteSelecionado);
+                novoAlimento.putExtra("idAvaliacao" , avaliacao.getObjectId());
+                novoAlimento.putExtra("idCliente" , cliente.getObjectId());
                 startActivity(novoAlimento);
             }
         });
