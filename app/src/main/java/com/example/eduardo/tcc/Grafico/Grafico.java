@@ -106,7 +106,6 @@ public class Grafico extends Activity {
                         doencaAvaliacaoTemp = queryDoencasAvaliacaoTemp.getFirst();
                         double percentualFatores = (( doencaAvaliacaoTemp.fetchIfNeeded().getInt("qtdFatores")) * 100 ) / doenca.getInt("qtdTotalFatores");
                         percentuaisFatores.add(percentualFatores);
-                        //lines.appendData(new DataPoint(contatorAvaliacao, percentualFatores), true, avaliacoes.size());
                     }catch (ParseException e){
                         percentuaisFatores.add(0.0);
                     }
@@ -118,8 +117,8 @@ public class Grafico extends Activity {
                     v.add(new DataPoint(i, percentuaisFatores.get(i-1)));
                 }
 
-                DataPoint s[] = v.toArray(new DataPoint[percentuaisFatores.size()]);
-                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(s);
+                DataPoint dPoint[] = v.toArray(new DataPoint[percentuaisFatores.size()]);
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dPoint);
 
                 series.setTitle(doenca.getString("nome"));
                 series.setColor(cores.get(corVigente));
