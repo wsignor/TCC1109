@@ -142,8 +142,11 @@ public class Inicial extends Activity {
                 }
 
                 if(CurrentUser.getAvaliacao() != null){
-                    Intent takeUserHomepage = new Intent(Inicial.this, PraticasNutricionais.class);
-                    startActivity(takeUserHomepage);
+                    Intent intent = new Intent();
+                    intent.setClass(v.getContext(), PraticasNutricionais.class);
+                    intent.putExtra("idDoenca", CurrentUser.getAvaliacao().getParseObject("idDoenca").getObjectId());
+                    intent.putExtra("idAvaliacao", CurrentUser.getAvaliacao().getObjectId());
+                    startActivity(intent);
                 }
             }
         });
@@ -193,6 +196,7 @@ public class Inicial extends Activity {
             public void onClick(View v) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 currentUser.logOut();
+                CurrentUser.finishInstance();
                 Intent takeUserHomepage = new Intent(Inicial.this, Login.class);
                 startActivity(takeUserHomepage);
             }

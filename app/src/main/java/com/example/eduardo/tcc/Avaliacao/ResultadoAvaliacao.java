@@ -74,8 +74,11 @@ public class ResultadoAvaliacao extends Activity {
                         Avaliacao.getInstance().salvarAvaliacao(objectIdAvaliacaoTemp, v.getTag().toString(), v.getContext());
                         Avaliacao.getInstance().removeAvaliacaoTemp(v.getContext());
 
-                        Intent takeUserHomepage = new Intent(v.getContext(), PraticasNutricionais.class);
-                        startActivity(takeUserHomepage);
+                        Intent intent = new Intent();
+                        intent.setClass(v.getContext(), PraticasNutricionais.class);
+                        intent.putExtra("idDoenca", CurrentUser.getAvaliacao().getParseObject("idDoenca").getObjectId());
+                        intent.putExtra("idAvaliacao", CurrentUser.getAvaliacao().getObjectId());
+                        startActivity(intent);
 
                         //enviarNotificacoes();
 

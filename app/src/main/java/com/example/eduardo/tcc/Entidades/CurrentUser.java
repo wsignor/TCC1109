@@ -47,6 +47,12 @@ public final class CurrentUser {
     public static void startInstance(){
         INSTANCE = new CurrentUser();
     }
+    public static void finishInstance(){
+        INSTANCE = null;
+        doencasTemp = null;
+        avaliacaoTemp = null;
+        avaliacao = null;
+    }
     public static void carregaAvaliacao(){
         ParseQuery innerQuery = new ParseQuery("_User");
         innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());

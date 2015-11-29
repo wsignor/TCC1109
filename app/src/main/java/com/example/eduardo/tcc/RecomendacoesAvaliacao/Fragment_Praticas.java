@@ -20,6 +20,7 @@ import com.example.eduardo.tcc.Entidades.CurrentUser;
 import com.example.eduardo.tcc.Nutricionista.Descricao_Pratica;
 import com.example.eduardo.tcc.Nutricionista.ListItemDetail;
 import com.example.eduardo.tcc.R;
+import com.example.eduardo.tcc.Util.StableArrayAdapter;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -37,6 +38,7 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
 
     View contentView2;
     private TextView textViewToChange;
+    private String idDoenca;
 
     @Nullable
     @Override
@@ -44,13 +46,21 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
 
         contentView2 = inflater.inflate(R.layout.praticas_recomendados, null);
 
-        ParseObject doenca = CurrentUser.getAvaliacao().getParseObject("idDoenca");
-        String idDoenca = doenca.getObjectId();
+        idDoenca = getActivity().getIntent().getExtras().getString("idDoenca");
+
+        //ParseObject doenca = CurrentUser.getAvaliacao().getParseObject("idDoenca");
+        //String idDoenca = doenca.getObjectId();
+
+        ParseObject doenca = new ParseObject("Doenca");
 
         carregaListaPraticas(idDoenca, contentView2);
 
         String nomeDoenca = "";
         try {
+            ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Doenca");
+            innerQuery.whereEqualTo("objectId", idDoenca);
+
+            doenca = innerQuery.getFirst();
             nomeDoenca = doenca.fetchIfNeeded().getString("nome");
         } catch (ParseException e) {
             e.printStackTrace();
@@ -107,8 +117,6 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
                     }
                 });
 
-            } else {
-                Toast.makeText(contentView2.getContext(), "Sem clientes para exibir.", Toast.LENGTH_SHORT).show();
             }
 
         } catch (ParseException e) {
@@ -116,29 +124,5 @@ public class Fragment_Praticas extends android.support.v4.app.Fragment {
         }
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<String> {
-
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-        public StableArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
-    }
 
 }

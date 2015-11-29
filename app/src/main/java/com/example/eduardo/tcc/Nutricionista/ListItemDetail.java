@@ -24,52 +24,15 @@ import java.util.List;
 public class ListItemDetail extends Activity {
 
 
-    private List<ParseObject> queryClientes;
+    private ParseObject cliente;
     String objectIdClienteSelecionado = "";
+    private ParseObject avaliacao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_cliente);
-
-        Intent intent = getIntent();
-        int position = intent.getIntExtra("position", 0);
-
-        queryClientes = new ArrayList<ParseObject>();
-        ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("_User");
-        innerQuery.whereEqualTo("idNutricionista", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
-        //innerQuery.whereEqualTo("nutricionista", false);
-        ArrayList<ParseObject> listaExibida = new ArrayList<ParseObject>();
-
-        try {
-            queryClientes = innerQuery.find();
-
-            for(ParseObject parseObj : queryClientes){
-                System.out.println("parseObj: " + parseObj.getObjectId());
-                listaExibida.add(parseObj);
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        TextView nome_cliente = (TextView) findViewById(R.id.nome_cliente);
-        TextView email_cliente = (TextView) findViewById(R.id.email_cliente);
-        TextView sexo_cliente = (TextView) findViewById(R.id.sexo_cliente);
-
-        objectIdClienteSelecionado = listaExibida.get(position).getObjectId();
-        nome_cliente.setText(listaExibida.get(position).get("nome").toString());
-        email_cliente.setText(listaExibida.get(position).get("email").toString());
-        sexo_cliente.setText(listaExibida.get(position).get("sexo").toString());
-
-        Button visualizarDadosCliente = (Button)findViewById(R.id.btnVisualizarDadosCliente);
-        visualizarDadosCliente.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ListItemDetail.this, "Puxar mesma avaliação do usuário.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        buscaInformacoesCliente();
 
         Button btnAddAlimentos = (Button)findViewById(R.id.btnAddAlimentos);
         btnAddAlimentos.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +57,45 @@ public class ListItemDetail extends Activity {
 
                 Intent intent = new Intent();
                 intent.setClass(v.getContext(), PraticasNutricionais.class);
-                intent.putExtra("idDoencaCliente", "idDoencaClienteDado");
-                //intent.putExtra("objectIdClienteSelecionado" , objectIdClienteSelecionado);
+                intent.putExtra("idDoenca", avaliacao.getParseObject("idDoenca").getObjectId());
+                intent.putExtra("idAvaliacao", avaliacao.getObjectId());
                 startActivity(intent);
             }
         });
 
+    }
+
+    private void buscaInformacoesCliente(){
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("position", 0);
+        String emailCliente = intent.getStringExtra("email");
+
+        ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("_User");
+        innerQuery.whereEqualTo("email", emailCliente);
+
+        try {
+            cliente = innerQuery.getFirst();
+
+            TextView nome_cliente = (TextView) findViewById(R.id.nome_cliente);
+            TextView email_cliente = (TextView) findViewById(R.id.email_cliente);
+            TextView sexo_cliente = (TextView) findViewById(R.id.sexo_cliente);
+
+            nome_cliente.setText(cliente.getString("nome"));
+            email_cliente.setText(emailCliente);
+            sexo_cliente.setText(cliente.getString("sexo"));
+
+            ParseQuery<ParseObject> queryAvaliacao = ParseQuery.getQuery("Avaliacao");
+            queryAvaliacao.whereMatchesQuery("idUsuario", innerQuery);
+            queryAvaliacao.whereDoesNotExist("dtTermino");
+
+            try{
+                avaliacao = queryAvaliacao.getFirst();
+            }catch (ParseException exp){
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

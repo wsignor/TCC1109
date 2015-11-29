@@ -22,6 +22,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 public class ClientesNutricionista extends Activity implements AdapterView.OnItemClickListener {
@@ -47,7 +48,7 @@ public class ClientesNutricionista extends Activity implements AdapterView.OnIte
 
             for(ParseObject parseObj : queryClientes){
                 System.out.println("parseObj: " + parseObj.getObjectId());
-                listaExibida.add(parseObj.get("nome").toString());
+                listaExibida.add(parseObj.get("nome").toString() + " - " + parseObj.get("email").toString());
             }
 
             if(!listaExibida.isEmpty()) {
@@ -72,15 +73,16 @@ public class ClientesNutricionista extends Activity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("HelloListView", "You clicked Item: " + id + " at position:" + position + " - selected item: " );
-        // Then you start a new Activity via Intent
+
+        String itemDescricao = listview.getItemAtPosition(position).toString();
+
+        String[] partesDescricao = itemDescricao.split("-");
+        String email = partesDescricao[itemDescricao.split("-").length - 1].trim();
+
         Intent intent = new Intent();
         intent.setClass(this, ListItemDetail.class);
         intent.putExtra("position", position);
-        // Or / And
-        System.out.println("onItemClick: id - "  + id);
-        intent.putExtra("id", id);
-        //intent.putExtra("objectIdClienteSelecionado" , objectIdClienteSelecionado);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 
