@@ -26,6 +26,7 @@ import com.parse.ParseUser;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Eduardo on 05/10/2015.
@@ -43,8 +44,6 @@ public class ResultadoAvaliacao extends Activity {
 
         scheduleClient = new ScheduleClient(this);
         scheduleClient.doBindService();
-
-
 
         RelativeLayout rl = (RelativeLayout)findViewById(R.id.rlResultadoAvaliacao);
 
@@ -128,69 +127,59 @@ public class ResultadoAvaliacao extends Activity {
         super.onStop();
     }
 
-
     /**
      *  criar notificacoes pelos proximos 14 dias
      */
     private void enviarNotificacoes() {
         //scheduleClient = new ScheduleClient(this);
 
-        int dia = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        int mes = Calendar.getInstance().getTime().getMonth();
-        int ano = Calendar.getInstance().get(Calendar.YEAR);
+        Calendar c = Calendar.getInstance();
+
+        int dia = c.get(Calendar.DAY_OF_MONTH);
+        int mes = c.get(Calendar.MONTH);
+        int ano = c.get(Calendar.YEAR);
 
         System.out.print("dia: " + dia + " - mes: " + mes + " - ano: " + ano);
 
-        for(int i = 0 ; i <= 14 ; i++){
+        //for(int i = 0 ; i <= 14 ; i++){
             //System.out.println("MAXIMUM: " + Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+
+
+/*
+        Calendar teste = Calendar.getInstance();
+        teste.set(Calendar.MONTH, 11);
+        teste.set(Calendar.DAY_OF_MONTH, 1);
+        teste.set(Calendar.HOUR_OF_DAY, 12);
+        System.out.print(c.toString());
+        scheduleClient.setAlarmForNotification(teste);*/
+
+
+
+        //for(int i = 0 ; i <= 14 ; i++){
+
+            c = Calendar.getInstance();
 
             if(dia > Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)){
                 dia = 1;
                 mes = mes + 1;
             }
 
-            if(mes > 12){
-                mes = 1;
+            if(mes > 11){
+                mes = 0;
                 ano = ano + 1;
             }
 
-            onDateSelectedButtonClick(5,11,ano);
+            c.set(Calendar.MONTH, mes);
+            c.set(Calendar.DAY_OF_MONTH, dia);
+            c.set(Calendar.YEAR, ano);
+            c.set(Calendar.HOUR_OF_DAY, 12);
+
+            System.out.print(c.toString());
+
+            scheduleClient.setAlarmForNotification(c);
 
             dia++;
-        }
-    }
-
-
-    /**
-     * This is the onClick called from the method above
-     */
-    public void onDateSelectedButtonClick(int dia, int mes, int ano){
-        // Get the date from our datepicker
-//        int day = 26;//picker.getDayOfMonth();
-//        int month = 11;//picker.getMonth();
-//        int year = 2015;//picker.getYear();
-
-        // Create a new calendar set to the date chosen
-        // we set the time to midnight (i.e. the first minute of that day)
-        Calendar c = Calendar.getInstance();
-        //c.set(c.getTime().getYear(), c.getTime().getMonth(), c.getTime().getDay());
-
-        c.set(ano, mes, dia);
-
-        //c.set(Calendar.HOUR_OF_DAY, c.getTime().getHours());
-        //c.set(Calendar.MINUTE, c.getTime().getMinutes());
-        //c.set(Calendar.SECOND, c.getTime().getSeconds()+5);
-
-//        c.set(Calendar.HOUR_OF_DAY, 0);
-//        c.set(Calendar.MINUTE, 0);
-//        c.set(Calendar.SECOND, 0);
-
-        System.out.println(c.toString());
-        // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
-        scheduleClient.setAlarmForNotification(c);
-        // Notify the user what they just did
-        //Toast.makeText(this, "Notification set for: " + day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Notification set for: " + dia + "/" + (mes + 1) + "/" + ano, Toast.LENGTH_SHORT).show();
+        //}
     }
 
 
