@@ -674,15 +674,12 @@ public final class Avaliacao {
 
     public void atualizarDoencaAvaliacaoTemp(String idAvaliacaoTemp, String idDoenca, String idAvaliacao){
 
-        ParseQuery<ParseObject> queryDoenca = ParseQuery.getQuery("Doenca");
-        queryDoenca.whereEqualTo("objectId", idDoenca);
 
         ParseQuery<ParseObject> queryAvaliacaoTemp = ParseQuery.getQuery("AvaliacaoTemp");
         queryAvaliacaoTemp.whereEqualTo("objectId", idAvaliacaoTemp);
 
         ParseQuery<com.parse.ParseObject> queryDoencaAvaliacaoTemp = ParseQuery.getQuery("DoencaAvaliacaoTemp");
         queryDoencaAvaliacaoTemp.whereMatchesQuery("idAvaliacaoTemp", queryAvaliacaoTemp);
-        queryDoencaAvaliacaoTemp.whereMatchesQuery("idDoenca", queryDoenca);
 
         try {
             List<ParseObject> doencasAvaliacao = queryDoencaAvaliacaoTemp.find();
@@ -717,6 +714,23 @@ public final class Avaliacao {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public boolean validarVigenciaAvaliacao(){
+        Calendar dataAtual = Calendar.getInstance();
+        Calendar dataAvaliacao = Calendar.getInstance();
+
+        dataAvaliacao.setTime(CurrentUser.getAvaliacao().getDate("dtInicio"));
+
+        long diff = dataAtual.getTimeInMillis() - dataAvaliacao.getTimeInMillis();
+        long days = diff / (24 * 60 * 60 * 1000);
+
+        if(days > 14) {
+            Avaliacao.getInstance().inativarAvaliacao("S");
+            return false;
+        }else{
+            return true;
         }
     }
 }

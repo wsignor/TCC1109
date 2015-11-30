@@ -82,7 +82,6 @@ public class NovoAlimento extends Activity {
             ParsePush push = new ParsePush();
             //push.setChannel(ParseUser.getCurrentUser().getObjectId());
             System.out.println("ParseUser.getCurrentUser().getObjectId() - set channel: " + ParseUser.getCurrentUser().getObjectId());
-            System.out.println("object id - channel - cliente selecionado: " + objectIdClienteSelecionado);
             // depois que o cliente estiver configurado
             push.setChannel(idCliente);
             push.setMessage("Seu nutricionista adicionou novos alimentos à sua dieta, confira!");

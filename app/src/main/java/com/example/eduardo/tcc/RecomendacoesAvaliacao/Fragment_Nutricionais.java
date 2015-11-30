@@ -31,10 +31,10 @@ public class Fragment_Nutricionais extends android.support.v4.app.Fragment {
 
         idAvaliacao = getActivity().getIntent().getExtras().getString("idAvaliacao");
 
-        carregaListaAlimentos(contentView);
-
         textViewToChange = (TextView) contentView.findViewById(R.id.textOrientacaoNutricional);
         textViewToChange.setText("As orientações nutricionais indicados pelo seu nutricionista são:");
+
+        carregaListaAlimentos(contentView);
 
         return contentView;
     }
@@ -81,13 +81,12 @@ public class Fragment_Nutricionais extends android.support.v4.app.Fragment {
                         android.R.layout.simple_list_item_1, listaExibida);
                 listview.setAdapter(adapter);
 
-            }
-            else {
+            }else{
                 textViewToChange = (TextView) contentView.findViewById(R.id.textOrientacaoNutricional);
                 textViewToChange.setText("Não há alimentos para serem apresentados.");
             }
-
         } catch (ParseException e) {
+
             e.printStackTrace();
         }
 

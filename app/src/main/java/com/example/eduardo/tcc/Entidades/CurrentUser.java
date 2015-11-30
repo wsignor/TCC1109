@@ -34,14 +34,11 @@ public final class CurrentUser {
     public static ParseObject getAvaliacaoTemp() {
         return avaliacaoTemp;
     }
-    public static void setAvaliacaoTemp(ParseObject avaliacaoTemp) { avaliacaoTemp = avaliacaoTemp; }
+    public static void setAvaliacaoTemp(ParseObject avaliacaoTempPar) { avaliacaoTemp = avaliacaoTempPar; }
     public static ParseObject getAvaliacao() {
         return avaliacao;
     }
     public static void setAvaliacao(ParseObject newAvaliacao) { avaliacao = newAvaliacao; }
-    public static CurrentUser getInstance(){
-        return INSTANCE;
-    }
 
 
     // Funções
@@ -98,16 +95,7 @@ public final class CurrentUser {
 
         try{
             avaliacao = queryAvaliacao.getFirst();
-            Calendar dataAtual = Calendar.getInstance();
-            Calendar dataAvaliacao = Calendar.getInstance();
-            dataAvaliacao.setTime(avaliacao.getDate("dtInicio"));
 
-            long diff = dataAtual.getTimeInMillis() - dataAvaliacao.getTimeInMillis();
-            long days = diff / (24 * 60 * 60 * 1000);
-
-            if(days > 14) {
-                Avaliacao.getInstance().inativarAvaliacao("S");
-            }
         }catch (ParseException exp){
 
         }
