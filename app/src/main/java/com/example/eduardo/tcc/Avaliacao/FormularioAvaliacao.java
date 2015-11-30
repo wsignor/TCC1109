@@ -39,7 +39,7 @@ public class FormularioAvaliacao extends Activity {
     protected ProgressDialog proDialog;
 
     // This is a handle so that we can call methods on our service
-    private ScheduleClient scheduleClient;
+    //private ScheduleClient scheduleClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -374,8 +374,8 @@ public class FormularioAvaliacao extends Activity {
     }
 
     private void enviarNotificacoes() {
-        scheduleClient = new ScheduleClient(this);
-        scheduleClient.doBindService();
+        //scheduleClient = new ScheduleClient(this);
+        //scheduleClient.doBindService();
 
         onDateSelectedButtonClick();
     }
@@ -397,7 +397,7 @@ public class FormularioAvaliacao extends Activity {
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
-        scheduleClient.setAlarmForNotification(c);
+        //scheduleClient.setAlarmForNotification(c);
         // Notify the user what they just did
         Toast.makeText(this, "Notification set for: "+ day +"/"+ (month+1) +"/"+ year, Toast.LENGTH_SHORT).show();
     }

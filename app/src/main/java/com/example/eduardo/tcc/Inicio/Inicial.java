@@ -38,7 +38,7 @@ public class Inicial extends Activity {
     private Button btnGrafico;
     private TextView textViewToChange;
     protected ProgressDialog proDialog;
-    private ScheduleClient scheduleClient;
+    //private ScheduleClient scheduleClient;
 
     @Override
     protected void onResume() {
@@ -89,8 +89,8 @@ public class Inicial extends Activity {
         }
 
         // Atribuições
-        scheduleClient = new ScheduleClient(this);
-        scheduleClient.doBindService();
+        //scheduleClient = new ScheduleClient(this);
+        //scheduleClient.doBindService();
         textViewToChange = (TextView) findViewById(R.id.txtNomeUsuario);
         textViewToChange.setText(ParseUser.getCurrentUser().getString("nome"));
         btnMeusDados = (Button) findViewById(R.id.btnMeusDados);

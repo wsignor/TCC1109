@@ -87,7 +87,7 @@ public class ResultadoAvaliacao extends Activity {
                         intent.putExtra("idAvaliacao", CurrentUser.getAvaliacao().getObjectId());
                         startActivity(intent);
 
-                        //enviarNotificacoes();
+                        enviarNotificacoes();
 
                         // colocar dados corretos
                         enviarEmail("nutri@nutri", v.getTag().toString(), "5");
@@ -119,6 +119,15 @@ public class ResultadoAvaliacao extends Activity {
         txtConclusao.setLayoutParams(lpConclusao);
     }
 
+    @Override
+    protected void onStop() {
+        // When our activity is stopped ensure we also stop the connection to the service
+        // this stops us leaking our activity into the system *bad*
+        if(scheduleClient != null)
+            scheduleClient.doUnbindService();
+        super.onStop();
+    }
+
 
     /**
      *  criar notificacoes pelos proximos 14 dias
@@ -145,7 +154,7 @@ public class ResultadoAvaliacao extends Activity {
                 ano = ano + 1;
             }
 
-            onDateSelectedButtonClick(dia,mes,ano);
+            onDateSelectedButtonClick(5,11,ano);
 
             dia++;
         }
@@ -157,9 +166,9 @@ public class ResultadoAvaliacao extends Activity {
      */
     public void onDateSelectedButtonClick(int dia, int mes, int ano){
         // Get the date from our datepicker
-        int day = 26;//picker.getDayOfMonth();
-        int month = 11;//picker.getMonth();
-        int year = 2015;//picker.getYear();
+//        int day = 26;//picker.getDayOfMonth();
+//        int month = 11;//picker.getMonth();
+//        int year = 2015;//picker.getYear();
 
         // Create a new calendar set to the date chosen
         // we set the time to midnight (i.e. the first minute of that day)
@@ -172,9 +181,9 @@ public class ResultadoAvaliacao extends Activity {
         //c.set(Calendar.MINUTE, c.getTime().getMinutes());
         //c.set(Calendar.SECOND, c.getTime().getSeconds()+5);
 
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
+//        c.set(Calendar.HOUR_OF_DAY, 0);
+//        c.set(Calendar.MINUTE, 0);
+//        c.set(Calendar.SECOND, 0);
 
         System.out.println(c.toString());
         // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
@@ -199,7 +208,7 @@ public class ResultadoAvaliacao extends Activity {
             ParseQuery<ParseObject> queryNomeDoenca = ParseQuery.getQuery("Doenca");
             queryNomeDoenca.whereEqualTo("objectId", idDoenca);
             nomeDoenca = queryNomeDoenca.getFirst().get("nome").toString();
-            builderBody.append("Doença selecionada: " + nomeDoenca);
+            builderBody.append("\nDoença selecionada: \n" + nomeDoenca + "\n");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -214,7 +223,7 @@ public class ResultadoAvaliacao extends Activity {
             e.printStackTrace();
         }
 
-        builderBody.append("Informações imutáveis: ");
+        builderBody.append("\nInformações Imutáveis: ");
 
 
         try {
@@ -228,13 +237,13 @@ public class ResultadoAvaliacao extends Activity {
             String diabetico = queryInformacoesImutaveis.getFirst().get("diabetico").toString();
             String hipertenso = queryInformacoesImutaveis.getFirst().get("hipertenso").toString();
 
-            builderBody.append("Hipertensão Familiar: " + hipertensaoFamiliar);
-            builderBody.append("Diabetes Familiar: " + diabetesFamiliar);
-            builderBody.append("Cardiovascular Familiar: " + cardiovascularFamiliar);
-            builderBody.append("Obesidade Familiar: " + obesidadeFamiliar);
-            builderBody.append("Síndrome Familiar: " + sindromeFamiliar);
-            builderBody.append("Diabético: " + diabetico);
-            builderBody.append("Hipertenso: " + hipertenso);
+            builderBody.append("\nHipertensão Familiar: " + (hipertensaoFamiliar.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nDiabetes Familiar: " + (diabetesFamiliar.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nCardiovascular Familiar: " + (cardiovascularFamiliar.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nObesidade Familiar: " + (obesidadeFamiliar.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nSíndrome Familiar: " + (sindromeFamiliar.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nDiabético: " + (diabetico.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nHipertenso: " + (hipertenso.equalsIgnoreCase("true") ? "Sim" : "Não"));
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -243,67 +252,75 @@ public class ResultadoAvaliacao extends Activity {
 
 
         builderBody.append(System.getProperty("line.separator"));
-        builderBody.append("Informações mutáveis: ");
+        builderBody.append("\n\nInformações mutáveis: ");
 
         try {
+
+            ParseQuery innerQuery = new ParseQuery("_User");
+            innerQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+
+            ParseQuery<ParseObject> queryImutaveis = ParseQuery.getQuery("InformacoesImutaveis");
+            queryImutaveis.whereMatchesQuery("idUsuario", innerQuery);
+
             ParseQuery<ParseObject> queryUsuarioInformacao = ParseQuery.getQuery("UsuarioInformacao");
-            queryUsuarioInformacao.whereEqualTo("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
-            String idInformacao = queryUsuarioInformacao.getFirst().get("idInformacao").toString();
+            queryUsuarioInformacao.whereMatchesQuery("idUsuario", innerQuery);
+            queryUsuarioInformacao.addDescendingOrder("versao");
+
+            //Informacoes Mutaveissss
+            ParseObject informacoesMutaveis = queryUsuarioInformacao.getFirst();
+            informacoesMutaveis = informacoesMutaveis.getParseObject("idInformacao").fetch();
 
 
-            ParseQuery<ParseObject> queryInformacoesMutaveis = ParseQuery.getQuery("InformacoesMutaveis");
-            queryInformacoesMutaveis.whereEqualTo("objectId", idInformacao);
-            // parou aqui
-            String fumante = queryInformacoesMutaveis.getFirst().get("fumante").toString();
-            String tomaAnticoncepcional = queryInformacoesMutaveis.getFirst().get("tomaAnticoncepcional").toString();
-            String peso = queryInformacoesMutaveis.getFirst().get("peso").toString();
-            String nivelColesterol = queryInformacoesMutaveis.getFirst().get("nivelColesterol").toString();
-            String nivelTriglicerideos = queryInformacoesMutaveis.getFirst().get("nivelTriglicerideos").toString();
-            String altoConsumoAlcool = queryInformacoesMutaveis.getFirst().get("altoConsumoAlcool").toString();
-            String altoConsumoSodio = queryInformacoesMutaveis.getFirst().get("altoConsumoSodio").toString();
-            String altoConsumoAcucar = queryInformacoesMutaveis.getFirst().get("altoConsumoAcucar").toString();
-            String menopausa = queryInformacoesMutaveis.getFirst().get("menopausa").toString();
-            String estressado = queryInformacoesMutaveis.getFirst().get("estressado").toString();
-            String diabetesGestacional = queryInformacoesMutaveis.getFirst().get("diabetesGestacional").toString();
-            String cortisona = queryInformacoesMutaveis.getFirst().get("cortisona").toString();
-            String diuretico = queryInformacoesMutaveis.getFirst().get("diuretico").toString();
-            String betaBloqueador = queryInformacoesMutaveis.getFirst().get("betaBloqueador").toString();
-            String teveFilhos = queryInformacoesMutaveis.getFirst().get("teveFilhos").toString();
-            String companheira = queryInformacoesMutaveis.getFirst().get("companheira").toString();
-            String ovarioPolicistico = queryInformacoesMutaveis.getFirst().get("ovarioPolicistico").toString();
-            String dislipidemia = queryInformacoesMutaveis.getFirst().get("dislipidemia").toString();
-            String microalbuminuria = queryInformacoesMutaveis.getFirst().get("microalbuminuria").toString();
-            String intoleranciaGlicose = queryInformacoesMutaveis.getFirst().get("intoleranciaGlicose").toString();
-            String intoleranciaInsulina = queryInformacoesMutaveis.getFirst().get("intoleranciaInsulina").toString();
-            String hiperuricemia = queryInformacoesMutaveis.getFirst().get("hiperuricemia").toString();
-            String proTrombotico = queryInformacoesMutaveis.getFirst().get("proTrombotico").toString();
-            String sedentarismo = queryInformacoesMutaveis.getFirst().get("sedentarismo").toString();
+            String fumante = informacoesMutaveis.get("fumante").toString();
+            String tomaAnticoncepcional = informacoesMutaveis.get("tomaAnticoncepcional").toString();
+            String peso = informacoesMutaveis.get("peso").toString();
+            String nivelColesterol = informacoesMutaveis.get("nivelColesterol").toString();
+            String nivelTriglicerideos = informacoesMutaveis.get("nivelTriglicerideos").toString();
+            String altoConsumoAlcool = informacoesMutaveis.get("altoConsumoAlcool").toString();
+            String altoConsumoSodio = informacoesMutaveis.get("altoConsumoSodio").toString();
+            String altoConsumoAcucar = informacoesMutaveis.get("altoConsumoAcucar").toString();
+            String menopausa = informacoesMutaveis.get("menopausa").toString();
+            String estressado = informacoesMutaveis.get("estressado").toString();
+            String diabetesGestacional = informacoesMutaveis.get("diabetesGestacional").toString();
+            String cortisona = informacoesMutaveis.get("cortisona").toString();
+            String diuretico = informacoesMutaveis.get("diuretico").toString();
+            String betaBloqueador = informacoesMutaveis.get("betaBloqueador").toString();
+            String teveFilhos = informacoesMutaveis.get("teveFilhos").toString();
+            String companheira = informacoesMutaveis.get("companheira").toString();
+            String ovarioPolicistico = informacoesMutaveis.get("ovarioPolicistico").toString();
+            String dislipidemia = informacoesMutaveis.get("dislipidemia").toString();
+            String microalbuminuria = informacoesMutaveis.get("microalbuminuria").toString();
+            String intoleranciaGlicose = informacoesMutaveis.get("intoleranciaGlicose").toString();
+            String intoleranciaInsulina = informacoesMutaveis.get("intoleranciaInsulina").toString();
+            String hiperuricemia = informacoesMutaveis.get("hiperuricemia").toString();
+            String proTrombotico = informacoesMutaveis.get("proTrombotico").toString();
+            String sedentarismo = informacoesMutaveis.get("sedentarismo").toString();
 
 
-            builderBody.append("É Fumante: " + fumante);
-            builderBody.append("Toma Anticoncepcional: " + tomaAnticoncepcional);
-            builderBody.append("Peso: " + peso);
-            builderBody.append("Nível Colesterol: " + nivelColesterol);
-            builderBody.append("Nível Triglicerídeos: " + nivelTriglicerideos);
-            builderBody.append("Alto consumo de álcool: " + altoConsumoAlcool);
-            builderBody.append("Alto consumo de sódio: " + altoConsumoSodio);
-            builderBody.append("Alto consumo de açucar: " + altoConsumoAcucar);
-            builderBody.append("Menopausa: " + menopausa);
-            builderBody.append("Estressado: " + estressado);
-            builderBody.append("Diabetes Gestacional: " + diabetesGestacional);
-            builderBody.append("Cortisona: " + cortisona);
-            builderBody.append("Diurético: " + diuretico);
-            builderBody.append("Beta bloqueador: " + betaBloqueador);
-            builderBody.append("Teve filhos: " + teveFilhos);
-            builderBody.append("Companheira: " + companheira);
-            builderBody.append("Ovário Policístico: " + ovarioPolicistico);
-            builderBody.append("Dislipidemia: " + dislipidemia);
-            builderBody.append("Microalbuminuria: " + microalbuminuria);
-            builderBody.append("Intolerancia à Glicose: " + intoleranciaGlicose);
-            builderBody.append("Intolerancia à Insulina: " + intoleranciaInsulina);
-            builderBody.append("Hiperuricemia: " + hiperuricemia);
-            builderBody.append("Pró Trombotico: " + proTrombotico);
-            builderBody.append("Sedentarismo: " + sedentarismo);
+            builderBody.append("\nÉ Fumante: " + (fumante.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nToma Anticoncepcional: " + (tomaAnticoncepcional.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nPeso: " + peso + "Kg");
+            builderBody.append("\nNível Colesterol: " + (nivelColesterol.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nNível Triglicerídeos: " + (nivelTriglicerideos.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nAlto consumo de álcool: " + (altoConsumoAlcool.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nAlto consumo de sódio: " + (altoConsumoSodio.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nAlto consumo de açucar: " + (altoConsumoAcucar.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nMenopausa: " + (menopausa.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nEstressado: " + (estressado.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nDiabetes Gestacional: " + (diabetesGestacional.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nCortisona: " + (cortisona.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nDiurético: " + (diuretico.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nBeta bloqueador: " + (betaBloqueador.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nTeve filhos: " + (teveFilhos.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nCompanheira: " + (companheira.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nOvário Policístico: " + (ovarioPolicistico.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nDislipidemia: " + (dislipidemia.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nMicroalbuminuria: " + (microalbuminuria.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nIntolerancia à Glicose: " + (intoleranciaGlicose.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nIntolerancia à Insulina: " + (intoleranciaInsulina.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nHiperuricemia: " + (hiperuricemia.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nPró Trombotico: " + (proTrombotico.equalsIgnoreCase("true") ? "Sim" : "Não"));
+            builderBody.append("\nSedentarismo: " + (sedentarismo.equalsIgnoreCase("true") ? "Sim" : "Não"));
 
 
         } catch (ParseException e) {
@@ -315,7 +332,7 @@ public class ResultadoAvaliacao extends Activity {
         sendIntent.setData(Uri.parse(emailNutricionista));
         sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
         sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { emailNutricionista });
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Um cliente seu concluiu a avaliação, veja o resultado.");
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Nova avaliação do(a) " + ParseUser.getCurrentUser().get("nome").toString());
         sendIntent.putExtra(Intent.EXTRA_TEXT, builderBody.toString());
         startActivity(sendIntent);
     }
