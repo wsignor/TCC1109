@@ -68,11 +68,11 @@ public class NotifyService extends Service {
      */
     private void showNotification() {
         // This is the 'title' of the notification
-        CharSequence title = "Alarm!!";
+        CharSequence title = "Novas práticas!";
         // This is the icon to use on the notification
         int icon = R.drawable.ic_dialog_alert;
         // This is the scrolling text of the notification
-        CharSequence text = "Your notification time is upon us.";
+        CharSequence text = "Selecione para obter mais informações.";
         // What time to show on the notification
         long time = System.currentTimeMillis();
 

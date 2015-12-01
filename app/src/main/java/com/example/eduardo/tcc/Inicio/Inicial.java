@@ -54,9 +54,17 @@ public class Inicial extends Activity {
             params.addRule(RelativeLayout.BELOW, R.id.btnMinhaAvaliacao);
             btnNovaAvaliacao.setLayoutParams(params);
 
-            params = (RelativeLayout.LayoutParams)btnGrafico.getLayoutParams();
-            params.addRule(RelativeLayout.BELOW, R.id.btnNovaAvaliacao);
-            btnGrafico.setLayoutParams(params);
+
+            if(ParseUser.getCurrentUser().get("nutricionista").equals(true)) {
+                params = (RelativeLayout.LayoutParams)btnGrafico.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.btnMeusClientes);
+                btnGrafico.setLayoutParams(params);
+            }else {
+
+                params = (RelativeLayout.LayoutParams) btnGrafico.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.btnNovaAvaliacao);
+                btnGrafico.setLayoutParams(params);
+            }
 
             params = (RelativeLayout.LayoutParams)btnSair.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, R.id.btnGrafico);
@@ -103,7 +111,16 @@ public class Inicial extends Activity {
 
         // Tentando cadastrar o aparelho no login
         System.out.println("Inicial - oncreate - ParseUser.getCurrentUser().getObjectId(): " + ParseUser.getCurrentUser().getObjectId());
-        ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId(), new SaveCallback() {
+
+        String canalPush = "";
+
+        if(Character.isDigit(ParseUser.getCurrentUser().getObjectId().toString().charAt(0))){
+            canalPush = "numero" + ParseUser.getCurrentUser().getObjectId().toString();
+        } else {
+            canalPush = ParseUser.getCurrentUser().getObjectId().toString();
+        }
+
+        ParsePush.subscribeInBackground(canalPush, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
