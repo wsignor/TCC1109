@@ -6,24 +6,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Redução de alimentos com sódio"
-        android:id="@+id/txtTituloPratica"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/txtTituloPratica"
+        android:layout_marginTop="30dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Margarina ou manteiga com sal, Chucrute, Bicarbonato de sódio usado em doces, hortaliças, produtos de panificação, Bolachas de água e sal, pão salgado, salgadinhos industrializados como chips, nozes salgadas, amendoim; salgadinhos de lanchonetes como pastel, quibe, coxinha, Bolos e pastelarias comerciais, Temperos prontos, sopas desidratadas e enlatadas, caldo de carne, de galinha, de legumes, temperos para feijão concentrado, extrato e molho de tomate, mostarda, catchup, maionese, molho de soja, molho inglês, molho tártaro, molho de salada, Patês comerciais ou preparados com produtos industrializados ricos em sódio, Bala de alcaçuz"
-        android:id="@+id/txtRecomendacaoPratica"
-        android:layout_marginTop="70dp"
-        android:layout_below="@+id/txtTituloPratica"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/txtRecomendacaoPratica"
+        android:layout_below="@+id/txtTituloPratica"
+        android:layout_marginTop="30dp"/>
 
 
 </RelativeLayout>

@@ -10,6 +10,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 //import com.blundell.tut.R;
 
 /**
@@ -30,6 +34,8 @@ public class SecondActivity extends Activity {
         txtTituloPratica = (TextView) findViewById(R.id.txtTituloPratica);
         txtRecomendacaoPratica = (TextView) findViewById(R.id.txtRecomendacaoPratica);
 
+        Random random = new Random();
+
 
         ParseQuery<ParseObject> queryAvaliacao = ParseQuery.getQuery("Avaliacao");
         queryAvaliacao.whereEqualTo("idUsuario", ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
@@ -38,8 +44,33 @@ public class SecondActivity extends Activity {
 
         try {
             ParseQuery<ParseObject> queryDoenca = ParseQuery.getQuery("Doenca");
-            queryDoenca.whereEqualTo("idDoenca", ParseObject.createWithoutData("Doenca", queryAvaliacao.getFirst().get("idDoenca").toString()));
+            System.out.println("id doenca - " + queryAvaliacao.getFirst().getParseObject("idDoenca").getObjectId());
+            queryDoenca.whereEqualTo("objectId", queryAvaliacao.getFirst().getParseObject("idDoenca").getObjectId());
+            System.out.println("nome doenca - " + queryDoenca.getFirst().get("nome").toString());
             String nomeDoenca = queryDoenca.getFirst().get("nome").toString();
+
+
+            ParseQuery<ParseObject> queryPraticas = ParseQuery.getQuery("DoencaPratica");
+            queryPraticas.whereEqualTo("idDoenca", ParseObject.createWithoutData("Doenca", queryAvaliacao.getFirst().getParseObject("idDoenca").getObjectId()));
+
+            List<ParseObject> listaPraticas = new ArrayList<ParseObject>();
+            listaPraticas = queryPraticas.find();
+
+
+            int randomNumero = 0;
+
+            randomNumero = random.nextInt(listaPraticas.size());
+
+            String descricao = listaPraticas.get(randomNumero).get("descricao").toString();
+            String descricaoCompleta = listaPraticas.get(randomNumero).get("descricaoCompleta").toString();
+
+            System.out.println("desc pratica: " + descricao + " - desc completa: "+ descricaoCompleta);
+
+            txtTituloPratica.setText(descricao);
+            txtRecomendacaoPratica.setText(descricaoCompleta);
+
+
+
 
         } catch (ParseException e) {
             e.printStackTrace();
